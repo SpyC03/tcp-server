@@ -11,11 +11,11 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import com.duynguyen.model.User;
 
 public class ServerManager {
-    public static ArrayList<User> users = new ArrayList<>();
-    private static ArrayList<String> ips = new ArrayList<>();
-    public static HashMap<String, Integer> countAttendanceByIp = new HashMap<>();
-    private static ReadWriteLock lockSession = new ReentrantReadWriteLock();
-    private static ReadWriteLock lockUser = new ReentrantReadWriteLock();
+    public static final ArrayList<User> users = new ArrayList<>();
+    private static final ArrayList<String> ips = new ArrayList<>();
+    public static final HashMap<String, Integer> countAttendanceByIp = new HashMap<>();
+    private static final ReadWriteLock lockSession = new ReentrantReadWriteLock();
+    private static final ReadWriteLock lockUser = new ReentrantReadWriteLock();
 
 
     @SuppressWarnings("unchecked")
@@ -105,12 +105,7 @@ public class ServerManager {
     public static void removeUser(User user) {
         lockUser.writeLock().lock();
         try {
-            users.removeIf(u -> {
-                if (u.id == user.id) {
-                    return true;
-                }
-                return false;
-            });
+            users.removeIf(u -> u.id == user.id);
         } finally {
             lockUser.writeLock().unlock();
         }

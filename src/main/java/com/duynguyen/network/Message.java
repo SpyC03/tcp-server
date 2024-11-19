@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+
+import com.duynguyen.utils.Log;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -61,6 +63,7 @@ public class Message {
                 dos.close();
             }
         } catch (IOException e) {
+            Log.error("Cleanup message error: " + e.getMessage());
         }
     }
 }

@@ -12,11 +12,9 @@ import lombok.Getter;
 
 @Getter
 public class Config {
+    @Getter
     private static final Config instance = new Config();
 
-    public static Config getInstance() {
-        return instance;
-    }
     private boolean showLog;
     private int port;
     private String websocketHost;

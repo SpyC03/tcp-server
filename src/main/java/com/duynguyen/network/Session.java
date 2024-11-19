@@ -1,5 +1,13 @@
 package com.duynguyen.network;
 
+import com.duynguyen.constants.CMD;
+import com.duynguyen.model.User;
+import com.duynguyen.server.MainEntry;
+import com.duynguyen.server.ServerManager;
+import com.duynguyen.utils.Log;
+import com.duynguyen.utils.Utils;
+import lombok.Getter;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
@@ -11,13 +19,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.duynguyen.constants.CMD;
-import com.duynguyen.model.User;
-import com.duynguyen.server.MainEntry;
-import com.duynguyen.server.ServerManager;
-import com.duynguyen.utils.Utils;
-import com.duynguyen.utils.Log;
-
 public class Session implements ISession {
 
     private byte[] key;
@@ -27,6 +28,7 @@ public class Session implements ISession {
     public int id;
     public User user;
     private IMessageHandler controller;
+    @Getter
     private Service service;
     public boolean connected;
     public boolean isLoginSuccess;
@@ -81,23 +83,29 @@ public class Session implements ISession {
     }
 
     public void setClientType(Message mss) throws IOException {
-        if (!isSetClientType) {
-            this.clientType = mss.reader().readByte();
-            this.zoomLevel = mss.reader().readByte();
-            if (this.zoomLevel < 1 || this.zoomLevel > 4) {
-                this.zoomLevel = 1;
+        try(DataInputStream di = mss.reader()) {
+            if (!isSetClientType) {
+                this.clientType = di.readByte();
+                this.zoomLevel = di.readByte();
+                if (this.zoomLevel < 1 || this.zoomLevel > 4) {
+                    this.zoomLevel = 1;
+                }
+                this.isGPS = di.readBoolean();
+                this.width = di.readInt();
+                this.height = di.readInt();
+                this.isQwert = di.readBoolean();
+                this.isTouch = di.readBoolean();
+                this.plastfrom = di.readUTF();
+                di.readInt();
+                di.readByte();
+                this.provider = di.readInt();
+                this.agent = di.readUTF();
+                this.isSetClientType = true;
             }
-            this.isGPS = mss.reader().readBoolean();
-            this.width = mss.reader().readInt();
-            this.height = mss.reader().readInt();
-            this.isQwert = mss.reader().readBoolean();
-            this.isTouch = mss.reader().readBoolean();
-            this.plastfrom = mss.reader().readUTF();
-            mss.reader().readInt();
-            mss.reader().readByte();
-            this.provider = mss.reader().readInt();
-            this.agent = mss.reader().readUTF();
-            this.isSetClientType = true;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            mss.cleanup();
         }
     }
 
@@ -118,10 +126,6 @@ public class Session implements ISession {
     @Override
     public void setService(Service service) {
         this.service = service;
-    }
-
-    public Service getService() {
-        return this.service;
     }
 
     @Override
@@ -193,8 +197,9 @@ public class Session implements ISession {
             }
             dos.write(data);
             dos.flush();
+            Log.info("send message: " + m.getCommand() + " success");
         } catch (Exception e) {
-
+            Log.error("doSendMessage err", e);
         }
     }
 
@@ -203,7 +208,7 @@ public class Session implements ISession {
         this.curR = (byte) (b2 + 1);
         byte result = (byte) ((key[b2] & 255) ^ (b & 255));
         if (this.curR >= key.length) {
-            this.curR %= key.length;
+            this.curR %= (byte) key.length;
         }
         return result;
     }
@@ -213,7 +218,7 @@ public class Session implements ISession {
         this.curW = (byte) (b2 + 1);
         byte result = (byte) ((key[b2] & 255) ^ (b & 255));
         if (this.curW >= key.length) {
-            this.curW %= key.length;
+            this.curW %= (byte) key.length;
         }
         return result;
     }
@@ -275,32 +280,37 @@ public class Session implements ISession {
         return "Client " + this.id;
     }
 
-    public void sendKey() throws Exception {
-        if (!sendKeyComplete) {
-            generateKey();
-            Message ms = new Message(CMD.GET_SESSION_ID);
-            DataOutputStream ds = ms.writer();
-            ds.writeByte(key.length);
-            ds.writeByte(key[0]);
-            for (int i = 1; i < key.length; i++) {
-                ds.writeByte(key[i] ^ key[i - 1]);
+    public void sendKey() {
+        try {
+            if (!sendKeyComplete) {
+                generateKey();
+                Message ms = new Message(CMD.GET_SESSION_ID);
+                try (DataOutputStream ds = ms.writer()) {
+                    ds.writeByte(key.length);
+                    ds.writeByte(key[0]);
+                    for (int i = 1; i < key.length; i++) {
+                        ds.writeByte(key[i] ^ key[i - 1]);
+                    }
+                    ds.flush();
+                }
+                doSendMessage(ms);
+                sendKeyComplete = true;
+                sendThread.start();
             }
-            ds.flush();
-            doSendMessage(ms);
-            sendKeyComplete = true;
-            sendThread.start();
+        } catch (IOException e) {
+            Log.error("sendKey err", e);
         }
     }
 
     public void login(Message ms) {
-        try {
-            String username = ms.reader().readUTF().trim();
-            String password = ms.reader().readUTF().trim();
-            String version = ms.reader().readUTF().trim();
-            ms.reader().readUTF();
-            ms.reader().readUTF();
-            String random = ms.reader().readUTF().trim();
-            byte server = ms.reader().readByte();
+        try(DataInputStream di = ms.reader()) {
+            String username = di.readUTF().trim();
+            String password = di.readUTF().trim();
+            String version = di.readUTF().trim();
+            di.readUTF();
+            di.readUTF();
+            String random = di.readUTF().trim();
+            byte server = di.readByte();
             Log.info(String.format("Client id: %d - username: %s - version: %s - random: %s - server: %d", id,
                     username, version, random, server));
             this.version = version;
@@ -330,7 +340,7 @@ public class Session implements ISession {
                 this.user = us;
                 Controller controller = (Controller) getMessageHandler();
                 controller.setUser(us);
-                controller.setService((Service) service);
+                controller.setService(service);
                 service.loginSuccess();
             } else {
                 this.isLoginSuccess = false;
@@ -344,10 +354,9 @@ public class Session implements ISession {
     }
 
     public void register(Message ms){
-        
-        try {
-            String username = ms.reader().readUTF();
-            String password = ms.reader().readUTF();
+        try (DataInputStream di = ms.reader()) {
+            String username = di.readUTF();
+            String password = di.readUTF();
             User us = new User(this, username, password, "");
             us.register();
         } catch (IOException e) {
@@ -459,7 +468,7 @@ public class Session implements ISession {
         public void run() {
             while (connected) {
                 if (sendKeyComplete) {
-                    while (sendingMessage != null && sendingMessage.size() > 0) {
+                    while (!sendingMessage.isEmpty()) {
                         try {
                             Message m = sendingMessage.get(0);
                             if (m != null) {
@@ -474,9 +483,9 @@ public class Session implements ISession {
                 try {
                     Thread.sleep(10L);
                 } catch (InterruptedException e) {
+                    Log.error("Sender err", e);
                 }
             }
-
         }
     }
 
@@ -497,13 +506,14 @@ public class Session implements ISession {
                                 processMessage(message);
                             }
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            Log.error("MessageCollector err", e);
                         }
                     } else {
                         break;
                     }
                 }
             } catch (Exception ex) {
+                Log.error("MessageCollector err", ex);
             }
             closeMessage();
         }
@@ -529,7 +539,7 @@ public class Session implements ISession {
                     size = dis.readUnsignedShort();
                 }
 
-                byte data[] = new byte[size];
+                byte[] data = new byte[size];
                 int len = 0;
                 int byteRead = 0;
                 while (len != -1 && byteRead < size) {
@@ -543,9 +553,8 @@ public class Session implements ISession {
                         data[i] = readKey(data[i]);
                     }
                 }
-                 
-                Message msg = new Message(cmd, data);
-                return msg;
+
+                return new Message(cmd, data);
             } catch (EOFException e) {
                 return null;
             }

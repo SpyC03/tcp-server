@@ -4,25 +4,21 @@ package com.duynguyen.network;
 import com.duynguyen.constants.CMD;
 import com.duynguyen.model.User;
 import com.duynguyen.utils.Log;
+import lombok.Setter;
+
+import java.io.DataInputStream;
 
 public class Controller implements IMessageHandler {
 
     private final Session client;
+    @Setter
     private Service service;
+    @Setter
     private User user;
 
     public Controller(Session client) {
         this.client = client;
     }
-
-    public void setService(Service service) {
-        this.service = service;
-    }
-
-    public void setUser(User us) {
-        this.user = us;
-    }
-
 
 
     @Override
@@ -57,7 +53,7 @@ public class Controller implements IMessageHandler {
                         break;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.error("onMessage: " + e.getMessage());
             }
         } else{
             Log.info("message is null");
@@ -67,18 +63,18 @@ public class Controller implements IMessageHandler {
     @Override
     public void newMessage(Message mss) {
         if (mss != null) {
-            try {
+            try(DataInputStream dis = mss.reader()) {
                 if (user == null) {
                     return;
                 }
-                byte command = mss.reader().readByte();
+                byte command = dis.readByte();
                 switch (command) {
                     default:
                         Log.debug(String.format("Client %d: newMessage: %d", client.id, command));
                         break;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.error("newMessage: " + e.getMessage());
             }
         }
     }
@@ -86,11 +82,11 @@ public class Controller implements IMessageHandler {
     @Override
     public void messageNotLogin(Message mss) {
         if (mss != null) {
-            try {
+            try(DataInputStream dis = mss.reader()) {
                 if (user != null) {
                     return;
                 }
-                byte command = mss.reader().readByte();
+                byte command = dis.readByte();
                 switch (command) {
                     case CMD.LOGIN:
                         client.login(mss);
@@ -109,24 +105,24 @@ public class Controller implements IMessageHandler {
                         break;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.error("messageNotLogin: " + e.getMessage());
             }
         }
     }
 
     @Override
     public void onConnectionFail() {
-        Log.debug(String.format("Client %d: Kết nối thất bại!", client.id));
+        Log.info(String.format("Client %d: Kết nối thất bại!", client.id));
     }
 
     @Override
     public void onDisconnected() {
-        Log.debug(String.format("Client %d: Mất kết nối!", client.id));
+        Log.info(String.format("Client %d: Mất kết nối!", client.id));
     }
 
     @Override
     public void onConnectOK() {
-        Log.debug(String.format("Client %d: Kết nối thành công!", client.id));
+        Log.info(String.format("Client %d: Kết nối thành công!", client.id));
     }
 
     @Override

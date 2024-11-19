@@ -1,14 +1,12 @@
 package com.duynguyen.model;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import lombok.Getter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 
@@ -22,6 +20,7 @@ import com.duynguyen.utils.Log;
 
 public class User {
     public Session session;
+    @Getter
     public Service service;
     public int id;
     public String username;
@@ -77,7 +76,7 @@ public class User {
             this.lastAttendance = (long) map.get("last_attendance_at");
             this.status = (byte) ((int) map.get("status"));
             this.activated = (byte) ((int) map.get("activated"));
-            Log.info("id: " + id + "status: " + status + "activated: " + activated);
+            Log.info("id: " + id + ", status: " + status + ", activated: " + activated);
             Object obj = map.get("ban_until");
             if (obj != null) {
                 this.banUntil = (Timestamp) obj;
@@ -93,20 +92,19 @@ public class User {
 
 
 
-            if (this.status == 0) {
-                service.serverMessage("Liên hệ AD để kích hoạt acc!");
-                return;
-            }
+//            if (this.status == 0) {
+//                service.serverMessage("Liên hệ AD để kích hoạt acc!");
+//                return;
+//            }
             
             this.IPAddress = new ArrayList<>();
             obj = map.get("ip_address");
             if (obj != null) {
                 String str = obj.toString();
-                if (!str.equals("")) {
+                if (!str.isEmpty()) {
                     JSONArray jArr = (JSONArray) JSONValue.parse(str);
-                    int size = jArr.size();
-                    for (int i = 0; i < size; i++) {
-                        IPAddress.add(jArr.get(i).toString());
+                    for (Object o : jArr) {
+                        IPAddress.add(o.toString());
                     }
                 }
             }
@@ -127,6 +125,7 @@ public class User {
                                 u.session.disconnect();
                             }
                         } catch (Exception e) {
+                            Log.error("login err", e);
                         } finally {
                             ServerManager.removeUser(u);
                         }
@@ -143,9 +142,8 @@ public class User {
 
     public void register() {
         try {
-            PreparedStatement stmt = DbManager.getInstance().getConnection(DbManager.SAVE_DATA)
-                    .prepareStatement("INSERT INTO users (username, password) VALUES (?, ?);");
-            try {
+            try (PreparedStatement stmt = DbManager.getInstance().getConnection(DbManager.SAVE_DATA)
+                    .prepareStatement("INSERT INTO users (username, password) VALUES (?, ?);")) {
                 stmt.setString(1, username);
                 stmt.setString(2, password);
                 int rowsAffected = stmt.executeUpdate();
@@ -155,8 +153,6 @@ public class User {
                 } else {
                     Log.info("Đăng ký thất bại");
                 }
-            } finally {
-                stmt.close();
             }
         } catch (Exception e) {
             Log.error("register err", e);
@@ -168,7 +164,21 @@ public class User {
             if (isLoadFinish && !saving) {
                 saving = true;
                 try {
-                    // save data
+                    JSONArray list = new JSONArray();
+                    for (String ip : IPAddress) {
+                        list.add(ip);
+                    }
+                    String jList = list.toJSONString();
+
+                    try (Connection conn = DbManager.getInstance().getConnection(DbManager.SAVE_DATA);
+                            PreparedStatement stmt = conn.prepareStatement(
+                            "UPDATE `users` SET `online` = ?, `last_attendance_at` = ?, `ip_address` = ? WHERE `id` = ? LIMIT 1;")) {
+                        stmt.setInt(1, 0);
+                        stmt.setLong(2, this.lastAttendance);
+                        stmt.setString(3, jList);
+                        stmt.setInt(4, this.id);
+                        stmt.executeUpdate();
+                    }
                 } finally {
                     saving = false;
                 }
@@ -179,32 +189,30 @@ public class User {
     }
 
     public HashMap<String, Object> getUserMap() {
-        try {
-            ArrayList<HashMap<String, Object>> list;
-            PreparedStatement stmt = DbManager.getInstance().getConnection(DbManager.LOGIN).prepareStatement(
-                    SQLStatement.GET_USER, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        try (
+                Connection conn = DbManager.getInstance().getConnection(DbManager.LOGIN); // Kết nối được đóng tự động
+                PreparedStatement stmt = conn.prepareStatement(SQLStatement.GET_USER, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)
+        ) {
             stmt.setString(1, this.username);
-            ResultSet data = stmt.executeQuery();
-            try {
-                list = DbManager.getInstance().convertResultSetToList(data);
-            } finally {
-                data.close();
-                stmt.close();
-            }
-            if (list.isEmpty()) {
-                return null;
-            }
-            HashMap<String, Object> map = list.get(0);
-            if (map != null) {
-                String passwordHash = (String) map.get("password");
-                if (!passwordHash.equals(password)) {
+
+            try (ResultSet data = stmt.executeQuery()) {
+                ArrayList<HashMap<String, Object>> list = DbManager.getInstance().convertResultSetToList(data);
+                if (list.isEmpty()) {
                     return null;
                 }
+                HashMap<String, Object> map = list.get(0);
+                if (map != null) {
+                    String passwordHash = (String) map.get("password");
+                    if (!passwordHash.equals(password)) {
+                        return null;
+                    }
+                }
+                return map;
             }
-            return map;
         } catch (SQLException e) {
             Log.error("getUserMap() err", e);
         }
         return null;
     }
+
 }

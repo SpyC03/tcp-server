@@ -1,12 +1,14 @@
 package com.duynguyen.network;
 
-import java.io.DataOutputStream;
-
 import com.duynguyen.constants.CMD;
 import com.duynguyen.utils.Log;
 
+import java.io.DataOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Service extends AbsService{
-    private Session session;
+    private final Session session;
 
     public Service(Session session) {
         this.session = session;
@@ -30,7 +32,7 @@ public class Service extends AbsService{
             sendMessage(ms);
             ms.cleanup();
         } catch (Exception ex) {
-            Log.info("Response login success error" + ex.toString());
+            Log.info("Response login success error" + ex);
         }
     }
 
@@ -40,7 +42,7 @@ public class Service extends AbsService{
             sendMessage(ms);
             ms.cleanup();
         } catch (Exception ex) {
-            Log.info("Response register error" + ex.toString());
+            Log.info("Response register error" + ex);
         }
     }
 
@@ -57,5 +59,20 @@ public class Service extends AbsService{
             Log.error("Send server message error: " + ex.getMessage());
         }
     }
+
+    public void showWait(String title) {
+        try {
+            Message ms = messageSubCommand(CMD.SHOW_WAIT);
+            DataOutputStream ds = ms.writer();
+            ds.writeUTF(title);
+            ds.flush();
+            sendMessage(ms);
+            ms.cleanup();
+        } catch (Exception ex) {
+            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
 
 }

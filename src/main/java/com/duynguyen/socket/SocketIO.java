@@ -54,6 +54,7 @@ public class SocketIO {
                 try {
                     Thread.sleep(time);
                 } catch (Exception ex) {
+                    Log.error("Reconnect error", ex);
                 }
                 connect();
             }
@@ -87,7 +88,7 @@ public class SocketIO {
                 socket.emit(event, send);
                 break;
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.error("Emit error", e);
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException ex) {

@@ -31,6 +31,7 @@ public class Server {
                     Socket client = server.accept();
                     String ip = client.getInetAddress().getHostAddress();
                     int number = ServerManager.frequency(ip);
+                    Log.info("IP: " + ip + " number: " + number);
                     if (number >= Config.getInstance().getIpAddressLimit()) {
                         client.close();
                         continue;
@@ -39,7 +40,7 @@ public class Server {
                     cl.IPAddress = ip;
                     ServerManager.add(ip);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Log.error("Can not accept client", e);
                 }
             }
         } catch (IOException e) {
@@ -57,9 +58,6 @@ public class Server {
             }
             server.close();
             server = null;
-            if (ServerManager.getUsers().isEmpty()) {
-
-            }
             Log.info("End socket");
         } catch (IOException e) {
             Log.error("Can not close server", e);

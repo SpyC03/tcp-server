@@ -25,7 +25,7 @@ public class Utils {
                 Thread.sleep(delay);
                 runnable.run();
             } catch (Exception e) {
-                System.err.println(e);
+                Log.error("Error in setTimeout: " + e.getMessage());
             }
         }).start();
     }

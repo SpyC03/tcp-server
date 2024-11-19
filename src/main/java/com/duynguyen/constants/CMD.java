@@ -28,4 +28,7 @@ public class CMD {
     public static final byte SERVER_DIALOG = -26;
     public static final byte SERVER_ALERT = -25;
     public static final byte SERVER_MESSAGE = -24;
+    public static final byte SHOW_WAIT = -74;
+    public static final byte ALERT_MESSAGE = 53;
+
 }

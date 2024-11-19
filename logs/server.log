@@ -262,3 +262,535 @@
 [2024-11-19 16:50:54 INFO  (Thread-0)] - Start socket port=1609
 [2024-11-19 16:50:54 INFO  (Thread-0)] - Start server Success!
 [2024-11-19 16:50:54 INFO  (Thread-1)] - Connect to socket server successfully!
+[2024-11-19 23:09:17 INFO  (main)] - Config - db.maxconnections: 40
+[2024-11-19 23:09:17 INFO  (main)] - Config - db.password: 12332145
+[2024-11-19 23:09:17 INFO  (main)] - Config - server.log.display: false
+[2024-11-19 23:09:17 INFO  (main)] - Config - db.idleTimeout: 120000
+[2024-11-19 23:09:17 INFO  (main)] - Config - websocket.port: 8020
+[2024-11-19 23:09:17 INFO  (main)] - Config - db.driver: com.mysql.cj.jdbc.Driver
+[2024-11-19 23:09:17 INFO  (main)] - Config - db.user: root
+[2024-11-19 23:09:17 INFO  (main)] - Config - db.dbname: game
+[2024-11-19 23:09:17 INFO  (main)] - Config - db.connectionTimeout: 300000
+[2024-11-19 23:09:17 INFO  (main)] - Config - db.port: 3306
+[2024-11-19 23:09:17 INFO  (main)] - Config - server.port: 1609
+[2024-11-19 23:09:17 INFO  (main)] - Config - db.minconnections: 30
+[2024-11-19 23:09:17 INFO  (main)] - Config - websocket.host: ws://localhost
+[2024-11-19 23:09:17 INFO  (main)] - Config - db.host: localhost
+[2024-11-19 23:09:17 INFO  (main)] - Config - game.login.limit: 10
+[2024-11-19 23:09:17 INFO  (main)] - Config - db.leakDetectionThreshold: 300000
+[2024-11-19 23:09:17 WARN  (main)] - HikariPool-1 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+[2024-11-19 23:09:17 INFO  (main)] - HikariPool-1 - Starting...
+[2024-11-19 23:09:17 INFO  (main)] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2205a05d
+[2024-11-19 23:09:17 INFO  (main)] - HikariPool-1 - Start completed.
+[2024-11-19 23:09:17 INFO  (main)] - DB Connection Pool has created.
+[2024-11-19 23:09:17 INFO  (Thread-0)] - Start socket port=1609
+[2024-11-19 23:09:17 INFO  (Thread-0)] - Start server Success!
+[2024-11-19 23:09:17 INFO  (Thread-1)] - Connect to socket server successfully!
+[2024-11-19 23:10:50 INFO  (Thread-0)] - New session: 1
+[2024-11-19 23:10:50 INFO  (reader: /127.0.0.1:36982)] - sending message: -27
+[2024-11-19 23:10:50 INFO  (reader: /127.0.0.1:36982)] - process message
+[2024-11-19 23:10:50 INFO  (reader: /127.0.0.1:36982)] - Đăng ký thành công
+[2024-11-19 23:10:50 INFO  (reader: /127.0.0.1:36982)] - process message
+[2024-11-19 23:10:50 INFO  (sender: /127.0.0.1:36982)] - sending message: -29
+[2024-11-19 23:10:50 INFO  (reader: /127.0.0.1:36982)] - Đăng ký thành công
+[2024-11-19 23:10:50 INFO  (reader: /127.0.0.1:36982)] - process message
+[2024-11-19 23:10:50 INFO  (reader: /127.0.0.1:36982)] - Đăng ký thành công
+[2024-11-19 23:10:50 INFO  (sender: /127.0.0.1:36982)] - sending message: -29
+[2024-11-19 23:10:50 INFO  (sender: /127.0.0.1:36982)] - sending message: -29
+[2024-11-19 23:11:21 ERROR (sender: /127.0.0.1:36982)] - Sender err
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.duynguyen.network.Session$Sender.run(Session.java:483) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-19 23:12:30 INFO  (Thread-0)] - New session: 2
+[2024-11-19 23:12:30 INFO  (reader: /127.0.0.1:57048)] - sending message: -27
+[2024-11-19 23:12:31 INFO  (reader: /127.0.0.1:57048)] - process message
+[2024-11-19 23:12:31 INFO  (reader: /127.0.0.1:57048)] - Client id: 2 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-19 23:12:31 INFO  (reader: /127.0.0.1:57048)] - id: 1status: 1activated: 1
+[2024-11-19 23:12:31 INFO  (sender: /127.0.0.1:57048)] - sending message: -29
+[2024-11-19 23:12:44 INFO  (Thread-0)] - New session: 3
+[2024-11-19 23:12:44 INFO  (reader: /127.0.0.1:40938)] - sending message: -27
+[2024-11-19 23:12:44 INFO  (reader: /127.0.0.1:40938)] - process message
+[2024-11-19 23:12:44 INFO  (reader: /127.0.0.1:40938)] - Client id: 3 - username: duy1 - version: 1.8.8 - random: random - server: 0
+[2024-11-19 23:12:44 INFO  (reader: /127.0.0.1:40938)] - id: 3status: 0activated: 0
+[2024-11-19 23:12:44 INFO  (sender: /127.0.0.1:40938)] - sending message: -24
+[2024-11-19 23:12:44 INFO  (reader: /127.0.0.1:40938)] - Client 3: Đăng nhập thất bại.
+[2024-11-19 23:13:30 ERROR (sender: /127.0.0.1:57048)] - Sender err
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.duynguyen.network.Session$Sender.run(Session.java:483) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-19 23:13:35 ERROR (sender: /127.0.0.1:40938)] - Sender err
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.duynguyen.network.Session$Sender.run(Session.java:483) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-19 23:15:50 WARN  (HikariPool-1:housekeeper)] - Connection leak detection triggered for com.mysql.cj.jdbc.ConnectionImpl@2205a05d on thread reader: /127.0.0.1:36982, stack trace follows
+java.lang.Exception: Apparent connection leak detected
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:99) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.database.jdbc.DbManager.getConnection(DbManager.java:73) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.database.jdbc.DbManager$ZConnection.getConnection(DbManager.java:31) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.database.jdbc.DbManager.getConnection(DbManager.java:170) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.model.User.register(User.java:146) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session.register(Session.java:360) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Controller.messageNotLogin(Controller.java:100) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Controller.onMessage(Controller.java:40) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session.processMessage(Session.java:441) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session$MessageCollector.run(Session.java:506) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-19 23:17:12 INFO  (main)] - Config - db.maxconnections: 40
+[2024-11-19 23:17:12 INFO  (main)] - Config - db.password: 12332145
+[2024-11-19 23:17:12 INFO  (main)] - Config - server.log.display: false
+[2024-11-19 23:17:12 INFO  (main)] - Config - db.idleTimeout: 120000
+[2024-11-19 23:17:12 INFO  (main)] - Config - websocket.port: 8020
+[2024-11-19 23:17:12 INFO  (main)] - Config - db.driver: com.mysql.cj.jdbc.Driver
+[2024-11-19 23:17:12 INFO  (main)] - Config - db.user: root
+[2024-11-19 23:17:12 INFO  (main)] - Config - db.dbname: game
+[2024-11-19 23:17:12 INFO  (main)] - Config - db.connectionTimeout: 300000
+[2024-11-19 23:17:12 INFO  (main)] - Config - db.port: 3306
+[2024-11-19 23:17:12 INFO  (main)] - Config - server.port: 1609
+[2024-11-19 23:17:12 INFO  (main)] - Config - db.minconnections: 30
+[2024-11-19 23:17:12 INFO  (main)] - Config - websocket.host: ws://localhost
+[2024-11-19 23:17:12 INFO  (main)] - Config - db.host: localhost
+[2024-11-19 23:17:12 INFO  (main)] - Config - game.login.limit: 10
+[2024-11-19 23:17:12 INFO  (main)] - Config - db.leakDetectionThreshold: 300000
+[2024-11-19 23:17:12 WARN  (main)] - HikariPool-1 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+[2024-11-19 23:17:12 INFO  (main)] - HikariPool-1 - Starting...
+[2024-11-19 23:17:13 INFO  (main)] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2205a05d
+[2024-11-19 23:17:13 INFO  (main)] - HikariPool-1 - Start completed.
+[2024-11-19 23:17:13 INFO  (main)] - DB Connection Pool has created.
+[2024-11-19 23:17:13 INFO  (Thread-0)] - Start socket port=1609
+[2024-11-19 23:17:13 INFO  (Thread-0)] - Start server Success!
+[2024-11-19 23:17:13 INFO  (Thread-1)] - Connect to socket server successfully!
+[2024-11-19 23:17:22 INFO  (Thread-0)] - New session: 1
+[2024-11-19 23:17:22 INFO  (reader: /127.0.0.1:60022)] - sending message: -27
+[2024-11-19 23:17:22 INFO  (reader: /127.0.0.1:60022)] - process message
+[2024-11-19 23:17:22 INFO  (reader: /127.0.0.1:60022)] - Client id: 1 - username: duy1 - version: 1.8.8 - random: random - server: 0
+[2024-11-19 23:17:22 INFO  (reader: /127.0.0.1:60022)] - id: 3, status: 0, activated: 0
+[2024-11-19 23:17:22 INFO  (sender: /127.0.0.1:60022)] - sending message: -29
+[2024-11-19 23:18:17 INFO  (Thread-0)] - New session: 2
+[2024-11-19 23:18:17 INFO  (reader: /127.0.0.1:56526)] - sending message: -27
+[2024-11-19 23:18:17 INFO  (reader: /127.0.0.1:56526)] - process message
+[2024-11-19 23:18:17 INFO  (reader: /127.0.0.1:56526)] - Client id: 2 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-19 23:18:17 INFO  (reader: /127.0.0.1:56526)] - id: 1, status: 1, activated: 1
+[2024-11-19 23:18:17 INFO  (sender: /127.0.0.1:56526)] - sending message: -29
+[2024-11-19 23:18:27 INFO  (Thread-0)] - New session: 3
+[2024-11-19 23:18:27 INFO  (reader: /127.0.0.1:33106)] - sending message: -27
+[2024-11-19 23:18:27 INFO  (reader: /127.0.0.1:33106)] - process message
+[2024-11-19 23:18:27 INFO  (reader: /127.0.0.1:33106)] - Client id: 3 - username: duy2 - version: 1.8.8 - random: random - server: 0
+[2024-11-19 23:18:27 INFO  (reader: /127.0.0.1:33106)] - id: 4, status: 0, activated: 0
+[2024-11-19 23:18:27 INFO  (sender: /127.0.0.1:33106)] - sending message: -29
+[2024-11-19 23:18:36 INFO  (Thread-0)] - New session: 4
+[2024-11-19 23:18:36 INFO  (reader: /127.0.0.1:55564)] - sending message: -27
+[2024-11-19 23:18:36 INFO  (reader: /127.0.0.1:55564)] - process message
+[2024-11-19 23:18:36 INFO  (reader: /127.0.0.1:55564)] - Client id: 4 - username: duy3 - version: 1.8.8 - random: random - server: 0
+[2024-11-19 23:18:36 INFO  (reader: /127.0.0.1:55564)] - id: 5, status: 0, activated: 0
+[2024-11-19 23:18:36 INFO  (sender: /127.0.0.1:55564)] - sending message: -29
+[2024-11-19 23:25:18 INFO  (main)] - Config - db.maxconnections: 40
+[2024-11-19 23:25:18 INFO  (main)] - Config - db.password: 12332145
+[2024-11-19 23:25:18 INFO  (main)] - Config - server.log.display: false
+[2024-11-19 23:25:18 INFO  (main)] - Config - db.idleTimeout: 120000
+[2024-11-19 23:25:18 INFO  (main)] - Config - websocket.port: 8020
+[2024-11-19 23:25:18 INFO  (main)] - Config - db.driver: com.mysql.cj.jdbc.Driver
+[2024-11-19 23:25:18 INFO  (main)] - Config - db.user: root
+[2024-11-19 23:25:18 INFO  (main)] - Config - db.dbname: game
+[2024-11-19 23:25:18 INFO  (main)] - Config - db.connectionTimeout: 300000
+[2024-11-19 23:25:18 INFO  (main)] - Config - db.port: 3306
+[2024-11-19 23:25:18 INFO  (main)] - Config - server.port: 1609
+[2024-11-19 23:25:18 INFO  (main)] - Config - db.minconnections: 30
+[2024-11-19 23:25:18 INFO  (main)] - Config - websocket.host: ws://localhost
+[2024-11-19 23:25:18 INFO  (main)] - Config - db.host: localhost
+[2024-11-19 23:25:18 INFO  (main)] - Config - game.login.limit: 10
+[2024-11-19 23:25:18 INFO  (main)] - Config - db.leakDetectionThreshold: 300000
+[2024-11-19 23:25:18 WARN  (main)] - HikariPool-1 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+[2024-11-19 23:25:18 INFO  (main)] - HikariPool-1 - Starting...
+[2024-11-19 23:25:18 INFO  (main)] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2205a05d
+[2024-11-19 23:25:18 INFO  (main)] - HikariPool-1 - Start completed.
+[2024-11-19 23:25:18 INFO  (main)] - DB Connection Pool has created.
+[2024-11-19 23:25:18 INFO  (Thread-0)] - Start socket port=1609
+[2024-11-19 23:25:18 INFO  (Thread-0)] - Start server Success!
+[2024-11-19 23:25:18 INFO  (Thread-1)] - Connect to socket server successfully!
+[2024-11-19 23:26:10 INFO  (main)] - Config - db.maxconnections: 40
+[2024-11-19 23:26:10 INFO  (main)] - Config - db.password: 12332145
+[2024-11-19 23:26:10 INFO  (main)] - Config - server.log.display: false
+[2024-11-19 23:26:10 INFO  (main)] - Config - db.idleTimeout: 120000
+[2024-11-19 23:26:10 INFO  (main)] - Config - websocket.port: 8020
+[2024-11-19 23:26:10 INFO  (main)] - Config - db.driver: com.mysql.cj.jdbc.Driver
+[2024-11-19 23:26:10 INFO  (main)] - Config - db.user: root
+[2024-11-19 23:26:10 INFO  (main)] - Config - db.dbname: game
+[2024-11-19 23:26:10 INFO  (main)] - Config - db.connectionTimeout: 300000
+[2024-11-19 23:26:10 INFO  (main)] - Config - db.port: 3306
+[2024-11-19 23:26:10 INFO  (main)] - Config - server.port: 1609
+[2024-11-19 23:26:10 INFO  (main)] - Config - db.minconnections: 30
+[2024-11-19 23:26:10 INFO  (main)] - Config - websocket.host: ws://localhost
+[2024-11-19 23:26:10 INFO  (main)] - Config - db.host: localhost
+[2024-11-19 23:26:10 INFO  (main)] - Config - game.login.limit: 2
+[2024-11-19 23:26:10 INFO  (main)] - Config - db.leakDetectionThreshold: 300000
+[2024-11-19 23:26:10 WARN  (main)] - HikariPool-1 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+[2024-11-19 23:26:10 INFO  (main)] - HikariPool-1 - Starting...
+[2024-11-19 23:26:10 INFO  (main)] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2205a05d
+[2024-11-19 23:26:10 INFO  (main)] - HikariPool-1 - Start completed.
+[2024-11-19 23:26:10 INFO  (main)] - DB Connection Pool has created.
+[2024-11-19 23:26:10 INFO  (Thread-0)] - Start socket port=1609
+[2024-11-19 23:26:10 INFO  (Thread-0)] - Start server Success!
+[2024-11-19 23:26:10 INFO  (Thread-1)] - Connect to socket server successfully!
+[2024-11-19 23:26:19 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-19 23:26:19 INFO  (Thread-0)] - New session: 1
+[2024-11-19 23:26:19 INFO  (reader: /127.0.0.1:35756)] - sending message: -27
+[2024-11-19 23:26:20 INFO  (reader: /127.0.0.1:35756)] - process message
+[2024-11-19 23:26:20 INFO  (reader: /127.0.0.1:35756)] - Client id: 1 - username: duy3 - version: 1.8.8 - random: random - server: 0
+[2024-11-19 23:26:20 INFO  (reader: /127.0.0.1:35756)] - id: 5, status: 0, activated: 0
+[2024-11-19 23:26:20 INFO  (sender: /127.0.0.1:35756)] - sending message: -29
+[2024-11-19 23:26:28 INFO  (Thread-0)] - IP: 127.0.0.1 number: 1
+[2024-11-19 23:26:28 INFO  (Thread-0)] - New session: 2
+[2024-11-19 23:26:28 INFO  (reader: /127.0.0.1:35770)] - sending message: -27
+[2024-11-19 23:26:28 INFO  (reader: /127.0.0.1:35770)] - process message
+[2024-11-19 23:26:28 INFO  (reader: /127.0.0.1:35770)] - Client id: 2 - username: duy2 - version: 1.8.8 - random: random - server: 0
+[2024-11-19 23:26:28 INFO  (reader: /127.0.0.1:35770)] - id: 4, status: 0, activated: 0
+[2024-11-19 23:26:28 INFO  (sender: /127.0.0.1:35770)] - sending message: -29
+[2024-11-19 23:26:35 INFO  (Thread-0)] - IP: 127.0.0.1 number: 2
+[2024-11-19 23:26:55 INFO  (Thread-0)] - IP: 127.0.0.1 number: 2
+[2024-11-19 23:30:47 INFO  (Thread-0)] - IP: 127.0.0.1 number: 2
+[2024-11-19 23:31:20 WARN  (HikariPool-1:housekeeper)] - Connection leak detection triggered for com.mysql.cj.jdbc.ConnectionImpl@2205a05d on thread reader: /127.0.0.1:35756, stack trace follows
+java.lang.Exception: Apparent connection leak detected
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:99) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.database.jdbc.DbManager.getConnection(DbManager.java:73) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.database.jdbc.DbManager$ZConnection.getConnection(DbManager.java:31) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.database.jdbc.DbManager.getConnection(DbManager.java:170) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.model.User.getUserMap(User.java:181) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.model.User.login(User.java:69) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session.login(Session.java:335) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Controller.messageNotLogin(Controller.java:92) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Controller.onMessage(Controller.java:40) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session.processMessage(Session.java:441) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session$MessageCollector.run(Session.java:506) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-19 23:31:30 ERROR (sender: /127.0.0.1:35756)] - Sender err
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.duynguyen.network.Session$Sender.run(Session.java:483) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-19 23:31:43 ERROR (sender: /127.0.0.1:35770)] - Sender err
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.duynguyen.network.Session$Sender.run(Session.java:483) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-19 23:35:57 INFO  (main)] - Config - db.maxconnections: 40
+[2024-11-19 23:35:57 INFO  (main)] - Config - db.password: 12332145
+[2024-11-19 23:35:57 INFO  (main)] - Config - server.log.display: false
+[2024-11-19 23:35:57 INFO  (main)] - Config - db.idleTimeout: 120000
+[2024-11-19 23:35:57 INFO  (main)] - Config - websocket.port: 8020
+[2024-11-19 23:35:57 INFO  (main)] - Config - db.driver: com.mysql.cj.jdbc.Driver
+[2024-11-19 23:35:57 INFO  (main)] - Config - db.user: root
+[2024-11-19 23:35:57 INFO  (main)] - Config - db.dbname: game
+[2024-11-19 23:35:57 INFO  (main)] - Config - db.connectionTimeout: 300000
+[2024-11-19 23:35:57 INFO  (main)] - Config - db.port: 3306
+[2024-11-19 23:35:57 INFO  (main)] - Config - server.port: 1609
+[2024-11-19 23:35:57 INFO  (main)] - Config - db.minconnections: 30
+[2024-11-19 23:35:57 INFO  (main)] - Config - websocket.host: ws://localhost
+[2024-11-19 23:35:57 INFO  (main)] - Config - db.host: localhost
+[2024-11-19 23:35:57 INFO  (main)] - Config - game.login.limit: 2
+[2024-11-19 23:35:57 INFO  (main)] - Config - db.leakDetectionThreshold: 300000
+[2024-11-19 23:35:57 WARN  (main)] - HikariPool-1 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+[2024-11-19 23:35:57 INFO  (main)] - HikariPool-1 - Starting...
+[2024-11-19 23:35:57 INFO  (main)] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2205a05d
+[2024-11-19 23:35:57 INFO  (main)] - HikariPool-1 - Start completed.
+[2024-11-19 23:35:57 INFO  (main)] - DB Connection Pool has created.
+[2024-11-19 23:35:57 INFO  (Thread-0)] - Start socket port=1609
+[2024-11-19 23:35:57 INFO  (Thread-0)] - Start server Success!
+[2024-11-19 23:35:57 INFO  (Thread-1)] - Connect to socket server successfully!
+[2024-11-19 23:36:14 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-19 23:36:14 INFO  (Thread-0)] - New session: 1
+[2024-11-19 23:36:14 INFO  (reader: /127.0.0.1:50152)] - sending message: -27
+[2024-11-19 23:36:14 INFO  (reader: /127.0.0.1:50152)] - process message
+[2024-11-19 23:36:14 INFO  (reader: /127.0.0.1:50152)] - Client id: 1 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-19 23:36:14 INFO  (reader: /127.0.0.1:50152)] - id: 1, status: 1, activated: 1
+[2024-11-19 23:36:14 INFO  (sender: /127.0.0.1:50152)] - sending message: -29
+[2024-11-19 23:37:31 INFO  (main)] - Config - db.maxconnections: 40
+[2024-11-19 23:37:31 INFO  (main)] - Config - db.password: 12332145
+[2024-11-19 23:37:31 INFO  (main)] - Config - server.log.display: false
+[2024-11-19 23:37:31 INFO  (main)] - Config - db.idleTimeout: 120000
+[2024-11-19 23:37:31 INFO  (main)] - Config - websocket.port: 8020
+[2024-11-19 23:37:31 INFO  (main)] - Config - db.driver: com.mysql.cj.jdbc.Driver
+[2024-11-19 23:37:31 INFO  (main)] - Config - db.user: root
+[2024-11-19 23:37:31 INFO  (main)] - Config - db.dbname: game
+[2024-11-19 23:37:31 INFO  (main)] - Config - db.connectionTimeout: 300000
+[2024-11-19 23:37:31 INFO  (main)] - Config - db.port: 3306
+[2024-11-19 23:37:31 INFO  (main)] - Config - server.port: 1609
+[2024-11-19 23:37:31 INFO  (main)] - Config - db.minconnections: 30
+[2024-11-19 23:37:31 INFO  (main)] - Config - websocket.host: ws://localhost
+[2024-11-19 23:37:31 INFO  (main)] - Config - db.host: localhost
+[2024-11-19 23:37:31 INFO  (main)] - Config - game.login.limit: 2
+[2024-11-19 23:37:31 INFO  (main)] - Config - db.leakDetectionThreshold: 300000
+[2024-11-19 23:37:31 WARN  (main)] - HikariPool-1 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+[2024-11-19 23:37:31 INFO  (main)] - HikariPool-1 - Starting...
+[2024-11-19 23:37:31 INFO  (main)] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2205a05d
+[2024-11-19 23:37:31 INFO  (main)] - HikariPool-1 - Start completed.
+[2024-11-19 23:37:31 INFO  (main)] - DB Connection Pool has created.
+[2024-11-19 23:37:31 INFO  (Thread-0)] - Start socket port=1609
+[2024-11-19 23:37:31 INFO  (Thread-0)] - Start server Success!
+[2024-11-19 23:37:31 INFO  (Thread-1)] - Connect to socket server successfully!
+[2024-11-19 23:37:44 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-19 23:37:44 INFO  (Thread-0)] - New session: 1
+[2024-11-19 23:37:44 INFO  (reader: /127.0.0.1:48652)] - sending message: -27
+[2024-11-19 23:37:44 INFO  (reader: /127.0.0.1:48652)] - send message: -27 success
+[2024-11-19 23:37:44 INFO  (reader: /127.0.0.1:48652)] - process message
+[2024-11-19 23:37:44 INFO  (reader: /127.0.0.1:48652)] - Client id: 1 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-19 23:37:44 INFO  (reader: /127.0.0.1:48652)] - id: 1, status: 1, activated: 1
+[2024-11-19 23:37:44 INFO  (sender: /127.0.0.1:48652)] - sending message: -29
+[2024-11-19 23:37:44 INFO  (sender: /127.0.0.1:48652)] - send message: -29 success
+[2024-11-19 23:37:50 INFO  (reader: /127.0.0.1:48652)] - Client 1: Mất kết nối!
+[2024-11-19 23:37:50 ERROR (sender: /127.0.0.1:48652)] - Sender err
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.duynguyen.network.Session$Sender.run(Session.java:484) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-19 23:40:03 INFO  (main)] - Config - db.maxconnections: 40
+[2024-11-19 23:40:03 INFO  (main)] - Config - db.password: 12332145
+[2024-11-19 23:40:03 INFO  (main)] - Config - server.log.display: false
+[2024-11-19 23:40:03 INFO  (main)] - Config - db.idleTimeout: 120000
+[2024-11-19 23:40:03 INFO  (main)] - Config - websocket.port: 8020
+[2024-11-19 23:40:03 INFO  (main)] - Config - db.driver: com.mysql.cj.jdbc.Driver
+[2024-11-19 23:40:03 INFO  (main)] - Config - db.user: root
+[2024-11-19 23:40:03 INFO  (main)] - Config - db.dbname: game
+[2024-11-19 23:40:03 INFO  (main)] - Config - db.connectionTimeout: 300000
+[2024-11-19 23:40:03 INFO  (main)] - Config - db.port: 3306
+[2024-11-19 23:40:03 INFO  (main)] - Config - server.port: 1609
+[2024-11-19 23:40:03 INFO  (main)] - Config - db.minconnections: 30
+[2024-11-19 23:40:03 INFO  (main)] - Config - websocket.host: ws://localhost
+[2024-11-19 23:40:03 INFO  (main)] - Config - db.host: localhost
+[2024-11-19 23:40:03 INFO  (main)] - Config - game.login.limit: 2
+[2024-11-19 23:40:03 INFO  (main)] - Config - db.leakDetectionThreshold: 300000
+[2024-11-19 23:40:03 WARN  (main)] - HikariPool-1 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+[2024-11-19 23:40:03 INFO  (main)] - HikariPool-1 - Starting...
+[2024-11-19 23:40:03 INFO  (main)] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2205a05d
+[2024-11-19 23:40:03 INFO  (main)] - HikariPool-1 - Start completed.
+[2024-11-19 23:40:03 INFO  (main)] - DB Connection Pool has created.
+[2024-11-19 23:40:03 INFO  (Thread-0)] - Start socket port=1609
+[2024-11-19 23:40:03 INFO  (Thread-0)] - Start server Success!
+[2024-11-19 23:40:03 INFO  (Thread-1)] - Connect to socket server successfully!
+[2024-11-19 23:40:10 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-19 23:40:10 INFO  (Thread-0)] - New session: 1
+[2024-11-19 23:40:10 INFO  (reader: /127.0.0.1:45718)] - sending message: -27
+[2024-11-19 23:40:10 INFO  (reader: /127.0.0.1:45718)] - send message: -27 success
+[2024-11-19 23:40:10 INFO  (reader: /127.0.0.1:45718)] - process message
+[2024-11-19 23:40:10 INFO  (reader: /127.0.0.1:45718)] - Client id: 1 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-19 23:40:10 INFO  (reader: /127.0.0.1:45718)] - id: 1, status: 1, activated: 1
+[2024-11-19 23:40:10 INFO  (sender: /127.0.0.1:45718)] - sending message: -29
+[2024-11-19 23:40:10 INFO  (sender: /127.0.0.1:45718)] - send message: -29 success
+[2024-11-19 23:40:12 INFO  (reader: /127.0.0.1:45718)] - Client 1: Mất kết nối!
+[2024-11-19 23:40:12 ERROR (sender: /127.0.0.1:45718)] - Sender interrupted, stopping thread
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.duynguyen.network.Session$Sender.run(Session.java:484) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-19 23:45:10 WARN  (HikariPool-1:housekeeper)] - Connection leak detection triggered for com.mysql.cj.jdbc.ConnectionImpl@2205a05d on thread reader: /127.0.0.1:45718, stack trace follows
+java.lang.Exception: Apparent connection leak detected
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:99) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.database.jdbc.DbManager.getConnection(DbManager.java:73) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.database.jdbc.DbManager$ZConnection.getConnection(DbManager.java:31) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.database.jdbc.DbManager.getConnection(DbManager.java:170) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.model.User.getUserMap(User.java:181) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.model.User.login(User.java:69) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session.login(Session.java:336) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Controller.messageNotLogin(Controller.java:92) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Controller.onMessage(Controller.java:40) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session.processMessage(Session.java:442) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session$MessageCollector.run(Session.java:508) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-19 23:53:39 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-19 23:53:39 INFO  (Thread-0)] - New session: 2
+[2024-11-19 23:53:39 INFO  (reader: /127.0.0.1:59210)] - sending message: -27
+[2024-11-19 23:53:39 INFO  (reader: /127.0.0.1:59210)] - send message: -27 success
+[2024-11-19 23:53:40 INFO  (reader: /127.0.0.1:59210)] - process message
+[2024-11-19 23:53:40 INFO  (reader: /127.0.0.1:59210)] - Client id: 2 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-19 23:53:40 INFO  (reader: /127.0.0.1:59210)] - Previously reported leaked connection com.mysql.cj.jdbc.ConnectionImpl@2205a05d on thread reader: /127.0.0.1:45718 was returned to the pool (unleaked)
+[2024-11-19 23:56:03 INFO  (Thread-0)] - IP: 127.0.0.1 number: 1
+[2024-11-19 23:56:03 INFO  (Thread-0)] - New session: 3
+[2024-11-19 23:56:03 INFO  (reader: /127.0.0.1:38294)] - sending message: -27
+[2024-11-19 23:56:03 INFO  (reader: /127.0.0.1:38294)] - send message: -27 success
+[2024-11-19 23:56:03 INFO  (reader: /127.0.0.1:38294)] - process message
+[2024-11-19 23:56:03 INFO  (reader: /127.0.0.1:38294)] - Client id: 3 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-19 23:56:22 INFO  (main)] - Config - db.maxconnections: 40
+[2024-11-19 23:56:22 INFO  (main)] - Config - db.password: 12332145
+[2024-11-19 23:56:22 INFO  (main)] - Config - server.log.display: false
+[2024-11-19 23:56:22 INFO  (main)] - Config - db.idleTimeout: 120000
+[2024-11-19 23:56:22 INFO  (main)] - Config - websocket.port: 8020
+[2024-11-19 23:56:22 INFO  (main)] - Config - db.driver: com.mysql.cj.jdbc.Driver
+[2024-11-19 23:56:22 INFO  (main)] - Config - db.user: root
+[2024-11-19 23:56:22 INFO  (main)] - Config - db.dbname: game
+[2024-11-19 23:56:22 INFO  (main)] - Config - db.connectionTimeout: 300000
+[2024-11-19 23:56:22 INFO  (main)] - Config - db.port: 3306
+[2024-11-19 23:56:22 INFO  (main)] - Config - server.port: 1609
+[2024-11-19 23:56:22 INFO  (main)] - Config - db.minconnections: 30
+[2024-11-19 23:56:22 INFO  (main)] - Config - websocket.host: ws://localhost
+[2024-11-19 23:56:22 INFO  (main)] - Config - db.host: localhost
+[2024-11-19 23:56:22 INFO  (main)] - Config - game.login.limit: 2
+[2024-11-19 23:56:22 INFO  (main)] - Config - db.leakDetectionThreshold: 300000
+[2024-11-19 23:56:22 WARN  (main)] - HikariPool-1 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+[2024-11-19 23:56:22 INFO  (main)] - HikariPool-1 - Starting...
+[2024-11-19 23:56:22 INFO  (main)] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2205a05d
+[2024-11-19 23:56:22 INFO  (main)] - HikariPool-1 - Start completed.
+[2024-11-19 23:56:22 INFO  (main)] - DB Connection Pool has created.
+[2024-11-19 23:56:22 INFO  (Thread-0)] - Start socket port=1609
+[2024-11-19 23:56:22 INFO  (Thread-0)] - Start server Success!
+[2024-11-19 23:56:22 INFO  (Thread-1)] - Connect to socket server successfully!
+[2024-11-19 23:56:27 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-19 23:56:27 INFO  (Thread-0)] - New session: 1
+[2024-11-19 23:56:27 INFO  (reader: /127.0.0.1:38840)] - sending message: -27
+[2024-11-19 23:56:27 INFO  (reader: /127.0.0.1:38840)] - send message: -27 success
+[2024-11-19 23:56:27 INFO  (reader: /127.0.0.1:38840)] - process message
+[2024-11-19 23:56:27 INFO  (reader: /127.0.0.1:38840)] - Client id: 1 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-19 23:56:27 INFO  (reader: /127.0.0.1:38840)] - id: 1, status: 1, activated: 1
+[2024-11-19 23:56:27 INFO  (sender: /127.0.0.1:38840)] - sending message: -29
+[2024-11-19 23:56:27 INFO  (sender: /127.0.0.1:38840)] - send message: -29 success
+[2024-11-19 23:58:16 INFO  (reader: /127.0.0.1:38840)] - Client 1: Mất kết nối!
+[2024-11-19 23:58:16 ERROR (sender: /127.0.0.1:38840)] - Sender interrupted, stopping thread
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.duynguyen.network.Session$Sender.run(Session.java:484) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-20 00:01:27 WARN  (HikariPool-1:housekeeper)] - Connection leak detection triggered for com.mysql.cj.jdbc.ConnectionImpl@2205a05d on thread reader: /127.0.0.1:38840, stack trace follows
+java.lang.Exception: Apparent connection leak detected
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:99) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.database.jdbc.DbManager.getConnection(DbManager.java:73) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.database.jdbc.DbManager$ZConnection.getConnection(DbManager.java:31) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.database.jdbc.DbManager.getConnection(DbManager.java:170) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.model.User.getUserMap(User.java:181) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.model.User.login(User.java:69) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session.login(Session.java:336) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Controller.messageNotLogin(Controller.java:92) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Controller.onMessage(Controller.java:40) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session.processMessage(Session.java:442) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session$MessageCollector.run(Session.java:508) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-20 00:20:57 INFO  (main)] - Config - db.maxconnections: 40
+[2024-11-20 00:20:57 INFO  (main)] - Config - db.password: 12332145
+[2024-11-20 00:20:57 INFO  (main)] - Config - server.log.display: false
+[2024-11-20 00:20:57 INFO  (main)] - Config - db.idleTimeout: 120000
+[2024-11-20 00:20:57 INFO  (main)] - Config - websocket.port: 8020
+[2024-11-20 00:20:57 INFO  (main)] - Config - db.driver: com.mysql.cj.jdbc.Driver
+[2024-11-20 00:20:57 INFO  (main)] - Config - db.user: root
+[2024-11-20 00:20:57 INFO  (main)] - Config - db.dbname: game
+[2024-11-20 00:20:57 INFO  (main)] - Config - db.connectionTimeout: 300000
+[2024-11-20 00:20:57 INFO  (main)] - Config - db.port: 3306
+[2024-11-20 00:20:57 INFO  (main)] - Config - server.port: 1609
+[2024-11-20 00:20:57 INFO  (main)] - Config - db.minconnections: 30
+[2024-11-20 00:20:57 INFO  (main)] - Config - websocket.host: ws://localhost
+[2024-11-20 00:20:57 INFO  (main)] - Config - db.host: localhost
+[2024-11-20 00:20:57 INFO  (main)] - Config - game.login.limit: 2
+[2024-11-20 00:20:57 INFO  (main)] - Config - db.leakDetectionThreshold: 300000
+[2024-11-20 00:20:57 WARN  (main)] - HikariPool-1 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+[2024-11-20 00:20:57 INFO  (main)] - HikariPool-1 - Starting...
+[2024-11-20 00:20:57 INFO  (main)] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2205a05d
+[2024-11-20 00:20:57 INFO  (main)] - HikariPool-1 - Start completed.
+[2024-11-20 00:20:57 INFO  (main)] - DB Connection Pool has created.
+[2024-11-20 00:20:57 INFO  (Thread-0)] - Start socket port=1609
+[2024-11-20 00:20:57 INFO  (Thread-0)] - Start server Success!
+[2024-11-20 00:20:57 INFO  (Thread-1)] - Connect to socket server successfully!
+[2024-11-20 00:21:08 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-20 00:21:08 INFO  (Thread-0)] - New session: 1
+[2024-11-20 00:21:08 INFO  (reader: /127.0.0.1:53684)] - sending message: -27
+[2024-11-20 00:21:08 INFO  (reader: /127.0.0.1:53684)] - send message: -27 success
+[2024-11-20 00:21:08 INFO  (reader: /127.0.0.1:53684)] - process message
+[2024-11-20 00:21:08 INFO  (reader: /127.0.0.1:53684)] - Client id: 1 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-20 00:21:08 INFO  (reader: /127.0.0.1:53684)] - id: 1, status: 1, activated: 1
+[2024-11-20 00:21:08 INFO  (sender: /127.0.0.1:53684)] - sending message: -29
+[2024-11-20 00:21:08 INFO  (sender: /127.0.0.1:53684)] - send message: -29 success
+[2024-11-20 00:21:14 INFO  (reader: /127.0.0.1:53684)] - Client 1: Mất kết nối!
+[2024-11-20 00:21:14 ERROR (sender: /127.0.0.1:53684)] - Sender err
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.duynguyen.network.Session$Sender.run(Session.java:484) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-20 00:26:08 WARN  (HikariPool-1:housekeeper)] - Connection leak detection triggered for com.mysql.cj.jdbc.ConnectionImpl@2205a05d on thread reader: /127.0.0.1:53684, stack trace follows
+java.lang.Exception: Apparent connection leak detected
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:99) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.database.jdbc.DbManager.getConnection(DbManager.java:73) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.database.jdbc.DbManager$ZConnection.getConnection(DbManager.java:31) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.database.jdbc.DbManager.getConnection(DbManager.java:170) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.model.User.getUserMap(User.java:190) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.model.User.login(User.java:66) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session.login(Session.java:336) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Controller.messageNotLogin(Controller.java:92) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Controller.onMessage(Controller.java:40) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session.processMessage(Session.java:442) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session$MessageCollector.run(Session.java:506) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-20 00:42:22 INFO  (main)] - Config - db.maxconnections: 40
+[2024-11-20 00:42:22 INFO  (main)] - Config - db.password: 12332145
+[2024-11-20 00:42:22 INFO  (main)] - Config - server.log.display: false
+[2024-11-20 00:42:22 INFO  (main)] - Config - db.idleTimeout: 120000
+[2024-11-20 00:42:22 INFO  (main)] - Config - websocket.port: 8020
+[2024-11-20 00:42:22 INFO  (main)] - Config - db.driver: com.mysql.cj.jdbc.Driver
+[2024-11-20 00:42:22 INFO  (main)] - Config - db.user: root
+[2024-11-20 00:42:22 INFO  (main)] - Config - db.dbname: game
+[2024-11-20 00:42:22 INFO  (main)] - Config - db.connectionTimeout: 300000
+[2024-11-20 00:42:22 INFO  (main)] - Config - db.port: 3306
+[2024-11-20 00:42:22 INFO  (main)] - Config - server.port: 1609
+[2024-11-20 00:42:22 INFO  (main)] - Config - db.minconnections: 30
+[2024-11-20 00:42:22 INFO  (main)] - Config - websocket.host: ws://localhost
+[2024-11-20 00:42:22 INFO  (main)] - Config - db.host: localhost
+[2024-11-20 00:42:22 INFO  (main)] - Config - game.login.limit: 2
+[2024-11-20 00:42:22 INFO  (main)] - Config - db.leakDetectionThreshold: 300000
+[2024-11-20 00:42:22 INFO  (main)] - HikariPool-1 - Starting...
+[2024-11-20 00:42:23 INFO  (main)] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@42e25b0b
+[2024-11-20 00:42:23 INFO  (main)] - HikariPool-1 - Start completed.
+[2024-11-20 00:42:23 INFO  (main)] - DB Connection Pool has been created.
+[2024-11-20 00:42:23 INFO  (Thread-0)] - Start socket port=1609
+[2024-11-20 00:42:23 INFO  (Thread-0)] - Start server Success!
+[2024-11-20 00:42:23 INFO  (Thread-1)] - Connect to socket server successfully!
+[2024-11-20 00:42:32 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-20 00:42:32 INFO  (Thread-0)] - New session: 1
+[2024-11-20 00:42:32 INFO  (reader: /127.0.0.1:59180)] - sending message: -27
+[2024-11-20 00:42:32 INFO  (reader: /127.0.0.1:59180)] - send message: -27 success
+[2024-11-20 00:42:32 INFO  (reader: /127.0.0.1:59180)] - process message
+[2024-11-20 00:42:32 INFO  (reader: /127.0.0.1:59180)] - Client id: 1 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-20 00:42:32 ERROR (reader: /127.0.0.1:59180)] - login err
+java.lang.ClassCastException: class java.lang.Byte cannot be cast to class java.lang.Integer (java.lang.Byte and java.lang.Integer are in module java.base of loader 'bootstrap')
+	at com.duynguyen.model.User.login(User.java:76) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session.login(Session.java:336) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Controller.messageNotLogin(Controller.java:92) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Controller.onMessage(Controller.java:40) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session.processMessage(Session.java:442) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.network.Session$MessageCollector.run(Session.java:506) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-20 00:42:32 INFO  (reader: /127.0.0.1:59180)] - Client 1: Đăng nhập thất bại.
+[2024-11-20 00:44:52 INFO  (main)] - Config - db.maxconnections: 40
+[2024-11-20 00:44:52 INFO  (main)] - Config - db.password: 12332145
+[2024-11-20 00:44:52 INFO  (main)] - Config - server.log.display: false
+[2024-11-20 00:44:52 INFO  (main)] - Config - db.idleTimeout: 120000
+[2024-11-20 00:44:52 INFO  (main)] - Config - websocket.port: 8020
+[2024-11-20 00:44:52 INFO  (main)] - Config - db.driver: com.mysql.cj.jdbc.Driver
+[2024-11-20 00:44:52 INFO  (main)] - Config - db.user: root
+[2024-11-20 00:44:52 INFO  (main)] - Config - db.dbname: game
+[2024-11-20 00:44:52 INFO  (main)] - Config - db.connectionTimeout: 300000
+[2024-11-20 00:44:52 INFO  (main)] - Config - db.port: 3306
+[2024-11-20 00:44:52 INFO  (main)] - Config - server.port: 1609
+[2024-11-20 00:44:52 INFO  (main)] - Config - db.minconnections: 30
+[2024-11-20 00:44:52 INFO  (main)] - Config - websocket.host: ws://localhost
+[2024-11-20 00:44:52 INFO  (main)] - Config - db.host: localhost
+[2024-11-20 00:44:52 INFO  (main)] - Config - game.login.limit: 2
+[2024-11-20 00:44:52 INFO  (main)] - Config - db.leakDetectionThreshold: 300000
+[2024-11-20 00:44:52 INFO  (main)] - HikariPool-1 - Starting...
+[2024-11-20 00:44:52 INFO  (main)] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@42e25b0b
+[2024-11-20 00:44:52 INFO  (main)] - HikariPool-1 - Start completed.
+[2024-11-20 00:44:52 INFO  (main)] - DB Connection Pool has been created.
+[2024-11-20 00:44:52 INFO  (Thread-0)] - Start socket port=1609
+[2024-11-20 00:44:52 INFO  (Thread-0)] - Start server Success!
+[2024-11-20 00:44:52 INFO  (Thread-1)] - Connect to socket server successfully!
+[2024-11-20 00:44:59 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-20 00:44:59 INFO  (Thread-0)] - New session: 1
+[2024-11-20 00:44:59 INFO  (reader: /127.0.0.1:33394)] - sending message: -27
+[2024-11-20 00:44:59 INFO  (reader: /127.0.0.1:33394)] - send message: -27 success
+[2024-11-20 00:44:59 INFO  (reader: /127.0.0.1:33394)] - process message
+[2024-11-20 00:44:59 INFO  (reader: /127.0.0.1:33394)] - Client id: 1 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-20 00:44:59 INFO  (reader: /127.0.0.1:33394)] - id: 1, status: 1, activated: 1
+[2024-11-20 00:44:59 INFO  (sender: /127.0.0.1:33394)] - sending message: -29
+[2024-11-20 00:44:59 INFO  (sender: /127.0.0.1:33394)] - send message: -29 success
+[2024-11-20 00:45:04 INFO  (reader: /127.0.0.1:33394)] - Client 1: Mất kết nối!
+[2024-11-20 00:45:04 ERROR (sender: /127.0.0.1:33394)] - Sender err
+java.lang.InterruptedException: sleep interrupted
+	at java.lang.Thread.sleep(Native Method) ~[?:?]
+	at com.duynguyen.network.Session$Sender.run(Session.java:484) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at java.lang.Thread.run(Thread.java:840) [?:?]

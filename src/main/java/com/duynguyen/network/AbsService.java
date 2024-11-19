@@ -1,10 +1,12 @@
 package com.duynguyen.network;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.duynguyen.constants.CMD;
+import com.duynguyen.server.Server;
 
 
 public abstract class AbsService {
@@ -14,9 +16,9 @@ public abstract class AbsService {
     public abstract void chat(String name, String text);
 
     public Message messageNotLogin(int command) {
-        try {
-            Message ms = new Message(CMD.NOT_LOGIN);
-            ms.writer().writeByte(command);
+        Message ms = new Message(CMD.NOT_LOGIN);
+        try(DataOutputStream ds = ms.writer()) {
+            ds.writeByte(command);
             return ms;
         } catch (Exception ex) {
             Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
@@ -45,6 +47,31 @@ public abstract class AbsService {
             ms.cleanup();
         } catch (Exception ex) {
             Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public Message messageSubCommand(int command) {
+        try {
+            Message ms = new Message(CMD.SUB_COMMAND);
+            ms.writer().writeByte(command);
+            return ms;
+        } catch (Exception ex) {
+            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public void showAlert(String title, String text) {
+        try {
+            Message ms = new Message(CMD.ALERT_MESSAGE);
+            DataOutputStream ds = ms.writer();
+            ds.writeUTF(title);
+            ds.writeUTF(text);
+            ds.flush();
+            sendMessage(ms);
+            ms.cleanup();
+        } catch (IOException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -2,14 +2,14 @@ package com.duynguyen.network;
 
 public interface ISession {
 
-    public abstract boolean isConnected();
+    boolean isConnected();
 
-    public abstract void setHandler(IMessageHandler messageHandler);
+    void setHandler(IMessageHandler messageHandler);
 
-    public abstract void setService(Service service);
+    void setService(Service service);
 
-    public abstract void sendMessage(Message message);
+    void sendMessage(Message message);
 
-    public abstract void close();
+    void close();
 
 }
