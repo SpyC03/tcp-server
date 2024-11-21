@@ -302,6 +302,7 @@ public class Session implements ISession {
         }
     }
 
+
     public void login(Message ms) {
         try(DataInputStream di = ms.reader()) {
             String username = di.readUTF().trim();
@@ -369,7 +370,13 @@ public class Session implements ISession {
     public void clientOk() {
         if (!clientOK) {
             clientOK = true;
-            Log.debug("Client " + this.id + ": đăng nhập thành công");
+            user.initCharacter();
+            if (user != null) {
+                service.readyGetIn(user.character);
+                Log.debug("Client " + this.id + ": đăng nhập thành công");
+            } else {
+                disconnect();
+            }
         }
     }
 
@@ -393,6 +400,8 @@ public class Session implements ISession {
                 ServerManager.remove(this.IPAddress);
             } catch (Exception e) {
                 Log.error("remove ipv4 from list", e);
+            } finally {
+                ServerManager.removeUser(user);
             }
             try {
                 if (user != null) {
@@ -401,7 +410,7 @@ public class Session implements ISession {
                     } catch (Exception e) {
                         Log.error("save user: " + user.username + " - err: " + e.getMessage(), e);
                     } finally {
-                        ServerManager.removeUser(user);
+                        ServerManager.removeChar(user.character);
                     }
                 }
             } finally {

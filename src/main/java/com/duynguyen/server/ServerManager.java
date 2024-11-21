@@ -8,14 +8,17 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 
+import com.duynguyen.model.Char;
 import com.duynguyen.model.User;
 
 public class ServerManager {
     public static final ArrayList<User> users = new ArrayList<>();
     private static final ArrayList<String> ips = new ArrayList<>();
+    private static final ArrayList<Char> chars = new ArrayList<>();
     public static final HashMap<String, Integer> countAttendanceByIp = new HashMap<>();
     private static final ReadWriteLock lockSession = new ReentrantReadWriteLock();
     private static final ReadWriteLock lockUser = new ReentrantReadWriteLock();
+    private static final ReadWriteLock lockChar = new ReentrantReadWriteLock();
 
 
     @SuppressWarnings("unchecked")
@@ -24,7 +27,12 @@ public class ServerManager {
     }
 
     public static int getNumberOnline() {
-        return users.size();
+        return chars.size();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<Char> getChars() {
+        return (List<Char>) chars.clone();
     }
 
     public static int frequency(String ip) {
@@ -33,6 +41,38 @@ public class ServerManager {
             return Collections.frequency(ips, ip);
         } finally {
             lockSession.readLock().unlock();
+        }
+    }
+
+    public static Char findCharByName(String name) {
+        lockChar.readLock().lock();
+        try {
+            for (Char _char : chars) {
+                if (_char != null && !_char.isCleaned && _char.name.equals(name)) {
+                    return _char;
+                }
+            }
+        } finally {
+            lockChar.readLock().unlock();
+        }
+        return null;
+    }
+
+    public static void addChar(Char _char) {
+        lockChar.writeLock().lock();
+        try {
+            chars.add(_char);
+        } finally {
+            lockChar.writeLock().unlock();
+        }
+    }
+
+    public static void removeChar(Char _char) {
+        lockChar.writeLock().lock();
+        try {
+            chars.removeIf(c -> c.id == _char.id);
+        } finally {
+            lockChar.writeLock().unlock();
         }
     }
 

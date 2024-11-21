@@ -20,6 +20,8 @@ public class DbManager {
     public static final int SAVE_DATA = 2;
     public static final int SERVER = 3;
     public static final int UPDATE = 4;
+    public static final int LOAD_CHAR = 5;
+    public static final int CREATE_CHAR = 6;
 
     public static DbManager getInstance() {
         if (instance == null) {

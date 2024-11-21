@@ -10,25 +10,36 @@ public class CMD {
      *  + data: byte[]
     */
 
-    //main command
-    //for feature
-    public static final byte SUB_COMMAND = -30;
-    //for login, register, client info,...
-    public static final byte NOT_LOGIN = -29;
-    //for map
-    public static final byte NOT_MAP = -28;
-
+    //main command for in game feat
+    public static final byte IN_GAME = 1;
     //sub command
-    public static final byte LOGIN = -127;
-    public static final byte REGISTER = -126;
-    public static final byte CLIENT_INFO = -125;
-    public static final byte FULL_SIZE = -32;
-    public static final byte NEW_MESSAGE = -109;
-    public static final byte GET_SESSION_ID = -27;
-    public static final byte SERVER_DIALOG = -26;
-    public static final byte SERVER_ALERT = -25;
-    public static final byte SERVER_MESSAGE = -24;
-    public static final byte SHOW_WAIT = -74;
-    public static final byte ALERT_MESSAGE = 53;
+    public static final byte ITEM_BAG_CLEAR = -1;
+    public static final byte ITEM_BAG_ADD = 1;
+    public static final byte ME_UP_COIN_BAG = -2;
+    public static final byte ME_LOAD_INFO = 2;
+    public static final byte ME_LOAD_LEVEL = -3;
+    public static final byte ME_LOAD_ALL = -3;
+    public static final byte PLAYER_UP_EXP = -4;
+    public static final byte PLAYER_LOAD_ALL = 4;
+    public static final byte READY_GET_IN = -5;
+    public static final byte CREATE_PLAYER = 5;
+    public static final byte UPDATE_ENERGY = -6;
+
+
+    //main command for not in game feat
+    public static final byte NOT_IN_GAME = -1;
+    //sub command for not in game
+    public static final byte FULL_SIZE = 0;
+    public static final byte LOGIN = -1;
+    public static final byte REGISTER = 1;
+    public static final byte CLIENT_INFO = -2;
+    public static final byte GET_SESSION_ID = 2;
+    public static final byte SERVER_DIALOG = -3;
+    public static final byte SERVER_ALERT = 3;
+    public static final byte SERVER_MESSAGE = -4;
+    public static final byte SHOW_WAIT = 4;
+    public static final byte ALERT_MESSAGE = 5;
+
+
 
 }

@@ -1,25 +1,32 @@
 package com.duynguyen.model;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.duynguyen.constants.SQLStatement;
+import com.duynguyen.database.jdbc.DbManager;
+import com.duynguyen.network.Controller;
+import com.duynguyen.network.Message;
+import com.duynguyen.network.Service;
+import com.duynguyen.network.Session;
+import com.duynguyen.server.MainEntry;
+import com.duynguyen.server.ServerManager;
+import com.duynguyen.utils.Log;
+import com.duynguyen.utils.Utils;
 import lombok.Getter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 
-import com.duynguyen.constants.SQLStatement;
-import com.duynguyen.database.jdbc.DbManager;
-import com.duynguyen.network.Service;
-import com.duynguyen.network.Session;
-import com.duynguyen.server.ServerManager;
-import com.duynguyen.utils.Utils;
-import com.duynguyen.utils.Log;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class User {
     public Session session;
+    public Char character;
     @Getter
     public Service service;
     public int id;
@@ -32,11 +39,10 @@ public class User {
     public Timestamp banUntil;
     public long lastAttendance;
     public boolean isLoadFinish;
-    public boolean isEntered;
     public boolean isCleaned;
-    public boolean isDuplicate;
     public ArrayList<String> IPAddress;
     private boolean saving;
+
 
     public User(Session client, String username, String password, String random) {
         this.session = client;
@@ -91,12 +97,11 @@ public class User {
             }
 
 
+            if (this.status == 0) {
+                service.serverMessage("Liên hệ AD để kích hoạt acc!");
+                return;
+            }
 
-//            if (this.status == 0) {
-//                service.serverMessage("Liên hệ AD để kích hoạt acc!");
-//                return;
-//            }
-            
             this.IPAddress = new ArrayList<>();
             obj = map.get("ip_address");
             if (obj != null) {
@@ -142,10 +147,27 @@ public class User {
 
     public void register() {
         try {
+            //check if username already exists
+            HashMap<String, Object> map = getUserMap();
+            if (map != null) {
+                service.serverMessage("Tài khoản đã tồn tại.");
+                return;
+            }
+
+            //check username is valid
+            Pattern p = Pattern.compile("^[a-zA-Z0-9]+$");
+            Matcher m1 = p.matcher(username);
+            if (!m1.find()) {
+                service.serverMessage("Tên tài khoản không hợp lệ.");
+                return;
+            }
             try (PreparedStatement stmt = DbManager.getInstance().getConnection(DbManager.SAVE_DATA)
-                    .prepareStatement("INSERT INTO users (username, password) VALUES (?, ?);")) {
+                    .prepareStatement(SQLStatement.REGISTER)) {
                 stmt.setString(1, username);
                 stmt.setString(2, password);
+                stmt.setInt(3, 1);
+                stmt.setInt(4, 1);
+                stmt.setInt(5, 0);
                 int rowsAffected = stmt.executeUpdate();
                 if (rowsAffected > 0) {
                     service.register();
@@ -159,25 +181,150 @@ public class User {
         }
     }
 
+    public void createCharacter(Message ms) {
+        try (DataInputStream dis = ms.reader()) {
+            String name = dis.readUTF();
+            Pattern p = Pattern.compile("^[a-z0-9]+$");
+            Matcher m1 = p.matcher(name);
+
+            if (!m1.find()) {
+                service.serverDialog("Tên nhân vật không được chứa ký tự đặc biệt!");
+                return;
+            }
+            if (name.length() < 6 || name.length() > 15) {
+                service.serverDialog("Tên tài khoản chỉ cho phép từ 6 đến 15 ký tự!");
+                return;
+            }
+
+            try (Connection conn = DbManager.getInstance().getConnection(DbManager.SAVE_DATA)) {
+                // Kiểm tra xem tên đã tồn tại hay chưa
+                try (PreparedStatement checkStmt = conn.prepareStatement(
+                        SQLStatement.CHECK_PLAYER_EXIST)) {
+                    checkStmt.setString(1, name);
+                    try (ResultSet check = checkStmt.executeQuery()) {
+                        if (check.next() && check.getInt(1) > 0) {
+                            service.serverDialog("Tên nhân vật đã tồn tại!");
+                            return;
+                        }
+                    }
+                }
+
+                // Tạo nhân vật mới
+                try (PreparedStatement insertStmt = conn.prepareStatement(
+                        SQLStatement.CREATE_PLAYER)) {
+                    insertStmt.setInt(1, this.id);
+                    insertStmt.setString(2, name);
+                    insertStmt.setLong(3, 1000);
+                    insertStmt.setString(4, "[]");
+                    insertStmt.executeUpdate();
+                }
+            } catch (SQLException e) {
+                Log.error("create char SQL error", e);
+                service.serverDialog("Tạo nhân vật thất bại do lỗi hệ thống!");
+            }
+
+            //set character data
+            initCharacter();
+        } catch (IOException e) {
+            Log.error("create char IO error", e);
+            service.serverDialog("Tạo nhân vật thất bại!");
+        }
+    }
+
+    public void initCharacter() {
+        try {
+            PreparedStatement stmt = DbManager.getInstance().getConnection(DbManager.LOAD_CHAR).prepareStatement(SQLStatement.LOAD_INIT_CHARACTER
+                    );
+            stmt.setInt(1, this.id);
+            ResultSet data = stmt.executeQuery();
+            try {
+                    int id = data.getInt("id");
+                    Char _char = new Char(id);
+                    _char.loadDisplay(data);
+            } finally {
+                data.close();
+                stmt.close();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    //load character data
+    public void selectChar(){
+        try {
+            if (MainEntry.isStop) {
+                service.serverDialog("Hệ thống Máy chủ bảo trì vui lòng thoát game để tránh mất dữ liệu.");
+                Thread.sleep(1000);
+                if (!isCleaned) {
+                    session.disconnect();
+                }
+            }
+            if (character == null) {
+                session.disconnect();
+            }
+            if(character != null){
+                if(!character.load()){
+                    session.disconnect();
+                }
+                character.user = this;
+                Controller controller = (Controller) session.getMessageHandler();
+                controller.set_char(character);
+                character.setService(this.service);
+                service.setPlayer(this.character);
+                session.setName(character.name);
+                ServerManager.addChar(character);
+
+            } else {
+                session.disconnect();
+            }
+        } catch (InterruptedException e) {
+            Log.error("select char err", e);
+        }
+    }
+
+
+
+
+    @SuppressWarnings("unchecked")
     public void saveData() {
         try {
             if (isLoadFinish && !saving) {
                 saving = true;
                 try {
                     JSONArray list = new JSONArray();
-                    for (String ip : IPAddress) {
-                        list.add(ip);
-                    }
+                    list.addAll(IPAddress);
                     String jList = list.toJSONString();
 
-                    try (Connection conn = DbManager.getInstance().getConnection(DbManager.SAVE_DATA);
-                            PreparedStatement stmt = conn.prepareStatement(
-                            "UPDATE `users` SET `online` = ?, `last_attendance_at` = ?, `ip_address` = ? WHERE `id` = ? LIMIT 1;")) {
-                        stmt.setInt(1, 0);
-                        stmt.setLong(2, this.lastAttendance);
-                        stmt.setString(3, jList);
-                        stmt.setInt(4, this.id);
-                        stmt.executeUpdate();
+                    try (Connection conn = DbManager.getInstance().getConnection(DbManager.SAVE_DATA)) {
+                        try(PreparedStatement stmt = conn.prepareStatement(
+                                SQLStatement.SAVE_DATA)){
+                            stmt.setInt(1, 0);
+                            stmt.setLong(2, this.lastAttendance);
+                            stmt.setString(3, jList);
+                            stmt.setInt(4, this.id);
+                            stmt.executeUpdate();
+                        }
+
+                        try(PreparedStatement stmt = conn.prepareStatement(
+                                SQLStatement.SAVE_DATA_PLAYER)){
+                            stmt.setInt(1, this.character.energy);
+                            stmt.setInt(2, this.character.maxEnergy);
+                            stmt.setLong(3, this.character.exp);
+                            stmt.setLong(4, this.character.coin);
+                            stmt.setInt(5, this.character.potentialPoints);
+                            stmt.setByte(6, this.character.numberCellBag);
+                            JSONArray array = new JSONArray();
+                            for (Item item : this.character.bag) {
+                                if (item != null) {
+                                    array.add(item.toString());
+                                }
+                            }
+                            stmt.setString(7, array.toJSONString());
+                            stmt.setInt(8, 0); //online
+                            stmt.setInt(9, this.character.id);
+                        }
+
                     }
                 } finally {
                     saving = false;
@@ -190,7 +337,7 @@ public class User {
 
     public HashMap<String, Object> getUserMap() {
         try (
-                Connection conn = DbManager.getInstance().getConnection(DbManager.LOGIN); // Kết nối được đóng tự động
+                Connection conn = DbManager.getInstance().getConnection(DbManager.LOGIN);
                 PreparedStatement stmt = conn.prepareStatement(SQLStatement.GET_USER, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY)
         ) {
             stmt.setString(1, this.username);
@@ -214,5 +361,18 @@ public class User {
         }
         return null;
     }
+
+
+    public void lock() {
+        try (PreparedStatement stmt = DbManager.getInstance().getConnection(DbManager.SAVE_DATA)
+                .prepareStatement(SQLStatement.LOCK_ACCOUNT)) {
+            stmt.setInt(2, this.id);
+            stmt.executeUpdate();
+            session.disconnect();
+        } catch (Exception e) {
+            Log.error("lock user: " + username);
+        }
+    }
+
 
 }

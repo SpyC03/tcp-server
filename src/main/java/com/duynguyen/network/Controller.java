@@ -2,19 +2,25 @@ package com.duynguyen.network;
 
 
 import com.duynguyen.constants.CMD;
+import com.duynguyen.model.Char;
 import com.duynguyen.model.User;
 import com.duynguyen.utils.Log;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.io.DataInputStream;
+import java.io.IOException;
 
 public class Controller implements IMessageHandler {
 
-    private final Session client;
+    public final Session client;
     @Setter
-    private Service service;
+    public Service service;
     @Setter
-    private User user;
+    public User user;
+    @Setter
+    @Getter
+    public Char _char;
 
     public Controller(Session client) {
         this.client = client;
@@ -26,26 +32,18 @@ public class Controller implements IMessageHandler {
         if (mss != null) {
             try {
                 int command = mss.getCommand();
-                if (command != CMD.NOT_LOGIN && command != CMD.NOT_MAP && command != CMD.SUB_COMMAND) {
+                if (command != CMD.NOT_IN_GAME && command != CMD.IN_GAME) {
                     if (user == null || user.isCleaned) {
                         return;
                     }
                 }
                 switch (command) {
-                    case CMD.NEW_MESSAGE:
-                        newMessage(mss);
-                        break;
-
-                    case CMD.NOT_LOGIN:
-                        messageNotLogin(mss);
-                        break;
-
-                    case CMD.NOT_MAP:
-                        messageNotMap(mss);
+                    case CMD.NOT_IN_GAME:
+                        messageNotInGame(mss);
                         break;
                     
-                    case CMD.SUB_COMMAND:
-                        messageSubCommand(mss);
+                    case CMD.IN_GAME:
+                        messageNotGame(mss);
                         break;
 
                     default:
@@ -61,26 +59,7 @@ public class Controller implements IMessageHandler {
     }
 
     @Override
-    public void newMessage(Message mss) {
-        if (mss != null) {
-            try(DataInputStream dis = mss.reader()) {
-                if (user == null) {
-                    return;
-                }
-                byte command = dis.readByte();
-                switch (command) {
-                    default:
-                        Log.debug(String.format("Client %d: newMessage: %d", client.id, command));
-                        break;
-                }
-            } catch (Exception e) {
-                Log.error("newMessage: " + e.getMessage());
-            }
-        }
-    }
-
-    @Override
-    public void messageNotLogin(Message mss) {
+    public void messageNotInGame(Message mss) {
         if (mss != null) {
             try(DataInputStream dis = mss.reader()) {
                 if (user != null) {
@@ -126,12 +105,21 @@ public class Controller implements IMessageHandler {
     }
 
     @Override
-    public void messageNotMap(Message ms) {
-        
-    }
-
-    @Override
-    public void messageSubCommand(Message ms) {
+    public void messageNotGame(Message ms) {
+        if(ms!=null){
+            try (DataInputStream dis = ms.reader()){
+                if(user.isCleaned){
+                    return;
+                }
+                byte command = dis.readByte();
+                switch(command) {
+                    case CMD.READY_GET_IN -> user.selectChar();
+                    case CMD.CREATE_PLAYER -> user.createCharacter(ms);
+                }
+            } catch (IOException ex){
+                Log.error("messageSubCommand: " + ex.getMessage());
+            }
+        }
         
     }
 

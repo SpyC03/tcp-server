@@ -13,17 +13,21 @@ import com.duynguyen.utils.Log;
 
 public class Server {
     private static ServerSocket server;
+    public static boolean start;
+    public static int[] exps = new int[]{0,200,600,1200,2500,5000,9000,18000,20000,24000,36000,54000,64800};
+    public static final long EXP_MAX = 64800;
 
     public static boolean init(){
+        start = false;
         return true;
     }
     public static void start(){
-        try {     
+        try {
             SocketIO.init();
             int port = Config.getInstance().getPort();
             Log.info("Start socket port=" + port);
             server = new ServerSocket(port);
-            boolean start = true;
+            start = true;
             int id = 0;
             Log.info("Start server Success!");
             while (start) {
@@ -44,7 +48,7 @@ public class Server {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.error("Can not start server", e);
         }
     }
 

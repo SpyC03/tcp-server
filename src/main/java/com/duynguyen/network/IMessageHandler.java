@@ -10,12 +10,10 @@ public interface IMessageHandler {
 
     void onConnectOK();
 
-    void messageNotMap(Message ms);
 
-    void messageSubCommand(Message ms);
+    void messageNotGame(Message ms);
 
-    void messageNotLogin(Message ms);
+    void messageNotInGame(Message ms);
 
-    void newMessage(Message ms);
 
 }

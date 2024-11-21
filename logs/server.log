@@ -794,3 +794,139 @@ java.lang.InterruptedException: sleep interrupted
 	at java.lang.Thread.sleep(Native Method) ~[?:?]
 	at com.duynguyen.network.Session$Sender.run(Session.java:484) [tcp-server-1.0-SNAPSHOT-all.jar:?]
 	at java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-21 10:56:20 INFO  (main)] - Config - db.maxconnections: 40
+[2024-11-21 10:56:20 INFO  (main)] - Config - db.password: 12332145
+[2024-11-21 10:56:20 INFO  (main)] - Config - server.log.display: false
+[2024-11-21 10:56:20 INFO  (main)] - Config - db.idleTimeout: 120000
+[2024-11-21 10:56:20 INFO  (main)] - Config - websocket.port: 8020
+[2024-11-21 10:56:20 INFO  (main)] - Config - db.driver: com.mysql.cj.jdbc.Driver
+[2024-11-21 10:56:20 INFO  (main)] - Config - db.user: root
+[2024-11-21 10:56:20 INFO  (main)] - Config - db.dbname: game
+[2024-11-21 10:56:20 INFO  (main)] - Config - db.connectionTimeout: 300000
+[2024-11-21 10:56:20 INFO  (main)] - Config - db.port: 3306
+[2024-11-21 10:56:20 INFO  (main)] - Config - server.port: 1609
+[2024-11-21 10:56:20 INFO  (main)] - Config - db.minconnections: 30
+[2024-11-21 10:56:20 INFO  (main)] - Config - websocket.host: ws://localhost
+[2024-11-21 10:56:20 INFO  (main)] - Config - db.host: localhost
+[2024-11-21 10:56:20 INFO  (main)] - Config - game.login.limit: 2
+[2024-11-21 10:56:20 INFO  (main)] - Config - db.leakDetectionThreshold: 300000
+[2024-11-21 10:56:20 INFO  (main)] - HikariPool-1 - Starting...
+[2024-11-21 10:56:22 ERROR (main)] - DB Connection Pool creation failed: Failed to initialize pool: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+com.zaxxer.hikari.pool.HikariPool$PoolInitializationException: Failed to initialize pool: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.zaxxer.hikari.pool.HikariPool.throwPoolInitializationException(HikariPool.java:607) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:594) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:101) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.HikariDataSource.<init>(HikariDataSource.java:80) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.database.jdbc.DbManager.start(DbManager.java:54) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.duynguyen.server.MainEntry.main(MainEntry.java:10) [tcp-server-1.0-SNAPSHOT-all.jar:?]
+Caused by: com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:837) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:420) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:238) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:139) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:365) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:203) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:484) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:573) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	... 4 more
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77) ~[?:?]
+	at jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:?]
+	at java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500) ~[?:?]
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:481) ~[?:?]
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.NativeSession.connect(NativeSession.java:142) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:961) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:420) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:238) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:139) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:365) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:203) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:484) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:573) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	... 4 more
+Caused by: java.net.ConnectException: Connection refused
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:672) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602) ~[?:?]
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327) ~[?:?]
+	at java.net.Socket.connect(Socket.java:633) ~[?:?]
+	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.NativeSession.connect(NativeSession.java:142) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:961) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:420) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:238) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:139) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:365) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:203) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:484) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:573) ~[tcp-server-1.0-SNAPSHOT-all.jar:?]
+	... 4 more
+[2024-11-21 10:57:51 INFO  (main)] - Config - db.maxconnections: 40
+[2024-11-21 10:57:51 INFO  (main)] - Config - db.password: 12332145
+[2024-11-21 10:57:51 INFO  (main)] - Config - server.log.display: false
+[2024-11-21 10:57:51 INFO  (main)] - Config - db.idleTimeout: 120000
+[2024-11-21 10:57:51 INFO  (main)] - Config - websocket.port: 8020
+[2024-11-21 10:57:51 INFO  (main)] - Config - db.driver: com.mysql.cj.jdbc.Driver
+[2024-11-21 10:57:51 INFO  (main)] - Config - db.user: root
+[2024-11-21 10:57:51 INFO  (main)] - Config - db.dbname: game
+[2024-11-21 10:57:51 INFO  (main)] - Config - db.connectionTimeout: 300000
+[2024-11-21 10:57:51 INFO  (main)] - Config - db.port: 3306
+[2024-11-21 10:57:51 INFO  (main)] - Config - server.port: 1609
+[2024-11-21 10:57:51 INFO  (main)] - Config - db.minconnections: 30
+[2024-11-21 10:57:51 INFO  (main)] - Config - websocket.host: ws://localhost
+[2024-11-21 10:57:51 INFO  (main)] - Config - db.host: localhost
+[2024-11-21 10:57:51 INFO  (main)] - Config - game.login.limit: 2
+[2024-11-21 10:57:51 INFO  (main)] - Config - db.leakDetectionThreshold: 300000
+[2024-11-21 10:57:51 INFO  (main)] - HikariPool-1 - Starting...
+[2024-11-21 10:57:51 INFO  (main)] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@42e25b0b
+[2024-11-21 10:57:51 INFO  (main)] - HikariPool-1 - Start completed.
+[2024-11-21 10:57:51 INFO  (main)] - DB Connection Pool has been created.
+[2024-11-21 10:57:51 INFO  (Thread-0)] - Start socket port=1609
+[2024-11-21 10:57:51 INFO  (Thread-0)] - Start server Success!
+[2024-11-21 10:57:51 INFO  (Thread-1)] - Connect to socket server successfully!
+[2024-11-21 15:42:23 INFO  (main)] - Config - db.maxconnections: 40
+[2024-11-21 15:42:23 INFO  (main)] - Config - db.password: 12332145
+[2024-11-21 15:42:23 INFO  (main)] - Config - server.log.display: false
+[2024-11-21 15:42:23 INFO  (main)] - Config - db.idleTimeout: 120000
+[2024-11-21 15:42:23 INFO  (main)] - Config - websocket.port: 8020
+[2024-11-21 15:42:23 INFO  (main)] - Config - db.driver: com.mysql.cj.jdbc.Driver
+[2024-11-21 15:42:23 INFO  (main)] - Config - db.user: root
+[2024-11-21 15:42:23 INFO  (main)] - Config - db.dbname: game
+[2024-11-21 15:42:23 INFO  (main)] - Config - db.connectionTimeout: 300000
+[2024-11-21 15:42:23 INFO  (main)] - Config - db.port: 3306
+[2024-11-21 15:42:23 INFO  (main)] - Config - server.port: 1609
+[2024-11-21 15:42:23 INFO  (main)] - Config - db.minconnections: 30
+[2024-11-21 15:42:23 INFO  (main)] - Config - websocket.host: ws://localhost
+[2024-11-21 15:42:23 INFO  (main)] - Config - db.host: localhost
+[2024-11-21 15:42:23 INFO  (main)] - Config - game.login.limit: 2
+[2024-11-21 15:42:23 INFO  (main)] - Config - db.leakDetectionThreshold: 300000
+[2024-11-21 15:42:23 INFO  (main)] - HikariPool-1 - Starting...
+[2024-11-21 15:42:24 INFO  (main)] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@42e25b0b
+[2024-11-21 15:42:24 INFO  (main)] - HikariPool-1 - Start completed.
+[2024-11-21 15:42:24 INFO  (main)] - DB Connection Pool has been created.
+[2024-11-21 15:42:24 INFO  (Thread-0)] - Start socket port=1609
+[2024-11-21 15:42:24 INFO  (Thread-0)] - Start server Success!
+[2024-11-21 15:42:24 INFO  (Thread-1)] - Connect to socket server successfully!
