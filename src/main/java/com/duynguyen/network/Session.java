@@ -351,7 +351,6 @@ public class Session implements ISession {
         } catch (IOException ex) {
             Logger.getLogger(Session.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     public void register(Message ms){
@@ -370,10 +369,14 @@ public class Session implements ISession {
     public void clientOk() {
         if (!clientOK) {
             clientOK = true;
-            user.initCharacter();
             if (user != null) {
-                service.readyGetIn(user.character);
-                Log.debug("Client " + this.id + ": đăng nhập thành công");
+                user.loadPlayerData();
+                if(user.character == null){
+                    service.createCharacter();
+                }else {
+                    service.playerLoadAll(user.character);
+                }
+                Log.info("Client " + this.id + ": đăng nhập thành công");
             } else {
                 disconnect();
             }
@@ -452,14 +455,6 @@ public class Session implements ISession {
         }
     }
 
-    public int version() {
-        return versionInt;
-    }
-
-    public boolean isVersionAbove(int version) {
-        return version() >= version;
-    }
-
     //quan ly hang doi message can gui, ma hoa message, gui message toi client
     private class Sender implements Runnable {
 
@@ -530,15 +525,10 @@ public class Session implements ISession {
         private Message readMessage() throws Exception {
             try {
                 byte cmd = dis.readByte();
-                if (!sendKeyComplete && 0 <= cmd && cmd <= 6) {
-                    sendKeyComplete = true;
-                }
-
-                if (sendKeyComplete) {
-                    
+                Log.info("readMessage: " + cmd);
+                if(sendKeyComplete){
                     cmd = readKey(cmd);
                 }
-
                 int size;
                 if (sendKeyComplete) {
                     byte b1 = dis.readByte();

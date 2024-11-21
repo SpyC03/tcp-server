@@ -13,11 +13,9 @@ public abstract class AbsService {
 
     public abstract void sendMessage(Message ms);
 
-    public abstract void chat(String name, String text);
-
-    public Message messageNotLogin(int command) {
+    public Message messageNotInGame(int command) {
         Message ms = new Message(CMD.NOT_IN_GAME);
-        try(DataOutputStream ds = ms.writer()) {
+        try (DataOutputStream ds = ms.writer()) {
             ds.writeByte(command);
             return ms;
         } catch (Exception ex) {
@@ -53,10 +51,10 @@ public abstract class AbsService {
         }
     }
 
-    public Message messageSubCommand(int command) {
-        try {
-            Message ms = new Message(CMD.IN_GAME);
-            ms.writer().writeByte(command);
+    public Message messageInGame(int command) {
+        Message ms = new Message(CMD.IN_GAME);
+        try (DataOutputStream ds = ms.writer()) {
+            ds.writeByte(command);
             return ms;
         } catch (Exception ex) {
             Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);

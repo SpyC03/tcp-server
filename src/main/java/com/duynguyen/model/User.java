@@ -77,7 +77,7 @@ public class User {
                 return;
             }
 
-            this.id = (int) ((long) (map.get("id")));
+            this.id = (int) (map.get("id"));
             this.role = (int) map.get("role");
             this.lastAttendance = (long) map.get("last_attendance_at");
             this.status = (byte) ((int) map.get("status"));
@@ -170,7 +170,7 @@ public class User {
                 stmt.setInt(5, 0);
                 int rowsAffected = stmt.executeUpdate();
                 if (rowsAffected > 0) {
-                    service.register();
+                    service.registerSuccess();
                     Log.info("Đăng ký thành công");
                 } else {
                     Log.info("Đăng ký thất bại");
@@ -223,48 +223,26 @@ public class User {
                 service.serverDialog("Tạo nhân vật thất bại do lỗi hệ thống!");
             }
 
-            //set character data
-            initCharacter();
         } catch (IOException e) {
             Log.error("create char IO error", e);
             service.serverDialog("Tạo nhân vật thất bại!");
         }
     }
 
-    public void initCharacter() {
-        try {
-            PreparedStatement stmt = DbManager.getInstance().getConnection(DbManager.LOAD_CHAR).prepareStatement(SQLStatement.LOAD_INIT_CHARACTER
-                    );
-            stmt.setInt(1, this.id);
-            ResultSet data = stmt.executeQuery();
-            try {
-                    int id = data.getInt("id");
-                    Char _char = new Char(id);
-                    _char.loadDisplay(data);
-            } finally {
-                data.close();
-                stmt.close();
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    //load character data
-    public void selectChar(){
+    public void loadPlayerData(){
         try {
             if (MainEntry.isStop) {
                 service.serverDialog("Hệ thống Máy chủ bảo trì vui lòng thoát game để tránh mất dữ liệu.");
                 Thread.sleep(1000);
-                if (!isCleaned) {
-                    session.disconnect();
-                }
+//                if (!isCleaned) {
+//                    session.disconnect();
+//                }
             }
-            if (character == null) {
-                session.disconnect();
-            }
-            if(character != null){
-                if(!character.load()){
+//            if (character == null) {
+//                session.disconnect();
+//            }
+            if(character != null) {
+                if (!character.load()) {
                     session.disconnect();
                 }
                 character.user = this;
@@ -274,10 +252,10 @@ public class User {
                 service.setPlayer(this.character);
                 session.setName(character.name);
                 ServerManager.addChar(character);
-
-            } else {
-                session.disconnect();
             }
+//            } else {
+//                session.disconnect();
+//            }
         } catch (InterruptedException e) {
             Log.error("select char err", e);
         }

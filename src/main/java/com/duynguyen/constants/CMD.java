@@ -21,25 +21,27 @@ public class CMD {
     public static final byte ME_LOAD_ALL = -3;
     public static final byte PLAYER_UP_EXP = -4;
     public static final byte PLAYER_LOAD_ALL = 4;
-    public static final byte READY_GET_IN = -5;
-    public static final byte CREATE_PLAYER = 5;
-    public static final byte UPDATE_ENERGY = -6;
+    public static final byte CREATE_PLAYER = -5;
+    public static final byte UPDATE_ENERGY = -5;
+    public static final byte PLAYER_LOAD_ENERGY = 6;
 
 
     //main command for not in game feat
     public static final byte NOT_IN_GAME = -1;
+
     //sub command for not in game
     public static final byte FULL_SIZE = 0;
     public static final byte LOGIN = -1;
-    public static final byte REGISTER = 1;
+    public static final byte LOGIN_OK = 1;
     public static final byte CLIENT_INFO = -2;
-    public static final byte GET_SESSION_ID = 2;
     public static final byte SERVER_DIALOG = -3;
     public static final byte SERVER_ALERT = 3;
     public static final byte SERVER_MESSAGE = -4;
     public static final byte SHOW_WAIT = 4;
-    public static final byte ALERT_MESSAGE = 5;
+    public static final byte ALERT_MESSAGE = -5;
+    public static final byte REGISTER = -6;
+    public static final byte REGISTER_OK = 6;
+    public static final byte CLIENT_OK = -7;
 
-
-
+    public static final byte GET_SESSION_ID = 2;
 }

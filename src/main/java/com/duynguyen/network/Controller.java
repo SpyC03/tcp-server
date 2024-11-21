@@ -32,6 +32,7 @@ public class Controller implements IMessageHandler {
         if (mss != null) {
             try {
                 int command = mss.getCommand();
+                Log.info("CMD: " + command);
                 if (command != CMD.NOT_IN_GAME && command != CMD.IN_GAME) {
                     if (user == null || user.isCleaned) {
                         return;
@@ -43,7 +44,7 @@ public class Controller implements IMessageHandler {
                         break;
                     
                     case CMD.IN_GAME:
-                        messageNotGame(mss);
+                        messageInGame(mss);
                         break;
 
                     default:
@@ -62,13 +63,14 @@ public class Controller implements IMessageHandler {
     public void messageNotInGame(Message mss) {
         if (mss != null) {
             try(DataInputStream dis = mss.reader()) {
-                if (user != null) {
-                    return;
-                }
                 byte command = dis.readByte();
+                Log.info("Sub command: " + command);
                 switch (command) {
                     case CMD.LOGIN:
                         client.login(mss);
+                        break;
+                    case CMD.CLIENT_OK:
+                        client.clientOk();
                         break;
 
                     case CMD.CLIENT_INFO:
@@ -78,15 +80,21 @@ public class Controller implements IMessageHandler {
                     case CMD.REGISTER:
                         client.register(mss);
                         break;
-
+                    case CMD.GET_SESSION_ID:
+                        Log.info("Client " + client.id + ": GET_SESSION_ID");
+                        break;
                     default:
-                        Log.debug(String.format("Client %d: messageNotLogin: %d", client.id, command));
+                        Log.info(String.format("Client %d: messageNotLogin: %d", client.id, command));
                         break;
                 }
             } catch (Exception e) {
                 Log.error("messageNotLogin: " + e.getMessage());
             }
         }
+    }
+
+    @Override
+    public void newMessage(Message ms) {
     }
 
     @Override
@@ -105,7 +113,7 @@ public class Controller implements IMessageHandler {
     }
 
     @Override
-    public void messageNotGame(Message ms) {
+    public void messageInGame(Message ms) {
         if(ms!=null){
             try (DataInputStream dis = ms.reader()){
                 if(user.isCleaned){
@@ -113,8 +121,7 @@ public class Controller implements IMessageHandler {
                 }
                 byte command = dis.readByte();
                 switch(command) {
-                    case CMD.READY_GET_IN -> user.selectChar();
-                    case CMD.CREATE_PLAYER -> user.createCharacter(ms);
+                    default -> Log.info("Client " + client.id + ": messageNotGame: " + command);
                 }
             } catch (IOException ex){
                 Log.error("messageSubCommand: " + ex.getMessage());

@@ -11,9 +11,11 @@ public interface IMessageHandler {
     void onConnectOK();
 
 
-    void messageNotGame(Message ms);
+    void messageInGame(Message ms);
 
     void messageNotInGame(Message ms);
+
+    void newMessage(Message ms);
 
 
 }

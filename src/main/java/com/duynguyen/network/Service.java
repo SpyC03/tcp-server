@@ -40,14 +40,9 @@ public class Service extends AbsService{
         }
     }
 
-    @Override
-    public void chat(String name, String text) {
-        
-    }
-
     public void loginSuccess() {
         try {
-            Message ms = messageNotLogin(-127);
+            Message ms = messageNotInGame(CMD.LOGIN_OK);
             sendMessage(ms);
             ms.cleanup();
         } catch (Exception ex) {
@@ -55,13 +50,13 @@ public class Service extends AbsService{
         }
     }
 
-    public void register(){
+    public void registerSuccess() {
         try {
-            Message ms = messageNotLogin(-126);
+            Message ms = messageNotInGame(CMD.REGISTER_OK);
             sendMessage(ms);
             ms.cleanup();
         } catch (Exception ex) {
-            Log.info("Response register error" + ex);
+            Log.info("Response register success error" + ex);
         }
     }
 
@@ -92,7 +87,7 @@ public class Service extends AbsService{
     }
     public void loadCoin() {
         try {
-            Message ms = messageSubCommand(CMD.ME_LOAD_INFO);
+            Message ms = messageInGame(CMD.ME_LOAD_INFO);
             DataOutputStream ds = ms.writer();
             ds.writeInt((int)player.coin);
             ds.flush();
@@ -103,12 +98,14 @@ public class Service extends AbsService{
         }
     }
 
+
+
     public void playerLoadAll(Char pl) {
         try {
             if (pl.isCleaned) {
                 return;
             }
-            Message ms = messageSubCommand(CMD.PLAYER_LOAD_ALL);
+            Message ms = messageInGame(CMD.PLAYER_LOAD_ALL);
             DataOutputStream ds = ms.writer();
             ds.writeInt(pl.id);
             charInfo(ms, pl);
@@ -121,7 +118,7 @@ public class Service extends AbsService{
     }
 
     public void updateEnergy(){
-            Message ms = messageSubCommand(CMD.UPDATE_ENERGY);
+            Message ms = messageInGame(CMD.UPDATE_ENERGY);
         try (DataOutputStream ds = ms.writer();){
             ds.writeInt(player.energy);
             ds.flush();
@@ -131,20 +128,6 @@ public class Service extends AbsService{
             Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    }
-
-    public void readyGetIn(Char _char) {
-        try {
-            Message ms = new Message(CMD.READY_GET_IN);
-            DataOutputStream ds = ms.writer();
-            ds.writeUTF(_char.name); // name
-            ds.writeByte(_char.level);// Level
-            ds.flush();
-            sendMessage(ms);
-            ms.cleanup();
-        } catch (Exception ex) {
-            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public void charInfo(Message ms, Char _char) {
@@ -199,7 +182,7 @@ public class Service extends AbsService{
 
     public void levelUp() {
         try {
-            Message ms = messageSubCommand(CMD.ME_LOAD_LEVEL);
+            Message ms = messageInGame(CMD.ME_LOAD_LEVEL);
             DataOutputStream ds = ms.writer();
             ds.writeInt(player.maxEnergy);
             ds.writeLong(player.exp);
@@ -214,7 +197,7 @@ public class Service extends AbsService{
 
     public void showWait(String title) {
         try {
-            Message ms = messageSubCommand(CMD.SHOW_WAIT);
+            Message ms = messageInGame(CMD.SHOW_WAIT);
             DataOutputStream ds = ms.writer();
             ds.writeUTF(title);
             ds.flush();
@@ -281,6 +264,16 @@ public class Service extends AbsService{
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    public void createCharacter() {
+        try {
+            Message ms = messageInGame(CMD.CREATE_PLAYER);
+            sendMessage(ms);
+            ms.cleanup();
+        } catch (Exception ex) {
+            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
