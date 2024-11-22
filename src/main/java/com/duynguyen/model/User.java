@@ -122,17 +122,29 @@ public class User {
                 if (u != null && !u.isCleaned) {
                     service.serverMessage("Tài khoản đã có người đăng nhập.");
                     if (u.session != null && u.session.getService() != null) {
-                        service.serverMessage("Có người đăng nhập vào tài khoản của bạn.");
+                        u.service.serverMessage("Có người đăng nhập vào tài khoản của bạn.");
                     }
                     Utils.setTimeout(() -> {
                         try {
                             if (!u.isCleaned) {
-                                u.session.disconnect();
+                                u.session.closeMessage();
                             }
                         } catch (Exception e) {
-                            Log.error("login err", e);
+                            Log.error("close old session err", e);
                         } finally {
                             ServerManager.removeUser(u);
+                        }
+                    }, 1000);
+
+                    Utils.setTimeout(() -> {
+                        try {
+                            if (!this.isCleaned) {
+                                this.session.closeMessage();
+                            }
+                        } catch (Exception e) {
+                            Log.error("close current session err", e);
+                        } finally {
+                            ServerManager.removeUser(this);
                         }
                     }, 1000);
                     return;
@@ -296,6 +308,7 @@ public class User {
     @SuppressWarnings("unchecked")
     public void saveData() {
         try {
+            Log.info("saving data user: " + username);
             if (isLoadFinish && !saving) {
                 saving = true;
                 try {

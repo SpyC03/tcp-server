@@ -489,7 +489,7 @@ public class Session implements ISession {
                 try {
                     Thread.sleep(10L);
                 } catch (InterruptedException e) {
-                    Log.error("Sender err", e);
+//                    Log.error("Sender err", e);
                     Thread.currentThread().interrupt();
                     return;
                 }
@@ -521,7 +521,7 @@ public class Session implements ISession {
                     }
                 }
             } catch (Exception ex) {
-                Log.error("MessageCollector err", ex);
+//                Log.error("MessageCollector err", ex);
             }
             closeMessage();
         }
