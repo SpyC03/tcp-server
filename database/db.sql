@@ -33,6 +33,8 @@ CREATE TABLE `players`
     `name`          varchar(15) NOT NULL,
     `point`         int(11) NOT NULL DEFAULT 0,
     `coin`          bigint(20) NOT NULL DEFAULT 0,
+    `energy`        int(11) NOT NULL DEFAULT 0,
+    `max_energy`    int(11) NOT NULL DEFAULT 100,
     `number_cell_bag` int(11) NOT NULL DEFAULT 30,
     `bag`           longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
     `online`        smallint(6) NOT NULL DEFAULT 0,

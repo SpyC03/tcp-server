@@ -88,38 +88,6 @@ public class Char {
         }
     }
 
-    public synchronized boolean load() {
-        try (PreparedStatement stmt = DbManager.getInstance().getConnection(DbManager.LOAD_CHAR).prepareStatement(
-                SQLStatement.LOAD_PLAYER, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ) {
-            stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    loadDisplay(rs);
-                    this.coin = rs.getLong("coin");
-                    this.maxEnergy = rs.getInt("maxEnergy");
-                    this.energy = rs.getInt("energy");
-                    this.potentialPoints = rs.getInt("potentialPoints");
-                    this.numberCellBag = rs.getByte("numberCellBag");
-                    this.exp = rs.getLong("exp");
-                    this.bag = new Item[this.numberCellBag];
-                    JSONArray array = (JSONArray) JSONValue.parse(rs.getString("bag"));
-                    if (array != null) {
-                        int size = array.size();
-                        for (int i = 0; i < size; i++) {
-                            Item item = new Item((String) array.get(i));
-                            this.bag[i] = item;
-                        }
-                    }
-                    return true;
-                }
-            }
-        } catch (SQLException ex) {
-            Log.error("load char data : " + ex.getMessage(), ex);
-
-        }
-        return false;
-    }
 
     public synchronized void addCoin(long coin) {
         if (coin == 0) {

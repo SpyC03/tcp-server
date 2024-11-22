@@ -387,6 +387,7 @@ public class Session implements ISession {
         try {
             if (sc != null) {
                 sc.close();
+                connected = false;
             }
         } catch (Exception e) {
             Log.error("disconnect err", e);
@@ -481,6 +482,7 @@ public class Session implements ISession {
                             sendingMessage.remove(0);
                         } catch (Exception e) {
                             disconnect();
+                            return;
                         }
                     }
                 }
@@ -488,6 +490,8 @@ public class Session implements ISession {
                     Thread.sleep(10L);
                 } catch (InterruptedException e) {
                     Log.error("Sender err", e);
+                    Thread.currentThread().interrupt();
+                    return;
                 }
             }
         }

@@ -77,6 +77,8 @@ public class Controller implements IMessageHandler {
                         client.setClientType(mss);
                         break;
 
+
+
                     case CMD.REGISTER:
                         client.register(mss);
                         break;
@@ -121,7 +123,13 @@ public class Controller implements IMessageHandler {
                 }
                 byte command = dis.readByte();
                 switch(command) {
-                    default -> Log.info("Client " + client.id + ": messageNotGame: " + command);
+                    case CMD.CREATE_PLAYER:
+                        Log.info("Client " + client.id + ": CREATE_PLAYER");
+                        user.createCharacter(ms);
+                        break;
+                    default:
+                        Log.info(String.format("Client %d: messageInGame: %d", client.id, command));
+                        break;
                 }
             } catch (IOException ex){
                 Log.error("messageSubCommand: " + ex.getMessage());

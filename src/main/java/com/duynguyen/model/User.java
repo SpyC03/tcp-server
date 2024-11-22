@@ -229,22 +229,54 @@ public class User {
         }
     }
 
-    public void loadPlayerData(){
+
+    public synchronized boolean load() {
+        try (PreparedStatement stmt = DbManager.getInstance().getConnection(DbManager.LOAD_CHAR).prepareStatement(
+                SQLStatement.LOAD_PLAYER, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        ) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    character = new Char(id);
+
+                    character.loadDisplay(rs);
+                    character.coin = rs.getLong("coin");
+                    character.maxEnergy = rs.getInt("max_energy");
+                    character.energy = rs.getInt("energy");
+                    character.potentialPoints = rs.getInt("point");
+                    character.numberCellBag = rs.getByte("number_cell_bag");
+                    character.exp = rs.getLong("exp");
+                    character.bag = new Item[character.numberCellBag];
+                    JSONArray array = (JSONArray) JSONValue.parse(rs.getString("bag"));
+                    if (array != null) {
+                        int size = array.size();
+                        for (int i = 0; i < size; i++) {
+                            Item item = new Item((String) array.get(i));
+                            character.bag[i] = item;
+                        }
+                    }
+                }
+                return true;
+            }
+        } catch (SQLException ex) {
+            Log.error("load char data : " + ex.getMessage(), ex);
+
+        }
+        return false;
+    }
+
+
+    public synchronized void loadPlayerData(){
         try {
             if (MainEntry.isStop) {
                 service.serverDialog("Hệ thống Máy chủ bảo trì vui lòng thoát game để tránh mất dữ liệu.");
                 Thread.sleep(1000);
-//                if (!isCleaned) {
-//                    session.disconnect();
-//                }
             }
-//            if (character == null) {
-//                session.disconnect();
-//            }
+            if (!load()) {
+                session.disconnect();
+            }
             if(character != null) {
-                if (!character.load()) {
-                    session.disconnect();
-                }
+                Log.info("load player data: " + character.name);
                 character.user = this;
                 Controller controller = (Controller) session.getMessageHandler();
                 controller.set_char(character);
@@ -253,9 +285,6 @@ public class User {
                 session.setName(character.name);
                 ServerManager.addChar(character);
             }
-//            } else {
-//                session.disconnect();
-//            }
         } catch (InterruptedException e) {
             Log.error("select char err", e);
         }
