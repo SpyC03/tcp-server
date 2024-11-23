@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -38,6 +39,7 @@ public class Utils {
 
     public static String bagToString(Item[] bag) {
         return "[" + Arrays.stream(bag)
+                .filter(Objects::nonNull)
                 .map(item -> "\"" + item.itemId() + "\"")
                 .collect(Collectors.joining(",")) + "]";
     }

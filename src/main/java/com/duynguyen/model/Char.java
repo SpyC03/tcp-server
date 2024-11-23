@@ -66,16 +66,37 @@ public class Char {
         }
     }
 
-    public void removeItem(int index) {
-        try {
-            getService().removeItem(index);
+    public void removeItem(Message message) {
+        try (DataInputStream dis = message.reader()) {
+            byte index = dis.readByte();
+            if (index < 0 || index >= bag.length) {
+                serverMessage("Vị trí vật phẩm không hợp lệ.");
+                return;
+            }
+
+
+            for (int i = index; i < bag.length - 1; i++) {
+                bag[i] = bag[i + 1];
+            }
+
+            bag[bag.length - 1] = null;
+
+            String bagData = Utils.bagToString(bag);
+            int res = DbManager.getInstance().updateBag(bagData, this.id);
+
+            if (res == 0 || res == -1) {
+                serverMessage("Có lỗi xảy ra khi cập nhật túi đồ.");
+                return;
+            }
+
+            serverMessage("Đã xóa vật phẩm ở vị trí " + index);
         } catch (Exception ex) {
             Log.error("remove item: " + ex.getMessage(), ex);
         }
     }
 
-    private boolean isValidItem(String itemId) {
 
+    private boolean isValidItem(String itemId) {
         return true;
     }
 
