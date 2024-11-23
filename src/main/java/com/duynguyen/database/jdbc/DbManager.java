@@ -161,7 +161,11 @@ public class DbManager {
         }
     }
 
+    public int updateBag(String bag, int id) {
+        return update(SQLStatement.UPDATE_BAG, bag, id);
+    }
     public int updateCoin(long coin, int id) {
         return update(SQLStatement.UPDATE_COIN, coin, id);
     }
+
 }

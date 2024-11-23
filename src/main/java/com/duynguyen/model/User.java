@@ -251,7 +251,6 @@ public class User {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     character = new Char(id);
-
                     character.loadDisplay(rs);
                     character.coin = rs.getLong("coin");
                     character.maxEnergy = rs.getInt("max_energy");
@@ -259,9 +258,9 @@ public class User {
                     character.potentialPoints = rs.getInt("point");
                     character.numberCellBag = rs.getByte("number_cell_bag");
                     character.exp = rs.getLong("exp");
-                    character.bag = new Item[character.numberCellBag];
                     JSONArray array = (JSONArray) JSONValue.parse(rs.getString("bag"));
                     if (array != null) {
+                        character.bag = new Item[array.size()];
                         int size = array.size();
                         for (int i = 0; i < size; i++) {
                             Item item = new Item((String) array.get(i));

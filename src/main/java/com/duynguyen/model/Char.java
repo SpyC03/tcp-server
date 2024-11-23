@@ -12,6 +12,8 @@ import lombok.Setter;
 import java.io.DataInputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Char {
     public int id;
@@ -72,27 +74,75 @@ public class Char {
         }
     }
 
-    public void addItem(Item item) {
-        try {
-            if (item == null) {
+    private boolean isValidItem(String itemId) {
+
+        return true;
+    }
+
+    public void addItem(Message message) {
+        try (DataInputStream ds = message.reader()) {
+            if(bag.length >= numberCellBag){
+                serverMessage("Túi đồ đã đầy.");
                 return;
             }
-            getService().addItem(item);
+            byte number = ds.readByte();
+            if (number <= 0) {
+                serverMessage("Số lượng vật phẩm không hợp lệ.");
+                return;
+            }
+
+            int availableSlots = numberCellBag - bag.length;
+            if (number > availableSlots) {
+                serverMessage("Không đủ chỗ trong túi đồ.");
+                return;
+            }
+
+            List<Item> newItems = new ArrayList<>();
+            for (int i = 0; i < number; i++) {
+                String itemId = ds.readUTF();
+
+                if (!isValidItem(itemId)) {
+                    serverMessage("Vật phẩm không hợp lệ: " + itemId);
+                    return;
+                }
+                newItems.add(new Item(itemId));
+            }
+            bag = mergeBag(bag, newItems.toArray(new Item[0]));
+            int res = DbManager.getInstance().updateBag(Utils.bagToString(bag), this.id);
+
+            if (res <= 0) {
+                serverMessage("Có lỗi xảy ra khi lưu túi đồ.");
+                return;
+            }
+            serverMessage("bạn nhận được " + number + " vật phẩm.");
         } catch (Exception ex) {
             Log.error("add item: " + ex.getMessage(), ex);
         }
     }
 
+    private Item[] mergeBag(Item[] existingBag, Item[] newItems) {
+        int totalLength = existingBag.length + newItems.length;
+        Item[] mergedBag = new Item[totalLength];
+
+        System.arraycopy(existingBag, 0, mergedBag, 0, existingBag.length);
+
+        System.arraycopy(newItems, 0, mergedBag, existingBag.length, newItems.length);
+
+        return mergedBag;
+    }
+
+
+
 
     public synchronized void addCoin(Message message) {
-        try(DataInputStream ds = message.reader()) {
+        try (DataInputStream ds = message.reader()) {
             long coin = ds.readLong();
             if (coin == 0) {
                 return;
             }
-            if(this.coin < -coin){
-                 serverMessage("Số xu deo đủ.");
-                 return;
+            if (this.coin < -coin) {
+                serverMessage("Số xu deo đủ.");
+                return;
             }
 
             long pre = this.coin;
@@ -102,7 +152,7 @@ public class Char {
             }
 
             int res = DbManager.getInstance().updateCoin(this.coin, this.id);
-            if(res == 0 || res == -1){
+            if (res == 0 || res == -1) {
                 this.coin = pre;
                 serverMessage("Có lỗi xảy ra.");
                 return;

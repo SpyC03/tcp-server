@@ -3,8 +3,12 @@ package com.duynguyen.utils;
 import java.io.IOException;
 import java.net.Socket;
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Random;
+import java.util.stream.Collectors;
+
+import com.duynguyen.model.Item;
 import com.duynguyen.server.Server;
 
 public class Utils {
@@ -31,6 +35,15 @@ public class Utils {
         }
         return 1;
     }
+
+    public static String bagToString(Item[] bag) {
+        return "[" + Arrays.stream(bag)
+                .map(item -> "\"" + item.itemId() + "\"")
+                .collect(Collectors.joining(",")) + "]";
+    }
+
+
+
 
     public static int nextInt(int max) {
         return rand.nextInt(max);

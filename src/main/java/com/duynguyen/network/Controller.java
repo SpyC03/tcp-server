@@ -126,6 +126,9 @@ public class Controller implements IMessageHandler {
                     case CMD.ME_UP_COIN_BAG:
                         user.character.addCoin(ms);
                         break;
+                    case CMD.ITEM_BAG_ADD:
+                        user.character.addItem(ms);
+                        break;
                     default:
                         Log.info(String.format("Client %d: messageInGame: %d", client.id, command));
                         break;
