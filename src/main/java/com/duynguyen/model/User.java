@@ -243,8 +243,9 @@ public class User {
 
 
     public synchronized boolean load() {
-        try (PreparedStatement stmt = DbManager.getInstance().getConnection(DbManager.LOAD_CHAR).prepareStatement(
-                SQLStatement.LOAD_PLAYER, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        try (Connection conn = DbManager.getInstance().getConnection(DbManager.LOAD_CHAR);
+             PreparedStatement stmt = conn.prepareStatement(
+                     SQLStatement.LOAD_PLAYER, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         ) {
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -278,7 +279,7 @@ public class User {
     }
 
 
-    public synchronized void loadPlayerData(){
+    public synchronized void loadPlayerData() {
         try {
             if (MainEntry.isStop) {
                 service.serverDialog("Hệ thống Máy chủ bảo trì vui lòng thoát game để tránh mất dữ liệu.");
@@ -287,7 +288,7 @@ public class User {
             if (!load()) {
                 session.disconnect();
             }
-            if(character != null) {
+            if (character != null) {
                 Log.info("load player data: " + character.name);
                 character.user = this;
                 Controller controller = (Controller) session.getMessageHandler();
@@ -303,8 +304,6 @@ public class User {
     }
 
 
-
-
     @SuppressWarnings("unchecked")
     public void saveData() {
         try {
@@ -317,8 +316,8 @@ public class User {
                     String jList = list.toJSONString();
 
                     try (Connection conn = DbManager.getInstance().getConnection(DbManager.SAVE_DATA)) {
-                        try(PreparedStatement stmt = conn.prepareStatement(
-                                SQLStatement.SAVE_DATA)){
+                        try (PreparedStatement stmt = conn.prepareStatement(
+                                SQLStatement.SAVE_DATA)) {
                             stmt.setInt(1, 0);
                             stmt.setLong(2, this.lastAttendance);
                             stmt.setString(3, jList);
@@ -326,8 +325,8 @@ public class User {
                             stmt.executeUpdate();
                         }
 
-                        try(PreparedStatement stmt = conn.prepareStatement(
-                                SQLStatement.SAVE_DATA_PLAYER)){
+                        try (PreparedStatement stmt = conn.prepareStatement(
+                                SQLStatement.SAVE_DATA_PLAYER)) {
                             stmt.setInt(1, this.character.energy);
                             stmt.setInt(2, this.character.maxEnergy);
                             stmt.setLong(3, this.character.exp);
@@ -384,8 +383,9 @@ public class User {
 
 
     public void lock() {
-        try (PreparedStatement stmt = DbManager.getInstance().getConnection(DbManager.SAVE_DATA)
-                .prepareStatement(SQLStatement.LOCK_ACCOUNT)) {
+        try (Connection conn = DbManager.getInstance().getConnection(DbManager.SAVE_DATA);
+             PreparedStatement stmt = conn
+                     .prepareStatement(SQLStatement.LOCK_ACCOUNT)) {
             stmt.setInt(2, this.id);
             stmt.executeUpdate();
             session.disconnect();

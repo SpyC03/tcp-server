@@ -10,4 +10,5 @@ public class SQLStatement {
     public static final String CREATE_PLAYER = "INSERT INTO players(`user_id`, `name`, `coin`, `bag`) VALUES (?, ?, ?, ?)";
     public static final String LOAD_INIT_CHARACTER = "SELECT `players`.`id`, `players`.`name`, `players`.`online`, `players`.`exp` FROM `players` WHERE `players`.`user_id` = ?";
     public static final String LOCK_ACCOUNT = "UPDATE `users` SET `status` = 0 WHERE `id` = ? LIMIT 1;";
+    public static final String UPDATE_COIN = "UPDATE `players` SET `coin` = `coin` + ? WHERE `id` = ? LIMIT 1;";
 }

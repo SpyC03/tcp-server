@@ -1,22 +1,17 @@
 package com.duynguyen.model;
 
-import com.duynguyen.constants.SQLStatement;
 import com.duynguyen.database.jdbc.DbManager;
+import com.duynguyen.network.Message;
 import com.duynguyen.network.Service;
-import com.duynguyen.server.ServerManager;
+import com.duynguyen.server.Server;
+import com.duynguyen.utils.Log;
 import com.duynguyen.utils.Utils;
 import lombok.Getter;
 import lombok.Setter;
-import com.duynguyen.utils.Log;
-import com.duynguyen.server.Server;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONValue;
 
-import java.sql.PreparedStatement;
+import java.io.DataInputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.concurrent.locks.ReadWriteLock;
 
 public class Char {
     public int id;
@@ -27,13 +22,13 @@ public class Char {
     @Setter
     public Service service;
     public boolean isCleaned;
-    public boolean isOnline;
     public int energy, maxEnergy;
     public int level;
     public long exp, maxExp;
     public int potentialPoints;
     public Item[] bag;
     public byte numberCellBag;
+    public long lastUpdateEnergy;
 
 
     public Char(int id) {
@@ -89,20 +84,35 @@ public class Char {
     }
 
 
-    public synchronized void addCoin(long coin) {
-        if (coin == 0) {
-            return;
+    public synchronized void addCoin(Message message) {
+        try(DataInputStream ds = message.reader()) {
+            long coin = ds.readLong();
+            if (coin == 0) {
+                return;
+            }
+            if(this.coin < -coin){
+                 serverMessage("Số xu deo đủ.");
+                 return;
+            }
+
+            long pre = this.coin;
+            this.coin += coin;
+            if (this.coin < 0) {
+                this.coin = 0;
+            }
+
+            int res = DbManager.getInstance().updateCoin(this.coin, this.id);
+            if(res == 0 || res == -1){
+                this.coin = pre;
+                serverMessage("Có lỗi xảy ra.");
+                return;
+            }
+
+            getService().addCoin((int) (this.coin - pre));
+            updateWithBalanceMessage();
+        } catch (Exception e) {
+            Log.error("add coin: " + e.getMessage(), e);
         }
-        long pre = this.coin;
-
-
-        this.coin += coin;
-        if (this.coin < 0) {
-            this.coin = 0;
-        }
-
-        getService().addXu((int) (this.coin - pre));
-        updateWithBalanceMessage();
     }
 
     public void updateWithBalanceMessage() {

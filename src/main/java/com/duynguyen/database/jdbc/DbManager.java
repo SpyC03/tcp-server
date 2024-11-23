@@ -1,5 +1,6 @@
 package com.duynguyen.database.jdbc;
 
+import com.duynguyen.constants.SQLStatement;
 import com.duynguyen.server.Config;
 import com.duynguyen.utils.Log;
 import com.zaxxer.hikari.HikariConfig;
@@ -158,5 +159,9 @@ public class DbManager {
             Log.error("update() EXCEPTION: " + e.getMessage(), e);
             return -1;
         }
+    }
+
+    public int updateCoin(long coin, int id) {
+        return update(SQLStatement.UPDATE_COIN, coin, id);
     }
 }

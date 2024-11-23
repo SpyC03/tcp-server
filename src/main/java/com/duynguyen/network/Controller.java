@@ -32,7 +32,6 @@ public class Controller implements IMessageHandler {
         if (mss != null) {
             try {
                 int command = mss.getCommand();
-                Log.info("CMD: " + command);
                 if (command != CMD.NOT_IN_GAME && command != CMD.IN_GAME) {
                     if (user == null || user.isCleaned) {
                         return;
@@ -64,7 +63,6 @@ public class Controller implements IMessageHandler {
         if (mss != null) {
             try(DataInputStream dis = mss.reader()) {
                 byte command = dis.readByte();
-                Log.info("Sub command: " + command);
                 switch (command) {
                     case CMD.LOGIN:
                         client.login(mss);
@@ -76,8 +74,6 @@ public class Controller implements IMessageHandler {
                     case CMD.CLIENT_INFO:
                         client.setClientType(mss);
                         break;
-
-
 
                     case CMD.REGISTER:
                         client.register(mss);
@@ -126,6 +122,9 @@ public class Controller implements IMessageHandler {
                     case CMD.CREATE_PLAYER:
                         Log.info("Client " + client.id + ": CREATE_PLAYER");
                         user.createCharacter(ms);
+                        break;
+                    case CMD.ME_UP_COIN_BAG:
+                        user.character.addCoin(ms);
                         break;
                     default:
                         Log.info(String.format("Client %d: messageInGame: %d", client.id, command));

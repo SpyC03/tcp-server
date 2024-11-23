@@ -197,7 +197,6 @@ public class Session implements ISession {
             }
             dos.write(data);
             dos.flush();
-            Log.info("send message: " + m.getCommand() + " success");
         } catch (Exception e) {
             Log.error("doSendMessage err", e);
         }
@@ -510,7 +509,6 @@ public class Session implements ISession {
                             if (!sendKeyComplete) {
                                 sendKey();
                             } else {
-                                Log.info("process message");
                                 processMessage(message);
                             }
                         } catch (Exception e) {

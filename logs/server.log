@@ -3163,3 +3163,372 @@ java.lang.NullPointerException: Cannot read field "id" because "user" is null
 [2024-11-23 02:27:11 INFO  (Thread-28)] - saving data user: duy
 [2024-11-23 02:27:11 INFO  (Thread-29)] - Client 2: Mất kết nối!
 [2024-11-23 02:27:11 INFO  (Thread-28)] - Client 1: Mất kết nối!
+[2024-11-23 10:45:35 INFO  (main)] - Config - db.maxconnections: 40
+[2024-11-23 10:45:35 INFO  (main)] - Config - db.password: 12332145
+[2024-11-23 10:45:35 INFO  (main)] - Config - server.log.display: false
+[2024-11-23 10:45:35 INFO  (main)] - Config - db.idleTimeout: 120000
+[2024-11-23 10:45:35 INFO  (main)] - Config - websocket.port: 8020
+[2024-11-23 10:45:35 INFO  (main)] - Config - db.driver: com.mysql.cj.jdbc.Driver
+[2024-11-23 10:45:35 INFO  (main)] - Config - db.user: root
+[2024-11-23 10:45:35 INFO  (main)] - Config - db.dbname: game
+[2024-11-23 10:45:35 INFO  (main)] - Config - db.connectionTimeout: 300000
+[2024-11-23 10:45:35 INFO  (main)] - Config - db.port: 3306
+[2024-11-23 10:45:35 INFO  (main)] - Config - server.port: 1609
+[2024-11-23 10:45:35 INFO  (main)] - Config - db.minconnections: 30
+[2024-11-23 10:45:35 INFO  (main)] - Config - websocket.host: ws://localhost
+[2024-11-23 10:45:35 INFO  (main)] - Config - db.host: localhost
+[2024-11-23 10:45:35 INFO  (main)] - Config - game.login.limit: 2
+[2024-11-23 10:45:35 INFO  (main)] - Config - db.leakDetectionThreshold: 300000
+[2024-11-23 10:45:35 INFO  (main)] - HikariPool-1 - Starting...
+[2024-11-23 10:45:35 INFO  (main)] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1fde5d22
+[2024-11-23 10:45:35 INFO  (main)] - HikariPool-1 - Start completed.
+[2024-11-23 10:45:35 INFO  (main)] - DB Connection Pool has been created.
+[2024-11-23 10:45:35 INFO  (Thread-0)] - Start socket port=1609
+[2024-11-23 10:45:35 INFO  (Thread-0)] - Start server Success!
+[2024-11-23 10:45:35 INFO  (Thread-1)] - Connect to socket server successfully!
+[2024-11-23 10:45:46 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-23 10:45:46 INFO  (Thread-0)] - New session: 1
+[2024-11-23 10:45:46 INFO  (reader: /127.0.0.1:49492)] - readMessage: 2
+[2024-11-23 10:45:46 INFO  (reader: /127.0.0.1:49492)] - sending message: 2
+[2024-11-23 10:45:46 INFO  (reader: /127.0.0.1:49492)] - send message: 2 success
+[2024-11-23 10:45:46 INFO  (reader: /127.0.0.1:49492)] - readMessage: -104
+[2024-11-23 10:45:46 INFO  (reader: /127.0.0.1:49492)] - process message
+[2024-11-23 10:45:46 INFO  (reader: /127.0.0.1:49492)] - CMD: -1
+[2024-11-23 10:45:46 INFO  (reader: /127.0.0.1:49492)] - Sub command: -1
+[2024-11-23 10:45:46 INFO  (reader: /127.0.0.1:49492)] - Client id: 1 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-23 10:45:46 INFO  (reader: /127.0.0.1:49492)] - id: 1, status: 1, activated: 1
+[2024-11-23 10:45:46 INFO  (sender: /127.0.0.1:49492)] - sending message: -1
+[2024-11-23 10:45:46 INFO  (sender: /127.0.0.1:49492)] - send message: -1 success
+[2024-11-23 10:45:47 INFO  (reader: /127.0.0.1:49492)] - readMessage: -98
+[2024-11-23 10:45:47 INFO  (reader: /127.0.0.1:49492)] - process message
+[2024-11-23 10:45:47 INFO  (reader: /127.0.0.1:49492)] - CMD: -1
+[2024-11-23 10:45:47 INFO  (reader: /127.0.0.1:49492)] - Sub command: -7
+[2024-11-23 10:45:47 INFO  (reader: /127.0.0.1:49492)] - load player data: duynguyen
+[2024-11-23 10:45:47 INFO  (duynguyen)] - Client 1: đăng nhập thành công
+[2024-11-23 10:45:47 INFO  (duynguyen)] - sending message: 1
+[2024-11-23 10:45:47 INFO  (duynguyen)] - send message: 1 success
+[2024-11-23 10:45:47 INFO  (duynguyen)] - readMessage: 48
+[2024-11-23 10:45:47 INFO  (duynguyen)] - process message
+[2024-11-23 10:45:47 INFO  (duynguyen)] - CMD: 1
+[2024-11-23 10:45:47 INFO  (duynguyen)] - Client 1: messageInGame: -2
+[2024-11-23 10:45:51 INFO  (duynguyen)] - saving data user: duy
+[2024-11-23 10:45:51 INFO  (duynguyen)] - Client 1: Mất kết nối!
+[2024-11-23 10:46:47 INFO  (main)] - Config - db.maxconnections: 40
+[2024-11-23 10:46:47 INFO  (main)] - Config - db.password: 12332145
+[2024-11-23 10:46:47 INFO  (main)] - Config - server.log.display: false
+[2024-11-23 10:46:47 INFO  (main)] - Config - db.idleTimeout: 120000
+[2024-11-23 10:46:47 INFO  (main)] - Config - websocket.port: 8020
+[2024-11-23 10:46:47 INFO  (main)] - Config - db.driver: com.mysql.cj.jdbc.Driver
+[2024-11-23 10:46:47 INFO  (main)] - Config - db.user: root
+[2024-11-23 10:46:47 INFO  (main)] - Config - db.dbname: game
+[2024-11-23 10:46:47 INFO  (main)] - Config - db.connectionTimeout: 300000
+[2024-11-23 10:46:47 INFO  (main)] - Config - db.port: 3306
+[2024-11-23 10:46:47 INFO  (main)] - Config - server.port: 1609
+[2024-11-23 10:46:47 INFO  (main)] - Config - db.minconnections: 30
+[2024-11-23 10:46:47 INFO  (main)] - Config - websocket.host: ws://localhost
+[2024-11-23 10:46:47 INFO  (main)] - Config - db.host: localhost
+[2024-11-23 10:46:47 INFO  (main)] - Config - game.login.limit: 2
+[2024-11-23 10:46:47 INFO  (main)] - Config - db.leakDetectionThreshold: 300000
+[2024-11-23 10:46:47 INFO  (main)] - HikariPool-1 - Starting...
+[2024-11-23 10:46:48 INFO  (main)] - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1fde5d22
+[2024-11-23 10:46:48 INFO  (main)] - HikariPool-1 - Start completed.
+[2024-11-23 10:46:48 INFO  (main)] - DB Connection Pool has been created.
+[2024-11-23 10:46:48 INFO  (Thread-0)] - Start socket port=1609
+[2024-11-23 10:46:48 INFO  (Thread-0)] - Start server Success!
+[2024-11-23 10:46:48 INFO  (Thread-1)] - Connect to socket server successfully!
+[2024-11-23 10:48:06 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-23 10:48:06 INFO  (Thread-0)] - New session: 1
+[2024-11-23 10:48:06 INFO  (reader: /127.0.0.1:49742)] - readMessage: 2
+[2024-11-23 10:48:06 INFO  (reader: /127.0.0.1:49742)] - sending message: 2
+[2024-11-23 10:48:06 INFO  (reader: /127.0.0.1:49742)] - send message: 2 success
+[2024-11-23 10:48:06 INFO  (reader: /127.0.0.1:49742)] - readMessage: -104
+[2024-11-23 10:48:06 INFO  (reader: /127.0.0.1:49742)] - process message
+[2024-11-23 10:48:06 INFO  (reader: /127.0.0.1:49742)] - CMD: -1
+[2024-11-23 10:48:06 INFO  (reader: /127.0.0.1:49742)] - Sub command: -1
+[2024-11-23 10:48:06 INFO  (reader: /127.0.0.1:49742)] - Client id: 1 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-23 10:48:06 INFO  (reader: /127.0.0.1:49742)] - id: 1, status: 1, activated: 1
+[2024-11-23 10:48:06 INFO  (sender: /127.0.0.1:49742)] - sending message: -1
+[2024-11-23 10:48:06 INFO  (sender: /127.0.0.1:49742)] - send message: -1 success
+[2024-11-23 10:48:06 INFO  (reader: /127.0.0.1:49742)] - readMessage: -98
+[2024-11-23 10:48:06 INFO  (reader: /127.0.0.1:49742)] - process message
+[2024-11-23 10:48:06 INFO  (reader: /127.0.0.1:49742)] - CMD: -1
+[2024-11-23 10:48:06 INFO  (reader: /127.0.0.1:49742)] - Sub command: -7
+[2024-11-23 10:48:06 INFO  (reader: /127.0.0.1:49742)] - load player data: duynguyen
+[2024-11-23 10:48:06 INFO  (duynguyen)] - Client 1: đăng nhập thành công
+[2024-11-23 10:48:06 INFO  (duynguyen)] - sending message: 1
+[2024-11-23 10:48:06 INFO  (duynguyen)] - send message: 1 success
+[2024-11-23 10:48:06 INFO  (duynguyen)] - readMessage: 50
+[2024-11-23 10:48:06 INFO  (duynguyen)] - process message
+[2024-11-23 10:48:06 INFO  (duynguyen)] - CMD: 1
+[2024-11-23 10:48:06 INFO  (duynguyen)] - sending message: -4
+[2024-11-23 10:48:06 INFO  (duynguyen)] - send message: -4 success
+[2024-11-23 10:49:57 INFO  (duynguyen)] - saving data user: duy
+[2024-11-23 10:49:57 INFO  (duynguyen)] - Client 1: Mất kết nối!
+[2024-11-23 10:50:03 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-23 10:50:03 INFO  (Thread-0)] - New session: 2
+[2024-11-23 10:50:03 INFO  (reader: /127.0.0.1:57674)] - readMessage: 2
+[2024-11-23 10:50:03 INFO  (reader: /127.0.0.1:57674)] - sending message: 2
+[2024-11-23 10:50:03 INFO  (reader: /127.0.0.1:57674)] - send message: 2 success
+[2024-11-23 10:50:03 INFO  (reader: /127.0.0.1:57674)] - readMessage: -104
+[2024-11-23 10:50:03 INFO  (reader: /127.0.0.1:57674)] - process message
+[2024-11-23 10:50:03 INFO  (reader: /127.0.0.1:57674)] - CMD: -1
+[2024-11-23 10:50:03 INFO  (reader: /127.0.0.1:57674)] - Sub command: -1
+[2024-11-23 10:50:03 INFO  (reader: /127.0.0.1:57674)] - Client id: 2 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-23 10:50:03 INFO  (reader: /127.0.0.1:57674)] - id: 1, status: 1, activated: 1
+[2024-11-23 10:50:03 INFO  (sender: /127.0.0.1:57674)] - sending message: -1
+[2024-11-23 10:50:03 INFO  (sender: /127.0.0.1:57674)] - send message: -1 success
+[2024-11-23 10:50:03 INFO  (reader: /127.0.0.1:57674)] - readMessage: -54
+[2024-11-23 10:50:03 INFO  (reader: /127.0.0.1:57674)] - process message
+[2024-11-23 10:50:03 INFO  (reader: /127.0.0.1:57674)] - CMD: -1
+[2024-11-23 10:50:03 INFO  (reader: /127.0.0.1:57674)] - Sub command: -7
+[2024-11-23 10:50:03 INFO  (reader: /127.0.0.1:57674)] - load player data: duynguyen
+[2024-11-23 10:50:03 INFO  (duynguyen)] - Client 2: đăng nhập thành công
+[2024-11-23 10:50:03 INFO  (duynguyen)] - sending message: 1
+[2024-11-23 10:50:03 INFO  (duynguyen)] - send message: 1 success
+[2024-11-23 10:50:03 INFO  (duynguyen)] - readMessage: 96
+[2024-11-23 10:50:03 INFO  (duynguyen)] - process message
+[2024-11-23 10:50:03 INFO  (duynguyen)] - CMD: 1
+[2024-11-23 10:50:03 INFO  (duynguyen)] - add coin: 10000
+[2024-11-23 10:50:03 INFO  (duynguyen)] - sending message: -4
+[2024-11-23 10:50:03 INFO  (duynguyen)] - send message: -4 success
+[2024-11-23 10:51:03 INFO  (duynguyen)] - saving data user: duy
+[2024-11-23 10:51:03 INFO  (duynguyen)] - Client 2: Mất kết nối!
+[2024-11-23 10:51:15 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-23 10:51:15 INFO  (Thread-0)] - New session: 3
+[2024-11-23 10:51:16 INFO  (reader: /127.0.0.1:38034)] - readMessage: 2
+[2024-11-23 10:51:16 INFO  (reader: /127.0.0.1:38034)] - sending message: 2
+[2024-11-23 10:51:16 INFO  (reader: /127.0.0.1:38034)] - send message: 2 success
+[2024-11-23 10:51:16 INFO  (reader: /127.0.0.1:38034)] - readMessage: -104
+[2024-11-23 10:51:16 INFO  (reader: /127.0.0.1:38034)] - process message
+[2024-11-23 10:51:16 INFO  (reader: /127.0.0.1:38034)] - CMD: -1
+[2024-11-23 10:51:16 INFO  (reader: /127.0.0.1:38034)] - Sub command: -1
+[2024-11-23 10:51:16 INFO  (reader: /127.0.0.1:38034)] - Client id: 3 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-23 10:51:16 INFO  (reader: /127.0.0.1:38034)] - id: 1, status: 1, activated: 1
+[2024-11-23 10:51:16 INFO  (sender: /127.0.0.1:38034)] - sending message: -1
+[2024-11-23 10:51:16 INFO  (sender: /127.0.0.1:38034)] - send message: -1 success
+[2024-11-23 10:51:16 INFO  (reader: /127.0.0.1:38034)] - readMessage: -98
+[2024-11-23 10:51:16 INFO  (reader: /127.0.0.1:38034)] - process message
+[2024-11-23 10:51:16 INFO  (reader: /127.0.0.1:38034)] - CMD: -1
+[2024-11-23 10:51:16 INFO  (reader: /127.0.0.1:38034)] - Sub command: -7
+[2024-11-23 10:51:16 INFO  (reader: /127.0.0.1:38034)] - load player data: duynguyen
+[2024-11-23 10:51:16 INFO  (duynguyen)] - Client 3: đăng nhập thành công
+[2024-11-23 10:51:16 INFO  (duynguyen)] - sending message: 1
+[2024-11-23 10:51:16 INFO  (duynguyen)] - send message: 1 success
+[2024-11-23 10:51:16 INFO  (duynguyen)] - readMessage: 50
+[2024-11-23 10:51:16 INFO  (duynguyen)] - process message
+[2024-11-23 10:51:16 INFO  (duynguyen)] - CMD: 1
+[2024-11-23 10:51:16 INFO  (duynguyen)] - add coin: 10000
+[2024-11-23 10:51:16 INFO  (duynguyen)] - current coin: -269000
+[2024-11-23 10:51:16 INFO  (duynguyen)] - sending message: -4
+[2024-11-23 10:51:16 INFO  (duynguyen)] - send message: -4 success
+[2024-11-23 10:53:06 WARN  (HikariPool-1:housekeeper)] - Connection leak detection triggered for com.mysql.cj.jdbc.ConnectionImpl@1fde5d22 on thread reader: /127.0.0.1:49742, stack trace follows
+java.lang.Exception: Apparent connection leak detected
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:99) ~[HikariCP-6.1.0.jar:?]
+	at com.duynguyen.database.jdbc.DbManager.getConnection(DbManager.java:71) ~[main/:?]
+	at com.duynguyen.database.jdbc.DbManager.getConnection(DbManager.java:84) ~[main/:?]
+	at com.duynguyen.model.User.load(Unknown Source) ~[main/:?]
+	at com.duynguyen.model.User.loadPlayerData(Unknown Source) ~[main/:?]
+	at com.duynguyen.network.Session.clientOk(Unknown Source) ~[main/:?]
+	at com.duynguyen.network.Controller.messageNotInGame(Unknown Source) ~[main/:?]
+	at com.duynguyen.network.Controller.onMessage(Unknown Source) ~[main/:?]
+	at com.duynguyen.network.Session.processMessage(Unknown Source) ~[main/:?]
+	at com.duynguyen.network.Session$MessageCollector.run(Unknown Source) ~[main/:?]
+	at java.base/java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-23 10:55:03 WARN  (HikariPool-1:housekeeper)] - Connection leak detection triggered for com.mysql.cj.jdbc.ConnectionImpl@63336d50 on thread reader: /127.0.0.1:57674, stack trace follows
+java.lang.Exception: Apparent connection leak detected
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:99) ~[HikariCP-6.1.0.jar:?]
+	at com.duynguyen.database.jdbc.DbManager.getConnection(DbManager.java:71) ~[main/:?]
+	at com.duynguyen.database.jdbc.DbManager.getConnection(DbManager.java:84) ~[main/:?]
+	at com.duynguyen.model.User.load(Unknown Source) ~[main/:?]
+	at com.duynguyen.model.User.loadPlayerData(Unknown Source) ~[main/:?]
+	at com.duynguyen.network.Session.clientOk(Unknown Source) ~[main/:?]
+	at com.duynguyen.network.Controller.messageNotInGame(Unknown Source) ~[main/:?]
+	at com.duynguyen.network.Controller.onMessage(Unknown Source) ~[main/:?]
+	at com.duynguyen.network.Session.processMessage(Unknown Source) ~[main/:?]
+	at com.duynguyen.network.Session$MessageCollector.run(Unknown Source) ~[main/:?]
+	at java.base/java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-23 10:56:16 WARN  (HikariPool-1:housekeeper)] - Connection leak detection triggered for com.mysql.cj.jdbc.ConnectionImpl@6ddaa126 on thread reader: /127.0.0.1:38034, stack trace follows
+java.lang.Exception: Apparent connection leak detected
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:99) ~[HikariCP-6.1.0.jar:?]
+	at com.duynguyen.database.jdbc.DbManager.getConnection(DbManager.java:71) ~[main/:?]
+	at com.duynguyen.database.jdbc.DbManager.getConnection(DbManager.java:84) ~[main/:?]
+	at com.duynguyen.model.User.load(Unknown Source) ~[main/:?]
+	at com.duynguyen.model.User.loadPlayerData(Unknown Source) ~[main/:?]
+	at com.duynguyen.network.Session.clientOk(Unknown Source) ~[main/:?]
+	at com.duynguyen.network.Controller.messageNotInGame(Unknown Source) ~[main/:?]
+	at com.duynguyen.network.Controller.onMessage(Unknown Source) ~[main/:?]
+	at com.duynguyen.network.Session.processMessage(Unknown Source) ~[main/:?]
+	at com.duynguyen.network.Session$MessageCollector.run(Unknown Source) ~[main/:?]
+	at java.base/java.lang.Thread.run(Thread.java:840) [?:?]
+[2024-11-23 10:58:01 INFO  (duynguyen)] - saving data user: duy
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@7190adb1 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@2467f84a (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@50ee3452 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@1934e207 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@388863fb (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@23b67908 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@25b9588 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@3cc17b1e (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@47ad50c6 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@57430f02 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@9ea27b7 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@3ec4b41f (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@1342f861 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@5c36ce14 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@4b99dba (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@13b444ca (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@164ad2d4 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@18cb0b4c (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@3e403689 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@fe3b79f (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@4fff18c5 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@faefb1d (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@3065701f (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@222866c3 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@15266b73 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@6d280cd9 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 WARN  (duynguyen)] - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@76d66ceb (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+[2024-11-23 10:58:01 INFO  (duynguyen)] - Client 3: Mất kết nối!
+[2024-11-23 10:58:06 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-23 10:58:06 INFO  (Thread-0)] - New session: 4
+[2024-11-23 10:58:06 INFO  (reader: /127.0.0.1:49672)] - readMessage: 2
+[2024-11-23 10:58:06 INFO  (reader: /127.0.0.1:49672)] - sending message: 2
+[2024-11-23 10:58:06 INFO  (reader: /127.0.0.1:49672)] - send message: 2 success
+[2024-11-23 10:58:06 INFO  (reader: /127.0.0.1:49672)] - readMessage: -104
+[2024-11-23 10:58:06 INFO  (reader: /127.0.0.1:49672)] - process message
+[2024-11-23 10:58:06 INFO  (reader: /127.0.0.1:49672)] - CMD: -1
+[2024-11-23 10:58:06 INFO  (reader: /127.0.0.1:49672)] - Sub command: -1
+[2024-11-23 10:58:06 INFO  (reader: /127.0.0.1:49672)] - Client id: 4 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-23 10:58:06 INFO  (reader: /127.0.0.1:49672)] - id: 1, status: 1, activated: 1
+[2024-11-23 10:58:06 INFO  (sender: /127.0.0.1:49672)] - sending message: -1
+[2024-11-23 10:58:06 INFO  (sender: /127.0.0.1:49672)] - send message: -1 success
+[2024-11-23 10:58:06 INFO  (reader: /127.0.0.1:49672)] - readMessage: -98
+[2024-11-23 10:58:06 INFO  (reader: /127.0.0.1:49672)] - process message
+[2024-11-23 10:58:06 INFO  (reader: /127.0.0.1:49672)] - CMD: -1
+[2024-11-23 10:58:06 INFO  (reader: /127.0.0.1:49672)] - Sub command: -7
+[2024-11-23 10:58:06 INFO  (reader: /127.0.0.1:49672)] - load player data: duynguyen
+[2024-11-23 10:58:06 INFO  (duynguyen)] - sending message: 1
+[2024-11-23 10:58:06 INFO  (duynguyen)] - Client 4: đăng nhập thành công
+[2024-11-23 10:58:06 INFO  (duynguyen)] - send message: 1 success
+[2024-11-23 10:58:06 INFO  (duynguyen)] - readMessage: 54
+[2024-11-23 10:58:06 INFO  (duynguyen)] - process message
+[2024-11-23 10:58:06 INFO  (duynguyen)] - CMD: 1
+[2024-11-23 10:58:06 INFO  (duynguyen)] - add coin: 10000
+[2024-11-23 10:58:06 INFO  (duynguyen)] - current coin: 0
+[2024-11-23 10:58:06 INFO  (duynguyen)] - sending message: -2
+[2024-11-23 10:58:06 INFO  (duynguyen)] - send message: -2 success
+[2024-11-23 10:58:06 INFO  (duynguyen)] - sending message: 1
+[2024-11-23 10:58:06 INFO  (duynguyen)] - send message: 1 success
+[2024-11-23 10:58:06 INFO  (duynguyen)] - sending message: -4
+[2024-11-23 10:58:06 INFO  (duynguyen)] - send message: -4 success
+[2024-11-23 10:58:22 INFO  (Thread-0)] - IP: 127.0.0.1 number: 1
+[2024-11-23 10:58:22 INFO  (Thread-0)] - New session: 5
+[2024-11-23 10:58:22 INFO  (reader: /127.0.0.1:47186)] - readMessage: 2
+[2024-11-23 10:58:22 INFO  (reader: /127.0.0.1:47186)] - sending message: 2
+[2024-11-23 10:58:22 INFO  (reader: /127.0.0.1:47186)] - send message: 2 success
+[2024-11-23 10:58:22 INFO  (reader: /127.0.0.1:47186)] - readMessage: -104
+[2024-11-23 10:58:22 INFO  (reader: /127.0.0.1:47186)] - process message
+[2024-11-23 10:58:22 INFO  (reader: /127.0.0.1:47186)] - CMD: -1
+[2024-11-23 10:58:22 INFO  (reader: /127.0.0.1:47186)] - Sub command: -1
+[2024-11-23 10:58:22 INFO  (reader: /127.0.0.1:47186)] - Client id: 5 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-23 10:58:22 INFO  (reader: /127.0.0.1:47186)] - id: 1, status: 1, activated: 1
+[2024-11-23 10:58:22 INFO  (duynguyen)] - sending message: -4
+[2024-11-23 10:58:22 INFO  (duynguyen)] - send message: -4 success
+[2024-11-23 10:58:22 INFO  (reader: /127.0.0.1:47186)] - Client 5: Đăng nhập thất bại.
+[2024-11-23 10:58:22 INFO  (sender: /127.0.0.1:47186)] - sending message: -4
+[2024-11-23 10:58:22 INFO  (sender: /127.0.0.1:47186)] - send message: -4 success
+[2024-11-23 10:58:23 INFO  (Thread-581)] - saving data user: duy
+[2024-11-23 10:58:23 INFO  (Thread-582)] - Client 5: Mất kết nối!
+[2024-11-23 10:58:23 INFO  (Thread-581)] - Client 4: Mất kết nối!
+[2024-11-23 10:58:35 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-23 10:58:35 INFO  (Thread-0)] - New session: 6
+[2024-11-23 10:58:35 INFO  (reader: /127.0.0.1:53842)] - readMessage: 2
+[2024-11-23 10:58:35 INFO  (reader: /127.0.0.1:53842)] - sending message: 2
+[2024-11-23 10:58:35 INFO  (reader: /127.0.0.1:53842)] - send message: 2 success
+[2024-11-23 10:58:35 INFO  (reader: /127.0.0.1:53842)] - readMessage: -104
+[2024-11-23 10:58:35 INFO  (reader: /127.0.0.1:53842)] - process message
+[2024-11-23 10:58:35 INFO  (reader: /127.0.0.1:53842)] - CMD: -1
+[2024-11-23 10:58:35 INFO  (reader: /127.0.0.1:53842)] - Sub command: -1
+[2024-11-23 10:58:35 INFO  (reader: /127.0.0.1:53842)] - Client id: 6 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-23 10:58:35 INFO  (reader: /127.0.0.1:53842)] - id: 1, status: 1, activated: 1
+[2024-11-23 10:58:35 INFO  (sender: /127.0.0.1:53842)] - sending message: -1
+[2024-11-23 10:58:35 INFO  (sender: /127.0.0.1:53842)] - send message: -1 success
+[2024-11-23 10:58:35 INFO  (reader: /127.0.0.1:53842)] - readMessage: -98
+[2024-11-23 10:58:35 INFO  (reader: /127.0.0.1:53842)] - process message
+[2024-11-23 10:58:35 INFO  (reader: /127.0.0.1:53842)] - CMD: -1
+[2024-11-23 10:58:35 INFO  (reader: /127.0.0.1:53842)] - Sub command: -7
+[2024-11-23 10:58:35 INFO  (reader: /127.0.0.1:53842)] - load player data: duynguyen
+[2024-11-23 10:58:35 INFO  (duynguyen)] - Client 6: đăng nhập thành công
+[2024-11-23 10:58:35 INFO  (duynguyen)] - sending message: 1
+[2024-11-23 10:58:35 INFO  (duynguyen)] - send message: 1 success
+[2024-11-23 10:58:35 INFO  (duynguyen)] - readMessage: 52
+[2024-11-23 10:58:35 INFO  (duynguyen)] - process message
+[2024-11-23 10:58:35 INFO  (duynguyen)] - CMD: 1
+[2024-11-23 10:58:35 INFO  (duynguyen)] - sending message: -4
+[2024-11-23 10:58:35 INFO  (duynguyen)] - send message: -4 success
+[2024-11-23 10:59:15 INFO  (duynguyen)] - saving data user: duy
+[2024-11-23 10:59:15 INFO  (duynguyen)] - Client 6: Mất kết nối!
+[2024-11-23 10:59:18 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-23 10:59:18 INFO  (Thread-0)] - New session: 7
+[2024-11-23 10:59:18 INFO  (reader: /127.0.0.1:45692)] - readMessage: 2
+[2024-11-23 10:59:18 INFO  (reader: /127.0.0.1:45692)] - sending message: 2
+[2024-11-23 10:59:18 INFO  (reader: /127.0.0.1:45692)] - send message: 2 success
+[2024-11-23 10:59:18 INFO  (reader: /127.0.0.1:45692)] - readMessage: -104
+[2024-11-23 10:59:19 INFO  (reader: /127.0.0.1:45692)] - process message
+[2024-11-23 10:59:19 INFO  (reader: /127.0.0.1:45692)] - CMD: -1
+[2024-11-23 10:59:19 INFO  (reader: /127.0.0.1:45692)] - Sub command: -1
+[2024-11-23 10:59:19 INFO  (reader: /127.0.0.1:45692)] - Client id: 7 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-23 10:59:19 INFO  (reader: /127.0.0.1:45692)] - id: 1, status: 1, activated: 1
+[2024-11-23 10:59:19 INFO  (sender: /127.0.0.1:45692)] - sending message: -1
+[2024-11-23 10:59:19 INFO  (sender: /127.0.0.1:45692)] - send message: -1 success
+[2024-11-23 10:59:19 INFO  (reader: /127.0.0.1:45692)] - readMessage: -98
+[2024-11-23 10:59:19 INFO  (reader: /127.0.0.1:45692)] - process message
+[2024-11-23 10:59:19 INFO  (reader: /127.0.0.1:45692)] - CMD: -1
+[2024-11-23 10:59:19 INFO  (reader: /127.0.0.1:45692)] - Sub command: -7
+[2024-11-23 10:59:19 INFO  (reader: /127.0.0.1:45692)] - load player data: duynguyen
+[2024-11-23 10:59:19 INFO  (duynguyen)] - Client 7: đăng nhập thành công
+[2024-11-23 10:59:19 INFO  (duynguyen)] - sending message: 1
+[2024-11-23 10:59:19 INFO  (duynguyen)] - send message: 1 success
+[2024-11-23 10:59:19 INFO  (duynguyen)] - readMessage: 54
+[2024-11-23 10:59:19 INFO  (duynguyen)] - process message
+[2024-11-23 10:59:19 INFO  (duynguyen)] - CMD: 1
+[2024-11-23 10:59:19 INFO  (duynguyen)] - add coin: 10000
+[2024-11-23 10:59:19 INFO  (duynguyen)] - current coin: 10000
+[2024-11-23 10:59:19 INFO  (duynguyen)] - sending message: -2
+[2024-11-23 10:59:19 INFO  (duynguyen)] - send message: -2 success
+[2024-11-23 10:59:19 INFO  (duynguyen)] - sending message: 1
+[2024-11-23 10:59:19 INFO  (duynguyen)] - send message: 1 success
+[2024-11-23 10:59:19 INFO  (duynguyen)] - sending message: -4
+[2024-11-23 10:59:19 INFO  (duynguyen)] - send message: -4 success
+[2024-11-23 11:04:15 INFO  (duynguyen)] - saving data user: duy
+[2024-11-23 11:04:15 INFO  (duynguyen)] - Client 7: Mất kết nối!
+[2024-11-23 11:04:18 INFO  (Thread-0)] - IP: 127.0.0.1 number: 0
+[2024-11-23 11:04:18 INFO  (Thread-0)] - New session: 8
+[2024-11-23 11:04:18 INFO  (reader: /127.0.0.1:33096)] - readMessage: 2
+[2024-11-23 11:04:18 INFO  (reader: /127.0.0.1:33096)] - sending message: 2
+[2024-11-23 11:04:18 INFO  (reader: /127.0.0.1:33096)] - send message: 2 success
+[2024-11-23 11:04:18 INFO  (reader: /127.0.0.1:33096)] - readMessage: -104
+[2024-11-23 11:04:18 INFO  (reader: /127.0.0.1:33096)] - process message
+[2024-11-23 11:04:18 INFO  (reader: /127.0.0.1:33096)] - CMD: -1
+[2024-11-23 11:04:18 INFO  (reader: /127.0.0.1:33096)] - Sub command: -1
+[2024-11-23 11:04:18 INFO  (reader: /127.0.0.1:33096)] - Client id: 8 - username: duy - version: 1.8.8 - random: random - server: 0
+[2024-11-23 11:04:18 INFO  (reader: /127.0.0.1:33096)] - id: 1, status: 1, activated: 1
+[2024-11-23 11:04:18 INFO  (sender: /127.0.0.1:33096)] - sending message: -1
+[2024-11-23 11:04:18 INFO  (sender: /127.0.0.1:33096)] - send message: -1 success
+[2024-11-23 11:04:18 INFO  (reader: /127.0.0.1:33096)] - readMessage: -98
+[2024-11-23 11:04:18 INFO  (reader: /127.0.0.1:33096)] - process message
+[2024-11-23 11:04:18 INFO  (reader: /127.0.0.1:33096)] - CMD: -1
+[2024-11-23 11:04:18 INFO  (reader: /127.0.0.1:33096)] - Sub command: -7
+[2024-11-23 11:04:18 INFO  (reader: /127.0.0.1:33096)] - load player data: duynguyen
+[2024-11-23 11:04:18 INFO  (duynguyen)] - Client 8: đăng nhập thành công
+[2024-11-23 11:04:18 INFO  (duynguyen)] - sending message: 1
+[2024-11-23 11:04:18 INFO  (duynguyen)] - send message: 1 success
+[2024-11-23 11:04:18 INFO  (duynguyen)] - readMessage: 52
+[2024-11-23 11:04:18 INFO  (duynguyen)] - process message
+[2024-11-23 11:04:18 INFO  (duynguyen)] - CMD: 1
+[2024-11-23 11:04:18 INFO  (duynguyen)] - sending message: 1
+[2024-11-23 11:04:18 INFO  (duynguyen)] - send message: 1 success
+[2024-11-23 11:04:18 INFO  (duynguyen)] - sending message: 1
+[2024-11-23 11:04:18 INFO  (duynguyen)] - send message: 1 success
+[2024-11-23 11:04:18 INFO  (duynguyen)] - sending message: -4
+[2024-11-23 11:04:18 INFO  (duynguyen)] - send message: -4 success

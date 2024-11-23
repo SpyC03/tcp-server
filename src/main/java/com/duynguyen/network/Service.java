@@ -60,9 +60,9 @@ public class Service extends AbsService{
         }
     }
 
-    public void addXu(int coin) {
+    public void addCoin(int coin) {
         try {
-            Message ms = new Message(CMD.ME_UP_COIN_BAG);
+            Message ms = messageInGame(CMD.ME_UP_COIN_BAG);
             DataOutputStream ds = ms.writer();
             ds.writeInt(coin);
             ds.flush();
