@@ -1,5 +1,6 @@
 package com.duynguyen.model;
 
+import com.duynguyen.constants.SQLStatement;
 import com.duynguyen.database.jdbc.DbManager;
 import com.duynguyen.network.Message;
 import com.duynguyen.network.Service;
@@ -10,6 +11,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.DataInputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,6 +34,7 @@ public class Char {
     public Item[] bag;
     public byte numberCellBag;
     public long lastUpdateEnergy;
+    public Wave waveState;
 
 
     public Char(int id) {
@@ -193,6 +197,35 @@ public class Char {
 
     public void serverMessage(String text) {
         getService().serverMessage(text);
+    }
+
+    public void updateWaveData(Message mss) {
+        try(DataInputStream dis = mss.reader()) {
+            int wave = dis.readInt();
+            int exp = dis.readInt();
+            byte num = dis.readByte();
+            Item[] inventory = new Item[num];
+            for (int i = 0; i < num; i++) {
+                inventory[i] = new Item(dis.readUTF());
+            }
+                try(Connection conn = DbManager.getInstance().getConnection(DbManager.SAVE_DATA);
+                    PreparedStatement smt = conn.prepareStatement(SQLStatement.SAVE_WAVE_DATA)
+                ) {
+                    smt.setInt(1, exp);
+                    smt.setInt(2, wave);
+                    smt.setString(3, Utils.bagToString(inventory));
+                    smt.setInt(4, id);
+                    smt.executeUpdate();
+                    serverMessage("Đã cập nhật dữ liệu wave.");
+                } catch (Exception e) {
+                    Log.error("save wave data: " + e.getMessage(), e);
+                }
+            waveState.wave = wave;
+            waveState.exp = exp;
+            waveState.inventory = inventory;
+        } catch (Exception e) {
+            Log.error("create wave data: " + e.getMessage(), e);
+        }
     }
 
 

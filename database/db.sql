@@ -46,6 +46,22 @@ CREATE TABLE `players`
     KEY             `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
+CREATE TABLE `waves`
+(
+    `id`         int(11) NOT NULL,
+    `user_id`    int(11) NOT NULL,
+    `wave`       int(11) NOT NULL,
+    `exp`        bigint(20) NOT NULL DEFAULT 0,
+    `inventory`  longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    `created_at` timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    KEY         `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+
+ALTER TABLE `waves`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
 CREATE TABLE `items`(
     `id`     int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;

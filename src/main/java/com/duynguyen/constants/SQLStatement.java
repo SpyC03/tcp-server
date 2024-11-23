@@ -12,4 +12,7 @@ public class SQLStatement {
     public static final String LOCK_ACCOUNT = "UPDATE `users` SET `status` = 0 WHERE `id` = ? LIMIT 1;";
     public static final String UPDATE_COIN = "UPDATE `players` SET `coin` = `coin` + ? WHERE `id` = ? LIMIT 1;";
     public static final String UPDATE_BAG = "UPDATE `players` SET `bag` = ? WHERE `id` = ? LIMIT 1;";
+    public static final String LOAD_WAVE_DATA = "SELECT * FROM `waves` WHERE `user_id` = ? LIMIT 1;";
+    public static final String SAVE_WAVE_DATA = "UPDATE `waves` SET `exp` = ?, `wave` = ?, `inventory` = ? WHERE `user_id` = ? LIMIT 1;";
+    public static final String CREATE_WAVE_DATA = "INSERT INTO `waves`(`user_id`, `exp`, `wave`, `inventory`) VALUES (?, ?, ?, ?);";
 }

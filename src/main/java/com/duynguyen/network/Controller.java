@@ -132,6 +132,9 @@ public class Controller implements IMessageHandler {
                     case CMD.ITEM_BAG_CLEAR:
                         user.character.removeItem(ms);
                         break;
+                    case CMD.PLAYER_SAVE_WAVE:
+                        user.character.updateWaveData(ms);
+                        break;
                     default:
                         Log.info(String.format("Client %d: messageInGame: %d", client.id, command));
                         break;

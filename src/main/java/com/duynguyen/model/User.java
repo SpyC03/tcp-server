@@ -173,7 +173,8 @@ public class User {
                 service.serverMessage("Tên tài khoản không hợp lệ.");
                 return;
             }
-            try (PreparedStatement stmt = DbManager.getInstance().getConnection(DbManager.SAVE_DATA)
+            try (Connection conn = DbManager.getInstance().getConnection(DbManager.SAVE_DATA);
+                    PreparedStatement stmt = conn
                     .prepareStatement(SQLStatement.REGISTER)) {
                 stmt.setString(1, username);
                 stmt.setString(2, password);
@@ -230,6 +231,14 @@ public class User {
                     insertStmt.setString(4, "[]");
                     insertStmt.executeUpdate();
                 }
+
+                try(PreparedStatement stmt = conn.prepareStatement(SQLStatement.CREATE_WAVE_DATA)){
+                    stmt.setInt(1, this.id);
+                    stmt.setInt(2, 0);
+                    stmt.setInt(3, 0);
+                    stmt.setString(4, "[]");
+                    stmt.executeUpdate();
+                }
             } catch (SQLException e) {
                 Log.error("create char SQL error", e);
                 service.serverDialog("Tạo nhân vật thất bại do lỗi hệ thống!");
@@ -244,35 +253,65 @@ public class User {
 
     public synchronized boolean load() {
         try (Connection conn = DbManager.getInstance().getConnection(DbManager.LOAD_CHAR);
-             PreparedStatement stmt = conn.prepareStatement(
-                     SQLStatement.LOAD_PLAYER, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
         ) {
-            stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    character = new Char(id);
-                    character.loadDisplay(rs);
-                    character.coin = rs.getLong("coin");
-                    character.maxEnergy = rs.getInt("max_energy");
-                    character.energy = rs.getInt("energy");
-                    character.potentialPoints = rs.getInt("point");
-                    character.numberCellBag = rs.getByte("number_cell_bag");
-                    character.exp = rs.getLong("exp");
-                    JSONArray array = (JSONArray) JSONValue.parse(rs.getString("bag"));
-                    if (array != null) {
-                        character.bag = new Item[array.size()];
-                        int size = array.size();
-                        for (int i = 0; i < size; i++) {
-                            Item item = new Item((String) array.get(i));
-                            character.bag[i] = item;
+            try (PreparedStatement stmt = conn.prepareStatement(
+                    SQLStatement.LOAD_PLAYER, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
+
+                stmt.setInt(1, id);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        character = new Char(id);
+                        character.loadDisplay(rs);
+                        character.coin = rs.getLong("coin");
+                        character.maxEnergy = rs.getInt("max_energy");
+                        character.energy = rs.getInt("energy");
+                        character.potentialPoints = rs.getInt("point");
+                        character.numberCellBag = rs.getByte("number_cell_bag");
+                        character.exp = rs.getLong("exp");
+                        JSONArray array = (JSONArray) JSONValue.parse(rs.getString("bag"));
+                        if (array != null) {
+                            character.bag = new Item[array.size()];
+                            int size = array.size();
+                            for (int i = 0; i < size; i++) {
+                                Item item = new Item((String) array.get(i));
+                                character.bag[i] = item;
+                            }
                         }
                     }
                 }
-                return true;
+                return loadWaveData();
             }
         } catch (SQLException ex) {
             Log.error("load char data : " + ex.getMessage(), ex);
 
+        }
+        return false;
+    }
+
+    public boolean loadWaveData() {
+        try (Connection conn = DbManager.getInstance().getConnection(DbManager.LOAD_CHAR);
+             PreparedStatement smt = conn.prepareStatement(SQLStatement.LOAD_WAVE_DATA)) {
+            smt.setInt(1, id);
+            ResultSet rs = smt.executeQuery();
+            if(rs.next()) {
+                Wave wave = new Wave(id);
+                wave.exp = rs.getInt("exp");
+                wave.wave = rs.getInt("wave");
+                JSONArray array = (JSONArray) JSONValue.parse(rs.getString("inventory"));
+                if (array != null) {
+                    wave.inventory = new Item[array.size()];
+                    int size = array.size();
+                    for (int i = 0; i < size; i++) {
+                        Item item = new Item((String) array.get(i));
+                        wave.inventory[i] = item;
+                    }
+                }
+                this.character.waveState = wave;
+            }
+            return true;
+        } catch (Exception e) {
+            Log.error("load wave data err: " + e.getMessage(), e);
         }
         return false;
     }
@@ -288,7 +327,9 @@ public class User {
                 session.disconnect();
             }
             if (character != null) {
-                Log.info("load player data: " + character.name);
+                if(character.waveState != null){
+                    Log.info("load player data: " + character.waveState.inventory.length);
+                }
                 character.user = this;
                 Controller controller = (Controller) session.getMessageHandler();
                 controller.set_char(character);
@@ -304,7 +345,7 @@ public class User {
 
 
     @SuppressWarnings("unchecked")
-    public void saveData() {
+    public synchronized void saveData() {
         try {
             Log.info("saving data user: " + username);
             if (isLoadFinish && !saving) {
@@ -335,12 +376,27 @@ public class User {
                             JSONArray array = new JSONArray();
                             for (Item item : this.character.bag) {
                                 if (item != null) {
-                                    array.add(item.toString());
+                                    array.add(item.itemId());
                                 }
                             }
                             stmt.setString(7, array.toJSONString());
                             stmt.setInt(8, 0); //online
                             stmt.setInt(9, this.character.id);
+                        }
+
+                        try (PreparedStatement stmt = conn.prepareStatement(
+                                SQLStatement.SAVE_WAVE_DATA)) {
+                            stmt.setInt(1, this.character.waveState.exp);
+                            stmt.setInt(2, this.character.waveState.wave);
+                            JSONArray array = new JSONArray();
+                            for (Item item : this.character.waveState.inventory) {
+                                if (item != null) {
+                                    array.add(item.itemId());
+                                }
+                            }
+                            stmt.setString(3, array.toJSONString());
+                            stmt.setInt(4, this.character.id);
+                            stmt.executeUpdate();
                         }
 
                     }

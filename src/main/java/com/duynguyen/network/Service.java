@@ -136,6 +136,17 @@ public class Service extends AbsService{
             ds.writeInt(_char.energy);
             ds.writeInt(_char.maxEnergy);
             ds.writeByte(_char.level);
+
+            //wave data
+            ds.writeInt(_char.waveState.wave);
+            ds.writeInt(_char.waveState.exp);
+            byte num1 = (byte) _char.waveState.inventory.length;
+            ds.writeByte(num1);
+            for(int i = 0; i < num1; i++) {
+                String itemId = _char.waveState.inventory[i].itemId();
+                Log.info("itemId: " + itemId);
+                ds.writeUTF(itemId);
+            }
         } catch (Exception e) {
             Log.error("charInfo err: " + e.getMessage(), e);
         }
