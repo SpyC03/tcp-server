@@ -129,6 +129,9 @@ public class Controller implements IMessageHandler {
                     case CMD.ITEM_BAG_ADD:
                         user.character.addItem(ms);
                         break;
+                    case CMD.UPDATE_ENERGY:
+                        user.character.useEnergy(ms);
+                        break;
                     case CMD.ITEM_BAG_CLEAR:
                         user.character.removeItem(ms);
                         break;

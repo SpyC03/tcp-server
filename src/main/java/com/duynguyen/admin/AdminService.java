@@ -23,5 +23,6 @@ public class AdminService {
         sb.append("- Memory usage (JVM): ")
                 .append(String.format("%.1f/%.1f MB (%d%%)", used / mb, total / mb, (used * 100 / total))).append("\n");
         u.getService().showAlert("Thông tin", sb.toString());
+        sb.setLength(0);
     }
 }

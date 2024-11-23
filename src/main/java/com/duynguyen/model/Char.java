@@ -28,12 +28,12 @@ public class Char {
     public Service service;
     public boolean isCleaned;
     public int energy, maxEnergy;
+    public long lastUpdateEnergy;
     public int level;
     public long exp, maxExp;
     public int potentialPoints;
     public Item[] bag;
     public byte numberCellBag;
-    public long lastUpdateEnergy;
     public Wave waveState;
 
 
@@ -63,9 +63,9 @@ public class Char {
     }
 
     public void updateEveryFiveMinutes() {
-        //update energy
+        energy = getCurrentEnergy();
         if (energy < maxEnergy) {
-            energy++;
+            lastUpdateEnergy = System.currentTimeMillis();
             service.updateEnergy();
         }
     }
@@ -106,7 +106,7 @@ public class Char {
 
     public void addItem(Message message) {
         try (DataInputStream ds = message.reader()) {
-            if(bag.length >= numberCellBag){
+            if (bag.length >= numberCellBag) {
                 serverMessage("Túi đồ đã đầy.");
                 return;
             }
@@ -157,8 +157,6 @@ public class Char {
     }
 
 
-
-
     public synchronized void addCoin(Message message) {
         try (DataInputStream ds = message.reader()) {
             long coin = ds.readLong();
@@ -200,7 +198,7 @@ public class Char {
     }
 
     public void updateWaveData(Message mss) {
-        try(DataInputStream dis = mss.reader()) {
+        try (DataInputStream dis = mss.reader()) {
             int wave = dis.readInt();
             int exp = dis.readInt();
             byte num = dis.readByte();
@@ -208,18 +206,18 @@ public class Char {
             for (int i = 0; i < num; i++) {
                 inventory[i] = new Item(dis.readUTF());
             }
-                try(Connection conn = DbManager.getInstance().getConnection(DbManager.SAVE_DATA);
-                    PreparedStatement smt = conn.prepareStatement(SQLStatement.SAVE_WAVE_DATA)
-                ) {
-                    smt.setInt(1, exp);
-                    smt.setInt(2, wave);
-                    smt.setString(3, Utils.bagToString(inventory));
-                    smt.setInt(4, id);
-                    smt.executeUpdate();
-                    serverMessage("Đã cập nhật dữ liệu wave.");
-                } catch (Exception e) {
-                    Log.error("save wave data: " + e.getMessage(), e);
-                }
+            try (Connection conn = DbManager.getInstance().getConnection(DbManager.SAVE_DATA);
+                 PreparedStatement smt = conn.prepareStatement(SQLStatement.SAVE_WAVE_DATA)
+            ) {
+                smt.setInt(1, exp);
+                smt.setInt(2, wave);
+                smt.setString(3, Utils.bagToString(inventory));
+                smt.setInt(4, id);
+                smt.executeUpdate();
+                serverMessage("Đã cập nhật dữ liệu wave.");
+            } catch (Exception e) {
+                Log.error("save wave data: " + e.getMessage(), e);
+            }
             waveState.wave = wave;
             waveState.exp = exp;
             waveState.inventory = inventory;
@@ -248,4 +246,25 @@ public class Char {
         }
     }
 
+    public int getCurrentEnergy() {
+        long now = System.currentTimeMillis();
+        long timePassed = now - lastUpdateEnergy;
+        int energyGained = (int) (timePassed / (5 * 60 * 1000));
+        return Math.min(energy + energyGained, maxEnergy);
+    }
+
+    public void useEnergy(Message mss) {
+        try(DataInputStream dis = mss.reader()) {
+            int amount = dis.readInt();
+            int currentEnergy = getCurrentEnergy();
+            if (currentEnergy < amount) {
+                serverMessage("Không đủ năng lượng.");
+                return;
+            }
+            energy = currentEnergy + amount;
+            lastUpdateEnergy = System.currentTimeMillis();
+        } catch (Exception e) {
+            Log.error("use energy: " + e.getMessage(), e);
+        }
+    }
 }

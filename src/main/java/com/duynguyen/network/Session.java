@@ -157,7 +157,6 @@ public class Session implements ISession {
     */
     private void doSendMessage(Message m) {
         try {
-            Log.info("sending message: " + m.getCommand());
             byte[] data = m.getData();
             byte value = m.getCommand();
             int num = data.length;

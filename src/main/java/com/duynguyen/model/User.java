@@ -42,6 +42,7 @@ public class User {
     public boolean isCleaned;
     public ArrayList<String> IPAddress;
     private boolean saving;
+    public long lastTimeUpdateEnergy;
 
 
     public User(Session client, String username, String password, String random) {
@@ -82,7 +83,6 @@ public class User {
             this.lastAttendance = (long) map.get("last_attendance_at");
             this.status = (byte) ((int) map.get("status"));
             this.activated = (byte) ((int) map.get("activated"));
-            Log.info("id: " + id + ", status: " + status + ", activated: " + activated);
             Object obj = map.get("ban_until");
             if (obj != null) {
                 this.banUntil = (Timestamp) obj;
@@ -229,6 +229,7 @@ public class User {
                     insertStmt.setString(2, name);
                     insertStmt.setLong(3, 1000);
                     insertStmt.setString(4, "[]");
+                    insertStmt.setLong(5, System.currentTimeMillis());
                     insertStmt.executeUpdate();
                 }
 
@@ -269,6 +270,10 @@ public class User {
                         character.potentialPoints = rs.getInt("point");
                         character.numberCellBag = rs.getByte("number_cell_bag");
                         character.exp = rs.getLong("exp");
+                        character.lastUpdateEnergy = rs.getLong("last_update_energy");
+                        character.energy = character.getCurrentEnergy();
+                        Log.info("lastUpdateEnergy: " + character.lastUpdateEnergy + ", energy: " + character.energy);
+
                         JSONArray array = (JSONArray) JSONValue.parse(rs.getString("bag"));
                         if (array != null) {
                             character.bag = new Item[array.size()];
@@ -327,9 +332,6 @@ public class User {
                 session.disconnect();
             }
             if (character != null) {
-                if(character.waveState != null){
-                    Log.info("load player data: " + character.waveState.inventory.length);
-                }
                 character.user = this;
                 Controller controller = (Controller) session.getMessageHandler();
                 controller.set_char(character);
@@ -381,7 +383,9 @@ public class User {
                             }
                             stmt.setString(7, array.toJSONString());
                             stmt.setInt(8, 0); //online
-                            stmt.setInt(9, this.character.id);
+                            stmt.setLong(9, this.character.lastUpdateEnergy);
+                            stmt.setInt(10, this.character.id);
+                            stmt.executeUpdate();
                         }
 
                         try (PreparedStatement stmt = conn.prepareStatement(
@@ -448,6 +452,4 @@ public class User {
             Log.error("lock user: " + username);
         }
     }
-
-
 }

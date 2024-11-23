@@ -22,7 +22,7 @@ public class CMD {
     public static final byte PLAYER_UP_EXP = -4;
     public static final byte PLAYER_LOAD_ALL = 4;
     public static final byte CREATE_PLAYER = -5;
-    public static final byte UPDATE_ENERGY = -5;
+    public static final byte UPDATE_ENERGY = 5;
     public static final byte PLAYER_LOAD_ENERGY = 6;
     public static final byte PLAYER_SAVE_WAVE = -6;
 

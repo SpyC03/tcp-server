@@ -118,16 +118,17 @@ public class Service extends AbsService{
     }
 
     public void updateEnergy(){
-            Message ms = messageInGame(CMD.UPDATE_ENERGY);
+            Message ms = messageInGame(CMD.PLAYER_LOAD_ENERGY);
         try (DataOutputStream ds = ms.writer();){
             ds.writeInt(player.energy);
+            ds.writeInt(player.maxEnergy);
+            ds.writeLong(player.lastUpdateEnergy);
             ds.flush();
             sendMessage(ms);
             ms.cleanup();
         } catch (Exception ex) {
             Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     public void charInfo(Message ms, Char _char) {
@@ -144,7 +145,6 @@ public class Service extends AbsService{
             ds.writeByte(num1);
             for(int i = 0; i < num1; i++) {
                 String itemId = _char.waveState.inventory[i].itemId();
-                Log.info("itemId: " + itemId);
                 ds.writeUTF(itemId);
             }
         } catch (Exception e) {
@@ -220,13 +220,8 @@ public class Service extends AbsService{
     }
 
     public void update() {
-        this.threadUpdateChar = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                updatePlayer();
-            }
-
-        });
+        this.threadUpdateChar = new Thread(this::updatePlayer);
+        this.threadUpdateChar.start();
     }
 
     public void updatePlayer() {
@@ -236,7 +231,7 @@ public class Service extends AbsService{
                 lock.readLock().lock();
                 try {
                     long now = System.currentTimeMillis();
-                    boolean isUpdateEveryFiveSecond = ((now - this.lastUpdateEveryFiveSecond) >= 1000);
+                    boolean isUpdateEveryFiveSecond = ((now - this.lastUpdateEveryFiveSecond) >= 5000);
                     if (isUpdateEveryFiveSecond) {
                         this.lastUpdateEveryFiveSecond = now;
                     }
