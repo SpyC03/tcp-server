@@ -1,5 +1,20 @@
 package com.duynguyen.model;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONValue;
+
 import com.duynguyen.constants.SQLStatement;
 import com.duynguyen.database.jdbc.DbManager;
 import com.duynguyen.network.Controller;
@@ -10,19 +25,8 @@ import com.duynguyen.server.MainEntry;
 import com.duynguyen.server.ServerManager;
 import com.duynguyen.utils.Log;
 import com.duynguyen.utils.Utils;
-import lombok.Getter;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONValue;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import lombok.Getter;
 
 public class User {
     public Session session;

@@ -54,7 +54,6 @@ public class Session implements ISession {
     public boolean isSetClientType;
     public static HashMap<String, Lock> lockLogins = new HashMap<>();
     public boolean isClosed;
-    private int versionInt;
 
     public Session(Socket sc, int id) throws IOException {
         Log.info("New session: " + id);
@@ -313,12 +312,6 @@ public class Session implements ISession {
             Log.info(String.format("Client id: %d - username: %s - version: %s - random: %s - server: %d", id,
                     username, version, random, server));
             this.version = version;
-            String ver = version.replaceAll("\\.", "");
-            try {
-                versionInt = Integer.parseInt(ver);
-            } catch (NumberFormatException e) {
-                Log.info("versionInt: " + e.getMessage());
-            }
             if (!connected || MainEntry.isStop || !sendKeyComplete) {
                 disconnect();
                 return;
