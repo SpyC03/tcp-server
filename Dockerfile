@@ -9,18 +9,21 @@ FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
+# Copy the JAR from builder stage
 COPY --from=builder /app/build/libs/*.jar app.jar
 
+# Create logs directory and set permissions
 RUN mkdir /app/logs
 RUN chmod 777 /app/logs
 
-COPY run.sh ./run.sh
-RUN chmod +x ./run.sh
+# Copy run.sh and config.properties from host to container
+COPY run.sh .
+RUN chmod +x run.sh
 
-COPY config.properties ./config.properties
+COPY config.properties .
 
+# Create non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
 
 ENTRYPOINT ["./run.sh"]
-

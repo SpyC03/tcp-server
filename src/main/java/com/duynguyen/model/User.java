@@ -70,10 +70,10 @@ public class User {
                 Log.info("Login admin");
                 return;
             }
-            Pattern p = Pattern.compile("^[a-zA-Z0-9]+$");
+            Pattern p = Pattern.compile("^[a-zA-Z0-9]+$|^[a-zA-Z0-9._%+-]+@gmail\\.com$");
             Matcher m1 = p.matcher(username);
             if (!m1.find()) {
-                Log.info("Tên tài khoản có kí tự lạ.");
+                service.serverMessage("Tên tài khoản có kí tự lạ.");
                 return;
             }
             HashMap<String, Object> map = getUserMap();
