@@ -1,7 +1,7 @@
 services:
   game:
     build: .
-    image: duynguyen03/game:v2
+    image: duynguyen03/game:v1
     ports:
       - "1609:1609"
     depends_on:
@@ -12,6 +12,7 @@ services:
 
   db:
     image: mariadb:10.4.24
+    container_name: mariadb
     environment:
       MYSQL_ROOT_PASSWORD: 12332145
       MYSQL_DATABASE: game

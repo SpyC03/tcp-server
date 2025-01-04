@@ -16,14 +16,10 @@ COPY --from=builder /app/build/libs/*.jar app.jar
 RUN mkdir /app/logs
 RUN chmod 777 /app/logs
 
-# Copy run.sh and config.properties from host to container
-COPY run.sh .
-RUN chmod +x run.sh
-
 COPY config.properties .
 
 # Create non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
 
-ENTRYPOINT ["./run.sh"]
+ENTRYPOINT ["java", "-server", "-jar", "-Dfile.encoding=UTF-8", "-Xms2G", "-Xmx2G", "app.jar"]

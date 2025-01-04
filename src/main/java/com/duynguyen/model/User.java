@@ -171,7 +171,7 @@ public class User {
             }
 
             //check username is valid
-            Pattern p = Pattern.compile("^[a-zA-Z0-9]+$");
+            Pattern p = Pattern.compile("^[a-zA-Z0-9]+$|^[a-zA-Z0-9._%+-]+@gmail\\.com$");
             Matcher m1 = p.matcher(username);
             if (!m1.find()) {
                 service.serverMessage("Tên tài khoản không hợp lệ.");
@@ -214,7 +214,6 @@ public class User {
             }
 
             try (Connection conn = DbManager.getInstance().getConnection(DbManager.SAVE_DATA)) {
-                // Kiểm tra xem tên đã tồn tại hay chưa
                 try (PreparedStatement checkStmt = conn.prepareStatement(
                         SQLStatement.CHECK_PLAYER_EXIST)) {
                     checkStmt.setString(1, name);
@@ -225,8 +224,6 @@ public class User {
                         }
                     }
                 }
-
-                // Tạo nhân vật mới
                 try (PreparedStatement insertStmt = conn.prepareStatement(
                         SQLStatement.CREATE_PLAYER)) {
                     insertStmt.setInt(1, this.id);
@@ -244,6 +241,7 @@ public class User {
                     stmt.setString(4, "[]");
                     stmt.executeUpdate();
                 }
+                Log.info("Tạo nhân vật thành công");
             } catch (SQLException e) {
                 Log.error("create char SQL error", e);
                 service.serverDialog("Tạo nhân vật thất bại do lỗi hệ thống!");
