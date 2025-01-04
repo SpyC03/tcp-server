@@ -154,6 +154,7 @@ public class Service extends AbsService{
 
     public void serverMessage(String text) {
         try {
+            Log.info("Server message: " + text);
             Message ms = new Message(CMD.SERVER_MESSAGE);
             DataOutputStream ds = ms.writer();
             ds.writeUTF(text);
