@@ -1,1 +1,1 @@
-java -server -jar -Dfile.encoding=UTF-8 -Xms2G -Xmx2G build/libs/tcp-server-1.0-SNAPSHOT-all.jar
+java -server -jar -Dfile.encoding=UTF-8 -Xms2G -Xmx2G app.jar
