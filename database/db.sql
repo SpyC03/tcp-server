@@ -12,6 +12,7 @@ CREATE TABLE `users`
     `status`             int(11) DEFAULT 0 COMMENT '0: Deactivate, 1: Active, 2: Block',
     `activated`          tinyint(4) NOT NULL DEFAULT 0,
     `online`             tinyint(1) NOT NULL DEFAULT 0,
+    `role`               tinyint(4) NOT NULL DEFAULT 0 COMMENT '0: User, 1: Admin',
     `last_attendance_at` bigint(20) DEFAULT 0,
     `ip_address`         longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
     `ban_until`          timestamp NULL DEFAULT NULL,

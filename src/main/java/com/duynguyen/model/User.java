@@ -46,7 +46,6 @@ public class User {
     public boolean isCleaned;
     public ArrayList<String> IPAddress;
     private boolean saving;
-    public long lastTimeUpdateEnergy;
 
 
     public User(Session client, String username, String password, String random) {
@@ -314,7 +313,10 @@ public class User {
                         wave.inventory[i] = item;
                     }
                 }
-                this.character.waveState = wave;
+                if(character != null) {
+                    character.waveState = wave;
+                }
+
             }
             return true;
         } catch (Exception e) {
@@ -371,6 +373,12 @@ public class User {
 
                         try (PreparedStatement stmt = conn.prepareStatement(
                                 SQLStatement.SAVE_DATA_PLAYER)) {
+                            if(character.energy < 0) {
+                                character.energy = 0;
+                            }
+                            if(character.energy > character.maxEnergy) {
+                                character.energy = character.maxEnergy;
+                            }
                             stmt.setInt(1, this.character.energy);
                             stmt.setInt(2, this.character.maxEnergy);
                             stmt.setLong(3, this.character.exp);

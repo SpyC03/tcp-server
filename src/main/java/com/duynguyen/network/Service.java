@@ -3,19 +3,17 @@ package com.duynguyen.network;
 import com.duynguyen.constants.CMD;
 import com.duynguyen.model.Char;
 import com.duynguyen.model.Item;
-import com.duynguyen.server.ServerManager;
+import com.duynguyen.server.Server;
 import com.duynguyen.utils.Log;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.duynguyen.server.Server;
 
 
 public class Service extends AbsService{
@@ -25,7 +23,7 @@ public class Service extends AbsService{
     public Char player;
 
     public Thread threadUpdateChar;
-    public long lastUpdateEveryFiveSecond, lastUpdateEveryFiveMinutes;
+    public long lastUpdateEveryFiveSecond, lastUpdateEveryMinute;
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     public Service(Session session) {
@@ -237,27 +235,27 @@ public class Service extends AbsService{
                         this.lastUpdateEveryFiveSecond = now;
                     }
 
-                    boolean isUpdateEveryFiveMinutes = ((now - this.lastUpdateEveryFiveMinutes) >= 300000);
-                    if (isUpdateEveryFiveMinutes) {
-                        this.lastUpdateEveryFiveMinutes = now;
+                    boolean isUpdateEveryMinute = ((now - this.lastUpdateEveryMinute) >= 60000);
+                    if (isUpdateEveryMinute) {
+                        this.lastUpdateEveryMinute = now;
                     }
 
-                    if (isUpdateEveryFiveSecond || isUpdateEveryFiveMinutes) {
-                        List<Char> chars = ServerManager.getChars();
-                        for (Char _char : chars) {
-                            if (_char != null) {
-                                if (isUpdateEveryFiveSecond) {
-                                    _char.updateEveryFiveSecond();
+                    if (isUpdateEveryFiveSecond || isUpdateEveryMinute) {
+                        if (player != null) {
+                            lock.writeLock().lock();
+                            try {
+                                player.updateEveryFiveSecond();
+                                if (isUpdateEveryMinute) {
+                                    player.updateEveryMinute();
                                 }
-                                if (isUpdateEveryFiveMinutes) {
-                                    _char.updateEveryFiveMinutes();
-                                }
+                            } finally {
+                                lock.writeLock().unlock();
                             }
                         }
                     }
-                } finally {
-                    lock.readLock().unlock();
-                }
+                    } finally {
+                        lock.readLock().unlock();
+                    }
 
                 long l2 = System.currentTimeMillis() - l1;
                 if (l2 >= 1000L) {

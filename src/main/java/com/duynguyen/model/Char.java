@@ -62,10 +62,9 @@ public class Char {
         }
     }
 
-    public void updateEveryFiveMinutes() {
+    public void updateEveryMinute() {
         energy = getCurrentEnergy();
         if (energy < maxEnergy) {
-            lastUpdateEnergy = System.currentTimeMillis();
             service.updateEnergy();
         }
     }
@@ -246,10 +245,11 @@ public class Char {
         }
     }
 
-    public int getCurrentEnergy() {
+    public synchronized int getCurrentEnergy() {
         long now = System.currentTimeMillis();
         long timePassed = now - lastUpdateEnergy;
-        int energyGained = (int) (timePassed / (5 * 60 * 1000));
+        int energyGained = (int) (timePassed / (60 * 1000));
+        lastUpdateEnergy = now;
         return Math.min(energy + energyGained, maxEnergy);
     }
 
