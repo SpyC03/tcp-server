@@ -74,7 +74,6 @@ public class Controller implements IMessageHandler {
                     case CMD.CLIENT_INFO:
                         client.setClientType(mss);
                         break;
-
                     case CMD.REGISTER:
                         client.register(mss);
                         break;
@@ -120,7 +119,6 @@ public class Controller implements IMessageHandler {
                 byte command = dis.readByte();
                 switch(command) {
                     case CMD.CREATE_PLAYER:
-                        Log.info("Client " + client.id + ": CREATE_PLAYER");
                         user.createCharacter(ms);
                         break;
                     case CMD.ME_UP_COIN_BAG:

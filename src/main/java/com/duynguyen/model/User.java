@@ -59,6 +59,7 @@ public class User {
     public void cleanUp() {
         this.isCleaned = true;
         this.session = null;
+        this.service.stopUpdate();
         this.service = null;
         Log.debug("clean user " + this.username);
     }
@@ -72,12 +73,12 @@ public class User {
             Pattern p = Pattern.compile("^[a-zA-Z0-9]+$|^[a-zA-Z0-9._%+-]+@gmail\\.com$");
             Matcher m1 = p.matcher(username);
             if (!m1.find()) {
-                service.serverMessage("Tên tài khoản có kí tự lạ.");
+                service.serverMessage("Account name contains invalid characters!");
                 return;
             }
             HashMap<String, Object> map = getUserMap();
             if (map == null) {
-                service.serverMessage("Tài khoản hoặc mật khẩu không chính xác.");
+                service.serverMessage("Invalid username or password.");
                 return;
             }
 
@@ -93,7 +94,7 @@ public class User {
                 long timeRemaining = banUntil.getTime() - now;
                 if (timeRemaining > 0) {
                     service.serverMessage(
-                            String.format("Tài khoản bị khóa trong %s. Vui lòng liên hệ admin để biết thêm chi tiết.",
+                            String.format("Account is locked until %s, please contact the administrator.",
                                     10));
                     return;
                 }
@@ -123,9 +124,9 @@ public class User {
             synchronized (ServerManager.users) {
                 User u = ServerManager.findUserByUsername(this.username);
                 if (u != null && !u.isCleaned) {
-                    service.serverMessage("Tài khoản đã có người đăng nhập.");
+                    service.serverMessage("Account is already logged in.");
                     if (u.session != null && u.session.getService() != null) {
-                        u.service.serverMessage("Có người đăng nhập vào tài khoản của bạn.");
+                        u.service.serverMessage("Someone is trying to log in to your account!");
                     }
                     Utils.setTimeout(() -> {
                         try {
@@ -165,7 +166,7 @@ public class User {
             //check if username already exists
             HashMap<String, Object> map = getUserMap();
             if (map != null) {
-                service.serverMessage("Tài khoản đã tồn tại.");
+                service.serverMessage("Email already exists.");
                 return;
             }
 
@@ -173,7 +174,7 @@ public class User {
             Pattern p = Pattern.compile("^[a-zA-Z0-9]+$|^[a-zA-Z0-9._%+-]+@gmail\\.com$");
             Matcher m1 = p.matcher(username);
             if (!m1.find()) {
-                service.serverMessage("Tên tài khoản không hợp lệ.");
+                service.serverMessage("Invalid username or email.");
                 return;
             }
             try (Connection conn = DbManager.getInstance().getConnection(DbManager.SAVE_DATA);
@@ -187,9 +188,9 @@ public class User {
                 int rowsAffected = stmt.executeUpdate();
                 if (rowsAffected > 0) {
                     service.registerSuccess();
-                    Log.info("Đăng ký thành công");
+                    Log.info("Register success");
                 } else {
-                    Log.info("Đăng ký thất bại");
+                    Log.info("Register failed");
                 }
             }
         } catch (Exception e) {
@@ -197,18 +198,18 @@ public class User {
         }
     }
 
-    public void createCharacter(Message ms) {
+    public synchronized void createCharacter(Message ms) {
         try (DataInputStream dis = ms.reader()) {
             String name = dis.readUTF();
             Pattern p = Pattern.compile("^[a-z0-9]+$");
             Matcher m1 = p.matcher(name);
 
             if (!m1.find()) {
-                service.serverDialog("Tên nhân vật không được chứa ký tự đặc biệt!");
+                service.serverDialog("Character name contains invalid characters!");
                 return;
             }
             if (name.length() < 6 || name.length() > 15) {
-                service.serverDialog("Tên tài khoản chỉ cho phép từ 6 đến 15 ký tự!");
+                service.serverDialog("Character name must be between 6 and 15 characters!");
                 return;
             }
 
@@ -225,11 +226,13 @@ public class User {
                 }
                 try (PreparedStatement insertStmt = conn.prepareStatement(
                         SQLStatement.CREATE_PLAYER)) {
-                    insertStmt.setInt(1, this.id);
-                    insertStmt.setString(2, name);
-                    insertStmt.setLong(3, 1000);
-                    insertStmt.setString(4, "[]");
-                    insertStmt.setLong(5, System.currentTimeMillis());
+                    insertStmt.setInt(1, this.id);       
+                    insertStmt.setInt(2, this.id);
+                    insertStmt.setString(3, name);
+                    insertStmt.setLong(4, 1000);
+                    insertStmt.setInt(5, 100);
+                    insertStmt.setString(6, "[]");
+                    insertStmt.setLong(7, System.currentTimeMillis());
                     insertStmt.executeUpdate();
                 }
 
@@ -240,59 +243,66 @@ public class User {
                     stmt.setString(4, "[]");
                     stmt.executeUpdate();
                 }
-                Log.info("Tạo nhân vật thành công");
+                if(loadPlayerData()) {
+                    service.serverDialog("Create character success!");
+                    service.playerLoadAll();
+                }
+                Log.info("Create char success");
             } catch (SQLException e) {
-                Log.error("create char SQL error", e);
-                service.serverDialog("Tạo nhân vật thất bại do lỗi hệ thống!");
+                Log.error("Create char SQL error", e);
+                service.serverDialog("Create character failed!");
             }
 
         } catch (IOException e) {
-            Log.error("create char IO error", e);
-            service.serverDialog("Tạo nhân vật thất bại!");
+            Log.error("Create char IO error", e);
+            service.serverDialog("Create character failed!");
         }
     }
 
 
     public synchronized boolean load() {
         try (Connection conn = DbManager.getInstance().getConnection(DbManager.LOAD_CHAR);
+             PreparedStatement stmt = conn.prepareStatement(
+                    SQLStatement.LOAD_PLAYER, 
+                    ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY)) {
+                
+            stmt.setInt(1, id);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (!rs.next()) {
+                    return true; // Không có data, cần tạo character mới
+                }
 
-        ) {
-            try (PreparedStatement stmt = conn.prepareStatement(
-                    SQLStatement.LOAD_PLAYER, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
-
-                stmt.setInt(1, id);
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) {
-                        character = new Char(id);
-                        character.loadDisplay(rs);
-                        character.coin = rs.getLong("coin");
-                        character.maxEnergy = rs.getInt("max_energy");
-                        character.energy = rs.getInt("energy");
-                        character.potentialPoints = rs.getInt("point");
-                        character.numberCellBag = rs.getByte("number_cell_bag");
-                        character.exp = rs.getLong("exp");
-                        character.lastUpdateEnergy = rs.getLong("last_update_energy");
-                        character.energy = character.getCurrentEnergy();
-                        Log.info("lastUpdateEnergy: " + character.lastUpdateEnergy + ", energy: " + character.energy);
-
-                        JSONArray array = (JSONArray) JSONValue.parse(rs.getString("bag"));
-                        if (array != null) {
-                            character.bag = new Item[array.size()];
-                            int size = array.size();
-                            for (int i = 0; i < size; i++) {
-                                Item item = new Item((String) array.get(i));
-                                character.bag[i] = item;
-                            }
+                character = new Char(id);
+                character.loadDisplay(rs);
+                character.coin = rs.getLong("coin");
+                character.maxEnergy = rs.getInt("max_energy");
+                character.energy = rs.getInt("energy");
+                character.potentialPoints = rs.getInt("point");
+                character.numberCellBag = rs.getByte("number_cell_bag");
+                character.exp = rs.getLong("exp");
+                character.lastUpdateEnergy = rs.getLong("last_update_energy");
+    
+                Log.info("lastUpdateEnergy: " + character.lastUpdateEnergy + ", energy: " + character.energy);
+    
+                String bagData = rs.getString("bag");
+                if (bagData != null && !bagData.isEmpty()) {
+                    JSONArray array = (JSONArray) JSONValue.parse(bagData);
+                    if (array != null) {
+                        character.bag = new Item[array.size()];
+                        for (int i = 0; i < array.size(); i++) {
+                            character.bag[i] = new Item((String) array.get(i));
                         }
                     }
                 }
+    
                 return loadWaveData();
             }
         } catch (SQLException ex) {
-            Log.error("load char data : " + ex.getMessage(), ex);
-
+            Log.error("Error loading char data for ID: " + id, ex);
+            return false;
         }
-        return false;
     }
 
     public boolean loadWaveData() {
@@ -326,27 +336,37 @@ public class User {
     }
 
 
-    public synchronized void loadPlayerData() {
-        try {
-            if (MainEntry.isStop) {
-                service.serverDialog("Hệ thống Máy chủ bảo trì vui lòng thoát game để tránh mất dữ liệu.");
+    public synchronized boolean loadPlayerData() {
+        if (MainEntry.isStop) {
+            service.serverDialog("Server is stopping, please exit the game to avoid data loss.");
+            try {
                 Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // Ignore interruption
             }
-            if (!load()) {
-                session.disconnect();
-            }
-            if (character != null) {
-                character.user = this;
-                Controller controller = (Controller) session.getMessageHandler();
-                controller.set_char(character);
-                character.setService(this.service);
-                service.setPlayer(this.character);
-                session.setName(character.name);
-                ServerManager.addChar(character);
-            }
-        } catch (InterruptedException e) {
-            Log.error("select char err", e);
+            return false;
         }
+    
+        if (!load()) {
+            return false;
+        }
+    
+        if (character == null) {
+            return true;
+        }
+    
+        character.user = this;
+        
+        Controller controller = (Controller) session.getMessageHandler();
+        controller.set_char(character);
+        
+        character.setService(service);
+        service.setPlayer(character);
+        
+        session.setName(character.name);
+        ServerManager.addChar(character);
+    
+        return true;
     }
 
 
@@ -371,46 +391,50 @@ public class User {
                             stmt.executeUpdate();
                         }
 
-                        try (PreparedStatement stmt = conn.prepareStatement(
-                                SQLStatement.SAVE_DATA_PLAYER)) {
-                            if(character.energy < 0) {
-                                character.energy = 0;
-                            }
-                            if(character.energy > character.maxEnergy) {
-                                character.energy = character.maxEnergy;
-                            }
-                            stmt.setInt(1, this.character.energy);
-                            stmt.setInt(2, this.character.maxEnergy);
-                            stmt.setLong(3, this.character.exp);
-                            stmt.setLong(4, this.character.coin);
-                            stmt.setInt(5, this.character.potentialPoints);
-                            stmt.setByte(6, this.character.numberCellBag);
-                            JSONArray array = new JSONArray();
-                            for (Item item : this.character.bag) {
-                                if (item != null) {
-                                    array.add(item.itemId());
-                                }
-                            }
-                            stmt.setString(7, array.toJSONString());
-                            stmt.setInt(8, 0); //online
-                            stmt.setLong(9, this.character.lastUpdateEnergy);
-                            stmt.setInt(10, this.character.id);
-                            stmt.executeUpdate();
-                        }
+                        if(character !=null) {
 
-                        try (PreparedStatement stmt = conn.prepareStatement(
-                                SQLStatement.SAVE_WAVE_DATA)) {
-                            stmt.setInt(1, this.character.waveState.exp);
-                            stmt.setInt(2, this.character.waveState.wave);
-                            JSONArray array = new JSONArray();
-                            for (Item item : this.character.waveState.inventory) {
-                                if (item != null) {
-                                    array.add(item.itemId());
+
+                            try (PreparedStatement stmt = conn.prepareStatement(
+                                    SQLStatement.SAVE_DATA_PLAYER)) {
+                                if (character.energy < 0) {
+                                    character.energy = 0;
                                 }
+                                if (character.energy > character.maxEnergy) {
+                                    character.energy = character.maxEnergy;
+                                }
+                                stmt.setInt(1, this.character.energy);
+                                stmt.setInt(2, this.character.maxEnergy);
+                                stmt.setLong(3, this.character.exp);
+                                stmt.setLong(4, this.character.coin);
+                                stmt.setInt(5, this.character.potentialPoints);
+                                stmt.setByte(6, this.character.numberCellBag);
+                                JSONArray array = new JSONArray();
+                                for (Item item : this.character.bag) {
+                                    if (item != null) {
+                                        array.add(item.itemId());
+                                    }
+                                }
+                                stmt.setString(7, array.toJSONString());
+                                stmt.setInt(8, 0); //online
+                                stmt.setLong(9, this.character.lastUpdateEnergy);
+                                stmt.setInt(10, this.character.id);
+                                stmt.executeUpdate();
                             }
-                            stmt.setString(3, array.toJSONString());
-                            stmt.setInt(4, this.character.id);
-                            stmt.executeUpdate();
+
+                            try (PreparedStatement stmt = conn.prepareStatement(
+                                    SQLStatement.SAVE_WAVE_DATA)) {
+                                stmt.setInt(1, this.character.waveState.exp);
+                                stmt.setInt(2, this.character.waveState.wave);
+                                JSONArray array = new JSONArray();
+                                for (Item item : this.character.waveState.inventory) {
+                                    if (item != null) {
+                                        array.add(item.itemId());
+                                    }
+                                }
+                                stmt.setString(3, array.toJSONString());
+                                stmt.setInt(4, this.character.id);
+                                stmt.executeUpdate();
+                            }
                         }
 
                     }
@@ -462,4 +486,6 @@ public class User {
             Log.error("lock user: " + username);
         }
     }
+
+
 }

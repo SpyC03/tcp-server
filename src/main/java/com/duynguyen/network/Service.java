@@ -23,12 +23,13 @@ public class Service extends AbsService{
     public Char player;
 
     public Thread threadUpdateChar;
-    public long lastUpdateEveryFiveSecond, lastUpdateEveryMinute;
+    private volatile boolean running = false;
+    private volatile long lastUpdateEveryFiveSecond;
+    private volatile long lastUpdateEveryMinute;
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     public Service(Session session) {
         this.session = session;
-        update();
     }
 
     @Override
@@ -98,20 +99,33 @@ public class Service extends AbsService{
 
 
 
-    public void playerLoadAll(Char pl) {
+    public void playerLoadAll() {
+        if (player == null) {
+            Log.error("Player is null in playerLoadAll");
+            return;
+        }
+    
+        if (player.isCleaned) {
+            return;
+        }
+        Message ms = null;
+        update();
         try {
-            if (pl.isCleaned) {
-                return;
-            }
-            Message ms = messageInGame(CMD.PLAYER_LOAD_ALL);
+            ms = messageInGame(CMD.PLAYER_LOAD_ALL);
             DataOutputStream ds = ms.writer();
-            ds.writeInt(pl.id);
-            charInfo(ms, pl);
+            
+            ds.writeInt(player.id);
+            charInfo(ms, player);
             ds.flush();
             sendMessage(ms);
-            ms.cleanup();
+            
         } catch (Exception ex) {
-            Logger.getLogger(Service.class.getName()).log(Level.SEVERE, null, ex);
+            Log.error("Error in playerLoadAll", ex);
+            throw new RuntimeException("Failed to load player data", ex);
+        } finally {
+            if (ms != null) {
+                ms.cleanup();
+            }
         }
     }
 
@@ -135,6 +149,15 @@ public class Service extends AbsService{
             ds.writeInt(_char.energy);
             ds.writeInt(_char.maxEnergy);
             ds.writeByte(_char.level);
+            ds.writeLong(_char.coin);
+
+            //load bag
+            byte num = (byte) _char.bag.length;
+            ds.writeByte(num);
+            for(int i = 0; i < num; i++) {
+                String itemId = _char.bag[i].itemId();
+                ds.writeUTF(itemId);
+            }
 
             //wave data
             ds.writeInt(_char.waveState.wave);
@@ -219,59 +242,88 @@ public class Service extends AbsService{
     }
 
     public void update() {
-        this.threadUpdateChar = new Thread(this::updatePlayer);
-        this.threadUpdateChar.start();
+        if (threadUpdateChar != null && threadUpdateChar.isAlive()) {
+            running = false;
+            threadUpdateChar.interrupt();
+            try {
+                threadUpdateChar.join(1000);
+            } catch (InterruptedException e) {
+                Log.error("Error stopping update thread", e);
+            }
+        }
+
+        running = true;
+        threadUpdateChar = new Thread(this::updatePlayer, "UpdatePlayer-" + player.id);
+        threadUpdateChar.setDaemon(true);
+        threadUpdateChar.start();
+        
+        Log.info("Started update thread for player: " + player.id);
     }
 
     public void updatePlayer() {
-        while (Server.start) {
+        Log.info("Update player thread started");
+        
+        while (running && Server.start) {
+            long startTime = System.currentTimeMillis();
+            
             try {
-                long l1 = System.currentTimeMillis();
                 lock.readLock().lock();
                 try {
                     long now = System.currentTimeMillis();
-                    boolean isUpdateEveryFiveSecond = ((now - this.lastUpdateEveryFiveSecond) >= 5000);
-                    if (isUpdateEveryFiveSecond) {
-                        this.lastUpdateEveryFiveSecond = now;
+                    boolean isUpdateEveryFiveSecond = (now - lastUpdateEveryFiveSecond) >= 5000;
+                    boolean isUpdateEveryMinute = (now - lastUpdateEveryMinute) >= 60000;
+
+                    if (!isUpdateEveryFiveSecond && !isUpdateEveryMinute) {
+                        continue;
                     }
 
-                    boolean isUpdateEveryMinute = ((now - this.lastUpdateEveryMinute) >= 60000);
-                    if (isUpdateEveryMinute) {
-                        this.lastUpdateEveryMinute = now;
-                    }
-
-                    if (isUpdateEveryFiveSecond || isUpdateEveryMinute) {
-                        if (player != null) {
-                            lock.writeLock().lock();
-                            try {
+                    if (player != null) {
+                        lock.readLock().unlock();
+                        lock.writeLock().lock();
+                        try {
+                            if (isUpdateEveryFiveSecond) {
+                                lastUpdateEveryFiveSecond = now;
                                 player.updateEveryFiveSecond();
-                                if (isUpdateEveryMinute) {
-                                    player.updateEveryMinute();
-                                }
-                            } finally {
-                                lock.writeLock().unlock();
                             }
+                            
+                            if (isUpdateEveryMinute) {
+                                lastUpdateEveryMinute = now;
+                                player.updateEveryMinute();
+                            }
+                        } finally {
+                            lock.readLock().lock();
+                            lock.writeLock().unlock();
                         }
                     }
-                    } finally {
-                        lock.readLock().unlock();
-                    }
+                } finally {
+                    lock.readLock().unlock();
+                }
 
-                long l2 = System.currentTimeMillis() - l1;
-                if (l2 >= 1000L) {
-                    continue;
+                long processingTime = System.currentTimeMillis() - startTime;
+                long sleepTime = Math.max(0, 1000 - processingTime);
+                
+                if (sleepTime > 0) {
+                    Thread.sleep(sleepTime);
                 }
-                try {
-                    Thread.sleep(1000L - l2);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
+
+            } catch (InterruptedException e) {
+                Log.info("Update thread interrupted");
+                Thread.currentThread().interrupt();
+                break;
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                Log.error("Error in update loop", e);
             }
         }
+        
+        Log.info("Update player thread stopped");
     }
 
+    public void stopUpdate() {
+        running = false;
+        if (threadUpdateChar != null) {
+            threadUpdateChar.interrupt();
+        }
+    }
     public void createCharacter() {
         try {
             Message ms = messageInGame(CMD.CREATE_PLAYER);

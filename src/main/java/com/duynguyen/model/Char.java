@@ -57,7 +57,7 @@ public class Char {
     //check hack, mod game and lock user
     public void updateEveryFiveSecond() {
         if (this.coin < 0) {
-            service.serverDialog("Dữ liệu game không hợp lệ. Bạn đã bị khóa tài khoản.");
+            service.serverDialog("Game Data Error! Your account has been locked.");
             user.lock();
         }
     }
@@ -73,7 +73,7 @@ public class Char {
         try (DataInputStream dis = message.reader()) {
             byte index = dis.readByte();
             if (index < 0 || index >= bag.length) {
-                serverMessage("Vị trí vật phẩm không hợp lệ.");
+                serverMessage("Invald index.");
                 return;
             }
 
@@ -88,11 +88,11 @@ public class Char {
             int res = DbManager.getInstance().updateBag(bagData, this.id);
 
             if (res == 0 || res == -1) {
-                serverMessage("Có lỗi xảy ra khi cập nhật túi đồ.");
+                serverMessage("An error occurred while saving the bag.");
                 return;
             }
 
-            serverMessage("Đã xóa vật phẩm ở vị trí " + index);
+            serverMessage("Item removed : " + index);
         } catch (Exception ex) {
             Log.error("remove item: " + ex.getMessage(), ex);
         }
@@ -106,18 +106,18 @@ public class Char {
     public void addItem(Message message) {
         try (DataInputStream ds = message.reader()) {
             if (bag.length >= numberCellBag) {
-                serverMessage("Túi đồ đã đầy.");
+                serverMessage("Bag is full.");
                 return;
             }
             byte number = ds.readByte();
             if (number <= 0) {
-                serverMessage("Số lượng vật phẩm không hợp lệ.");
+                serverMessage("Invalid number.");
                 return;
             }
 
             int availableSlots = numberCellBag - bag.length;
             if (number > availableSlots) {
-                serverMessage("Không đủ chỗ trong túi đồ.");
+                serverMessage("Not enough space in the bag.");
                 return;
             }
 
@@ -126,7 +126,7 @@ public class Char {
                 String itemId = ds.readUTF();
 
                 if (!isValidItem(itemId)) {
-                    serverMessage("Vật phẩm không hợp lệ: " + itemId);
+                    serverMessage("Invalid item: " + itemId);
                     return;
                 }
                 newItems.add(new Item(itemId));
@@ -135,10 +135,10 @@ public class Char {
             int res = DbManager.getInstance().updateBag(Utils.bagToString(bag), this.id);
 
             if (res <= 0) {
-                serverMessage("Có lỗi xảy ra khi lưu túi đồ.");
+                serverMessage("An error occurred while saving the bag.");
                 return;
             }
-            serverMessage("bạn nhận được " + number + " vật phẩm.");
+            serverMessage("You have received " + number + " items.");
         } catch (Exception ex) {
             Log.error("add item: " + ex.getMessage(), ex);
         }
@@ -163,7 +163,7 @@ public class Char {
                 return;
             }
             if (this.coin < -coin) {
-                serverMessage("Số xu deo đủ.");
+                serverMessage("Not enough coin.");
                 return;
             }
 
@@ -176,7 +176,7 @@ public class Char {
             int res = DbManager.getInstance().updateCoin(this.coin, this.id);
             if (res == 0 || res == -1) {
                 this.coin = pre;
-                serverMessage("Có lỗi xảy ra.");
+                serverMessage("An error occurred while saving the coin.");
                 return;
             }
 
@@ -189,7 +189,7 @@ public class Char {
 
     public void updateWithBalanceMessage() {
         getService().loadCoin();
-        serverMessage("Bạn có " + Utils.getCurrency(coin) + " xu trong tài khoản.");
+        serverMessage("You have " + Utils.getCurrency(coin) + " coin in bag.");
     }
 
     public void serverMessage(String text) {
@@ -213,7 +213,7 @@ public class Char {
                 smt.setString(3, Utils.bagToString(inventory));
                 smt.setInt(4, id);
                 smt.executeUpdate();
-                serverMessage("Đã cập nhật dữ liệu wave.");
+                serverMessage("Wave data saved.");
             } catch (Exception e) {
                 Log.error("save wave data: " + e.getMessage(), e);
             }
@@ -258,7 +258,7 @@ public class Char {
             int amount = dis.readInt();
             int currentEnergy = getCurrentEnergy();
             if (currentEnergy < amount) {
-                serverMessage("Không đủ năng lượng.");
+                serverMessage("Not enough energy.");
                 return;
             }
             energy = currentEnergy + amount;

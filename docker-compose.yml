@@ -1,7 +1,7 @@
 services:
   game:
     build: .
-    image: duynguyen03/game:v1
+    image: duynguyen03/game-server:v1
     ports:
       - "1609:1609"
     depends_on:

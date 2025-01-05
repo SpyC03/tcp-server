@@ -358,21 +358,43 @@ public class Session implements ISession {
 
 
     public void clientOk() {
-        if (!clientOK) {
-            clientOK = true;
-            if (user != null) {
-                user.loadPlayerData();
-                if(user.character == null){
+        if (clientOK) {
+            return;
+        }
+    
+        try {
+            if (user == null) {
+                Log.error("Client " + this.id + ": User not logged in");
+                disconnect();
+                return;
+            }
+    
+            boolean loadSuccess = user.loadPlayerData();
+            
+            if (loadSuccess && user.character == null) {
+                try {
                     service.createCharacter();
-                }else {
-                    service.playerLoadAll(user.character);
+                } catch (Exception e) {
+                    Log.error("Error creating character for user: " + user.id, e);
+                    loadSuccess = false;
                 }
+            }
+    
+            if (loadSuccess) {
+                clientOK = true;
+                service.playerLoadAll();
                 Log.info("Client " + this.id + ": đăng nhập thành công");
             } else {
+                Log.error("Client " + this.id + ": Failed to load player data");
                 disconnect();
             }
+    
+        } catch (Exception e) {
+            Log.error("Error in clientOk for client: " + this.id, e);
+            disconnect();
         }
     }
+    
 
     public void disconnect() {
         try {
@@ -519,7 +541,6 @@ public class Session implements ISession {
         private Message readMessage() throws Exception {
             try {
                 byte cmd = dis.readByte();
-                Log.info("readMessage: " + cmd);
                 if(sendKeyComplete){
                     cmd = readKey(cmd);
                 }
